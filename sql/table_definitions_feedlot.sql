@@ -3,10 +3,42 @@ CREATE DATABASE feedlot;
 USE feedlot;
 
 #######################################################################
+############			TABLES Users					###############
+#######################################################################
+CREATE TABLE FARM (
+	`farmId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
+    `farmName`						VARCHAR(50),
+    PRIMARY KEY ( farmId )
+) ENGINE = InnoDB;
+
+CREATE TABLE ROLES (
+	`roleId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
+    `roleType`						INT NOT NULL,
+    `farmId`						INT NOT NULL,
+    PRIMARY KEY ( roleId ),
+    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
+) ENGINE = InnoDB;
+
+CREATE TABLE USERS (
+	`userId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
+    `userName`						VARCHAR(25) NOT NULL,
+    `firstName`						VARCHAR(25) NOT NULL,
+	`lastName`						VARCHAR(25) NOT NULL,
+	`email`							VARCHAR(50) NOT NULL,
+	`password`						VARCHAR(100) NOT NULL,
+	`farmId`						INT NOT NULL,
+	`roleId`						INT NOT NULL,
+	PRIMARY KEY ( userId ),
+    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
+    FOREIGN KEY ( roleId ) REFERENCES ROLES( roleId )
+) ENGINE = InnoDB;
+
+#######################################################################
 ############			TABLES HERD						###############
 #######################################################################
 CREATE TABLE HERD (
 	`herdId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
+    `farmId`						INT NOT NULL,
     `quantity`						INT NOT NULL,
     `weight`						INT NOT NULL,
     `cost`							DOUBLE NOT NULL,
@@ -15,7 +47,8 @@ CREATE TABLE HERD (
     `implantDate`					DATETIME,
     `optiflexDate`					DATETIME,
     `dateEntered`					DATETIME NOT NULL,
-    PRIMARY KEY ( herdId )
+    PRIMARY KEY ( herdId ),
+    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
 ) ENGINE = InnoDB;
 
 CREATE TABLE SUPPLIER (
@@ -35,6 +68,7 @@ CREATE TABLE HERD_SUPPLIERS_MAP (
 
 CREATE TABLE LOCALE (
 	`localeId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
+    `farmId`						INT NOT NULL,
     `localeName`					VARCHAR(50) NOT NULL
 ) ENGINE = InnoDB;
 
@@ -61,42 +95,14 @@ CREATE TABLE SALE (
 
 
 #######################################################################
-############			TABLES Users					###############
-#######################################################################
-CREATE TABLE ROLES (
-	`roleId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
-    `roleType`						INT NOT NULL,
-    PRIMARY KEY ( roleId )
-) ENGINE = InnoDB;
-    
-CREATE TABLE FARM (
-	`farmId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
-    `farmName`						VARCHAR(50),
-    PRIMARY KEY ( farmId )
-) ENGINE = InnoDB;
-
-CREATE TABLE USERS (
-	`userId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
-    `userName`						VARCHAR(25) NOT NULL,
-    `firstName`						VARCHAR(25) NOT NULL,
-	`lastName`						VARCHAR(25) NOT NULL,
-	`email`							VARCHAR(50) NOT NULL,
-	`password`						VARCHAR(100) NOT NULL,
-	`farmId`						INT NOT NULL,
-	`roleId`						INT NOT NULL,
-	PRIMARY KEY ( userId ),
-    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
-    FOREIGN KEY ( roleId ) REFERENCES ROLES( roleId )
-) ENGINE = InnoDB;
-
-
-#######################################################################
 ############			TABLES Feeding					###############
 #######################################################################
 CREATE TABLE FEED_TYPES (
 	`feedTypeId`					INT UNIQUE NOT NULL AUTO_INCREMENT,
+    `farmId`						INT NOT NULL,
     `feedType` 						VARCHAR(25) NOT NULL,
-    PRIMARY KEY ( feedTypeId )
+    PRIMARY KEY ( feedTypeId ),
+    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
 ) ENGINE = InnoDB;
 
 CREATE TABLE FEED_STOCK (
@@ -114,7 +120,7 @@ CREATE TABLE FEEDING (
 	`localeId` 						INT NOT NULL,
 	`bunckScore`					INT NOT NULL,
 	`deliveredAmountTMRD`			INT NOT NULL,
-	`userId`						INT NULL,
+	`userId`						INT NOT NULL,
     PRIMARY KEY ( feedingId ),
     FOREIGN KEY ( localeId ) REFERENCES LOCALE( localeId ),
     FOREIGN KEY ( userId ) REFERENCES USERS( userId )
