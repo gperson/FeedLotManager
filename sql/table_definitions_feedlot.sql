@@ -13,7 +13,7 @@ CREATE TABLE FARM (
 
 CREATE TABLE ROLES (
 	`roleId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
-    `roleType`						INT NOT NULL,
+    `roleType`						VARCHAR(50) NOT NULL,
     `farmId`						INT NOT NULL,
     PRIMARY KEY ( roleId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
@@ -21,7 +21,7 @@ CREATE TABLE ROLES (
 
 CREATE TABLE USERS (
 	`userId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
-    `userName`						VARCHAR(25) NOT NULL,
+    `username`						VARCHAR(25) NOT NULL,
     `firstName`						VARCHAR(25) NOT NULL,
 	`lastName`						VARCHAR(25) NOT NULL,
 	`email`							VARCHAR(50) NOT NULL,
