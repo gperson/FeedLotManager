@@ -29,7 +29,10 @@ public class MainController {
 	
 	@RequestMapping(value = { "/", "/home**" }, method = RequestMethod.GET)
 	public ModelAndView Home() {
-		return new ModelAndView("manager.home");
+		ModelAndView model = new ModelAndView("manager.home");
+		model.addObject("title", "Welcome");
+		model.addObject("message", "This is default page!");
+		return model;
 	}
 	
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
