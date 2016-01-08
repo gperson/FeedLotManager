@@ -20,16 +20,18 @@ INSERT INTO FARM
 VALUES (2,'Person Farms');
 INSERT INTO FARM
 VALUES (3,'Muir Farms');
-#Seed ROLES Table
-INSERT INTO ROLES
-VALUES ('JHolz','ADMIN',1);
-INSERT INTO ROLES
-VALUES ('HHolz','DEFAULT',1);
 #Seed USERS
 INSERT INTO USERS
-VALUES (1,'JHolz', 'James', 'Holz', 'jtholzbeef@gmail.com', 'password',1, 1,1);
+VALUES (1,'JHolz', 'James', 'Holz', 'jtholzbeef@gmail.com', 'password',1, 1);
 INSERT INTO USERS
-VALUES (2,'HHolz', 'Howard', 'Holz', 'howard@gmail.com', 'password',1, 1,1);
+VALUES (2,'HHolz', 'Howard', 'Holz', 'howard@gmail.com', 'password',1, 1);
+#Seed ROLES Table
+INSERT INTO ROLES
+VALUES ('JHolz','ADMIN');
+INSERT INTO ROLES
+VALUES ('JHolz','DEFAULT');
+INSERT INTO ROLES
+VALUES ('HHolz','DEFAULT');
 
 #Seed HERDS ETC
 #Seed HERD

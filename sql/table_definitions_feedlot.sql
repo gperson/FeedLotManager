@@ -11,14 +11,6 @@ CREATE TABLE FARM (
     PRIMARY KEY ( farmId )
 ) ENGINE = InnoDB;
 
-CREATE TABLE ROLES (
-	`username`						VARCHAR(50) NOT NULL UNIQUE,
-    `role`							VARCHAR(50) NOT NULL,
-    `farmId`						INT NOT NULL,
-    PRIMARY KEY ( username ),
-    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
-) ENGINE = InnoDB;
-
 CREATE TABLE USERS (
 	`userId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
     `username`						VARCHAR(50) NOT NULL UNIQUE,
@@ -27,11 +19,16 @@ CREATE TABLE USERS (
 	`email`							VARCHAR(50) NOT NULL,
 	`password`						VARCHAR(100) NOT NULL,
 	`farmId`						INT NOT NULL,
-	`roleId`						INT NOT NULL,
 	`enabled`						TINYINT NOT NULL DEFAULT 1, 
 	PRIMARY KEY ( userId ),
-    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
-    FOREIGN KEY ( username ) REFERENCES ROLES( username )
+    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
+) ENGINE = InnoDB;
+
+CREATE TABLE ROLES (
+    `username`						VARCHAR(50) NOT NULL,
+    `role`							VARCHAR(50) NOT NULL,
+	PRIMARY KEY (role,username),
+    FOREIGN KEY ( username ) REFERENCES USERS( username )
 ) ENGINE = InnoDB;
 
 #######################################################################

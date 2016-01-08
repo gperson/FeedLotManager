@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+  <definition name="manager.home" template="/WEB-INF/views/jsp/layouts/main.jsp">
+    <put-attribute name="title" value="Feed Lot Manager - Home" />
+    <put-attribute name="header" type="template" value="/WEB-INF/views/jsp/templates/header.jsp" />
+    <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/home_body.jsp" />
+    <put-attribute name="footer" type="template" value="/WEB-INF/views/jsp/templates/footer.jsp" />
+  </definition>
+  
+  <definition name="manager.login" template="/WEB-INF/views/jsp/layouts/main.jsp">
+    <put-attribute name="title" value="Feed Lot Manager - Login" />
+    <put-attribute name="header" type="template" value="/WEB-INF/views/jsp/templates/header.jsp" />
+    <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/login_body.jsp" />
+    <put-attribute name="footer" type="template" value="/WEB-INF/views/jsp/templates/footer.jsp" />
+  </definition>
+  
+  <definition name="manager.noAccess" template="/WEB-INF/views/jsp/layouts/main.jsp">
+    <put-attribute name="title" value="Feed Lot Manager - No Access" />
+    <put-attribute name="header" type="template" value="/WEB-INF/views/jsp/templates/header.jsp" />
+    <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/noAccess_body.jsp" />
+    <put-attribute name="footer" type="template" value="/WEB-INF/views/jsp/templates/footer.jsp" />
+  </definition>
+</tiles-definitions>
