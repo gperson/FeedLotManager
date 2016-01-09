@@ -1,18 +1,23 @@
 package com.holz.web.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.holz.web.services.FarmServices;
+
 @Controller
 public class MainController {
 
+	@Autowired 
+	FarmServices farmServices;
+	
 	@RequestMapping(value = { "/", "/home**" }, method = RequestMethod.GET)
 	public ModelAndView Home() {
 		ModelAndView model = new ModelAndView("manager.home");
-		model.addObject("title", "Welcome");
-		model.addObject("message", "This is default page!");
+		model.addObject("title", this.farmServices.getFarmById(1).getFarmName());
 		return model;
 	}
 

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -14,7 +15,8 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @EnableWebMvc
 @Configuration
 @ComponentScan({ "com.holz.web.*" })
-@Import({ SecurityConfig.class })
+@Import({ SecurityConfig.class, HibernateConfig.class })
+@EnableTransactionManagement
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Bean(name = "dataSource")
@@ -26,7 +28,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		driverManagerDataSource.setPassword("root");
 		return driverManagerDataSource;
 	}
-
+	
 	@Bean
 	public TilesViewResolver viewResolver(){
 		TilesViewResolver viewResolver = new TilesViewResolver();
