@@ -95,6 +95,19 @@ CREATE TABLE SALE (
 #######################################################################
 ############			TABLES Feeding					###############
 #######################################################################
+CREATE TABLE FEEDING (
+	`feedingId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
+	`feedingTime`					INT NOT NULL,
+    `feedingDate`					DATETIME NOT Null,
+	`localeId` 						INT NOT NULL,
+	`bunckScore`					INT NOT NULL,
+	`deliveredAmountTMRD`			INT NOT NULL,
+	`userId`						INT NOT NULL,
+    PRIMARY KEY ( feedingId ),
+    FOREIGN KEY ( localeId ) REFERENCES LOCALE( localeId ),
+    FOREIGN KEY ( userId ) REFERENCES USERS( userId )
+) ENGINE = InnoDB;
+
 CREATE TABLE FEED_TYPES (
 	`feedTypeId`					INT UNIQUE NOT NULL AUTO_INCREMENT,
     `farmId`						INT NOT NULL,
@@ -111,25 +124,34 @@ CREATE TABLE FEED_STOCK (
     FOREIGN KEY ( feedTypeId ) REFERENCES FEED_TYPES( feedTypeId )
 ) ENGINE = InnoDB;
 
-CREATE TABLE FEEDING (
-	`feedingId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
-	`feedingTime`					INT NOT NULL,
-    `feedingDate`					DATETIME NOT Null,
-	`localeId` 						INT NOT NULL,
-	`bunckScore`					INT NOT NULL,
-	`deliveredAmountTMRD`			INT NOT NULL,
-	`userId`						INT NOT NULL,
-    PRIMARY KEY ( feedingId ),
-    FOREIGN KEY ( localeId ) REFERENCES LOCALE( localeId ),
-    FOREIGN KEY ( userId ) REFERENCES USERS( userId )
+CREATE TABLE FEED (
+	`feedId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
+	`feedAmount`					INT NOT NULL,
+    `feedTypeId`					INT UNIQUE NOT NULL,
+    PRIMARY KEY ( feedId ),
+    FOREIGN KEY ( feedTypeId ) REFERENCES FEED_TYPES( feedTypeId )
 ) ENGINE = InnoDB;
 
-CREATE TABLE FEEDS (
-	`feedId` 						INT UNIQUE NOT NULL AUTO_INCREMENT,
-	`feedTypeId` 					INT NOT NULL,
-	`feedAmount`					INT NOT NULL,
-	`feedingId`						INT NOT NULL,
-	PRIMARY KEY ( feedId ),
-    FOREIGN KEY ( feedTypeId ) REFERENCES FEED_TYPES( feedTypeId ),
-    FOREIGN KEY ( feedingId ) REFERENCES FEEDING( feedingId )
+CREATE TABLE FEED_MIX (
+	`mixId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
+	`feedId`					INT NOT NULL,
+    `feedingId`					INT NOT NULL,
+    PRIMARY KEY ( mixId ),
+    FOREIGN KEY ( feedId ) REFERENCES FEED( feedId ),
+	FOREIGN KEY ( feedingId ) REFERENCES FEED_MIX( feedingId )
+) ENGINE = InnoDB;
+
+CREATE TABLE LEFTOVER_FEED_MIX (
+	`leftoverId`			INT UNIQUE NOT NULL AUTO_INCREMENT,
+	`mixId`					INT NOT NULL,
+    PRIMARY KEY ( leftoverId ),
+    FOREIGN KEY ( mixId ) REFERENCES FEED_MIX( mixId )
+) 
+ENGINE = InnoDB;
+
+CREATE TABLE HERD_FEED (
+	`herdFeedId`			INT UNIQUE NOT NULL AUTO_INCREMENT,
+	`herdId`				INT NOT NULL,
+    PRIMARY KEY ( herdFeedId ),
+    FOREIGN KEY ( herdId ) REFERENCES HERD( herdId )
 ) ENGINE = InnoDB;
