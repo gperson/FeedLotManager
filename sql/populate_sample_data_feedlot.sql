@@ -22,9 +22,9 @@ INSERT INTO FARM
 VALUES (3,'Muir Farms');
 #Seed USERS
 INSERT INTO USERS
-VALUES (1,'JHolz', 'James', 'Holz', 'jtholzbeef@gmail.com', 'password',1, 1);
+VALUES (1,'JHolz', 'James', 'Holz', 'jtholzbeef@gmail.com', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.',1, 1);
 INSERT INTO USERS
-VALUES (2,'HHolz', 'Howard', 'Holz', 'howard@gmail.com', 'password',1, 1);
+VALUES (2,'HHolz', 'Howard', 'Holz', 'howard@gmail.com', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.',1, 1);
 #Seed ROLES Table
 INSERT INTO ROLES
 VALUES ('JHolz','ADMIN');

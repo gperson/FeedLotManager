@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class MainController {
+public class LoginController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
@@ -24,14 +24,6 @@ public class MainController {
 		if (logout != null) {
 			model.addObject("msg", "You've been logged out successfully.");
 		}
-		return model;
-	}
-	
-	@RequestMapping(value = { "/", "/home**" }, method = RequestMethod.GET)
-	public ModelAndView Home() {
-		ModelAndView model = new ModelAndView("manager.home");
-		model.addObject("title", "Welcome");
-		model.addObject("message", "This is default page!");
 		return model;
 	}
 	
