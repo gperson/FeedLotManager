@@ -19,30 +19,30 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Bean(name = "dataSource")
 	public DriverManagerDataSource dataSource() {
-	    DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-	    driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-	    driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/feedlot");
-	    driverManagerDataSource.setUsername("root");
-	    driverManagerDataSource.setPassword("root");
-	    return driverManagerDataSource;
+		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+		driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/feedlot");
+		driverManagerDataSource.setUsername("root");
+		driverManagerDataSource.setPassword("root");
+		return driverManagerDataSource;
 	}
-	
+
 	@Bean
-    public TilesViewResolver viewResolver(){
-        TilesViewResolver viewResolver = new TilesViewResolver();
-        return viewResolver;
-    }
+	public TilesViewResolver viewResolver(){
+		TilesViewResolver viewResolver = new TilesViewResolver();
+		return viewResolver;
+	}
 
-    @Bean
-    public TilesConfigurer tilesConfigurer(){
-        TilesConfigurer tilesConfigurer = new TilesConfigurer();
-        tilesConfigurer.setDefinitions("WEB-INF/views/jsp/tiles/tiles.xml");
-        tilesConfigurer.setPreparerFactoryClass(org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory.class);
-        return tilesConfigurer;    
-    }
+	@Bean
+	public TilesConfigurer tilesConfigurer(){
+		TilesConfigurer tilesConfigurer = new TilesConfigurer();
+		tilesConfigurer.setDefinitions("WEB-INF/views/jsp/tiles/tiles.xml");
+		tilesConfigurer.setPreparerFactoryClass(org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory.class);
+		return tilesConfigurer;    
+	}
 
-    @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-    }
+	@Override
+	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+	}
 }

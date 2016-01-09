@@ -13,7 +13,7 @@
 			</button>
 			<a class="navbar-brand" href="#">Feed Lot Manager</a>
 		</div>
-		<div id="navbar" class="navbar-collapse collapse">			
+		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="hasRole('DEFAULT')">
 					<!-- For login user -->

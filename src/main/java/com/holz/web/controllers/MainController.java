@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MainController {
-	
+
 	@RequestMapping(value = { "/", "/home**" }, method = RequestMethod.GET)
 	public ModelAndView Home() {
 		ModelAndView model = new ModelAndView("manager.home");
@@ -15,7 +15,7 @@ public class MainController {
 		model.addObject("message", "This is default page!");
 		return model;
 	}
-	
+
 	@RequestMapping(value = { "/mixFeed**" }, method = RequestMethod.GET)
 	public ModelAndView MixFeed() {
 		ModelAndView model = new ModelAndView("manager.mixFeed");
@@ -23,7 +23,7 @@ public class MainController {
 		model.addObject("message", "This is default page!");
 		return model;
 	}
-	
+
 	@RequestMapping(value = { "/deliver**" }, method = RequestMethod.GET)
 	public ModelAndView Deliver() {
 		ModelAndView model = new ModelAndView("manager.deliver");
@@ -31,7 +31,7 @@ public class MainController {
 		model.addObject("message", "This is default page!");
 		return model;
 	}
-	
+
 	@RequestMapping(value = { "/pickLocation**" }, method = RequestMethod.GET)
 	public ModelAndView PickLocation() {
 		ModelAndView model = new ModelAndView("manager.pickLocation");

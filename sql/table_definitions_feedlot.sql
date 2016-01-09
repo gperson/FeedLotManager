@@ -138,7 +138,7 @@ CREATE TABLE FEED_MIX (
     `feedingId`					INT NOT NULL,
     PRIMARY KEY ( mixId ),
     FOREIGN KEY ( feedId ) REFERENCES FEED( feedId ),
-	FOREIGN KEY ( feedingId ) REFERENCES FEED_MIX( feedingId )
+	FOREIGN KEY ( feedingId ) REFERENCES FEEDING( feedingId )
 ) ENGINE = InnoDB;
 
 CREATE TABLE LEFTOVER_FEED_MIX (
