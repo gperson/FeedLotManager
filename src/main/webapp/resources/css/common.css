@@ -4,9 +4,28 @@
 
 .center_row {
 	text-align: center;
-	padding-top: 15px;
+	padding-top: 10px;
 }
 
 .home_title {
 	
+}
+
+.location_selector {
+	text-align: left;
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+
+.location_selector:hover{
+	background-color: #e3e3e3;
+}
+
+.location_selector label {
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+.location_selector span {
+	color: gray;
+	margin-left: 5px;
 }

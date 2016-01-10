@@ -5,6 +5,8 @@ import java.util.List;
 public class Farm {
 
 	private List<User> users;
+	private List<Herd> herds;
+	private List<Locale> locales;
 	private String farmName;
 	private int id;
 
@@ -30,6 +32,22 @@ public class Farm {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public List<Locale> getLocales() {
+		return locales;
+	}
+
+	public void setLocales(List<Locale> locales) {
+		this.locales = locales;
+	}
+
+	public List<Herd> getHerds() {
+		return herds;
+	}
+
+	public void setHerds(List<Herd> herds) {
+		this.herds = herds;
 	}
 
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.holz.web.daos.FarmDao;
 import com.holz.web.models.Farm;
+import com.holz.web.models.enums.FarmLoadOption;
 import com.holz.web.services.FarmServices;
 
 @Transactional
@@ -16,8 +17,8 @@ public class FarmServicesImpl implements FarmServices {
 	private FarmDao farmDao;
 
 	@Override
-	public Farm getFarmByUserName(String userName) {
-		return farmDao.getFarmByUserName(userName);
+	public Farm getFarmByUserName(String userName, FarmLoadOption loadOption) {
+		return farmDao.getFarmByUserName(userName, loadOption);
 	}
 
 }
