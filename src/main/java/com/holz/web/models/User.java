@@ -1,13 +1,13 @@
-package com.holz.web.beans;
+package com.holz.web.models;
 
-public class UserBean {
+public class User {
 	private int userId;						
 	private String username;						
 	private String firstName;				
 	private String lastName;						
 	private String email;					
 	private String password;						
-	private FarmBean farm;
+	private Farm farm;
 	private boolean enabled;
 	
 	public int getUserId() {
@@ -46,10 +46,10 @@ public class UserBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public FarmBean getFarm() {
+	public Farm getFarm() {
 		return farm;
 	}
-	public void setFarm(FarmBean farm) {
+	public void setFarm(Farm farm) {
 		this.farm = farm;
 	}
 	public boolean isEnabled() {

@@ -1,9 +1,9 @@
 package com.holz.web.daos;
 
-import com.holz.web.entities.FarmEntity;
+import com.holz.web.models.Farm;
 
 public interface FarmDao {
 
-	FarmEntity getFarmByFarmId(int id);
+	Farm getFarmByUserName(String userName);
 	
 }
