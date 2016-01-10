@@ -1,9 +1,16 @@
 package com.holz.web.entities;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OneToMany;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -19,9 +26,8 @@ public class FarmEntity implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private int farmId;
 	private String farmName;
+	private Set<UserEntity> users;
 
-	public FarmEntity() {
-	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -46,5 +52,14 @@ public class FarmEntity implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "Farm [farmName=" + farmName + ", farmId=" + farmId + "]";
+	}
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "farm")
+	public Set<UserEntity> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<UserEntity> users) {
+		this.users = users;
 	}
 }

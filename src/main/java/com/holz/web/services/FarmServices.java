@@ -6,4 +6,6 @@ public interface FarmServices {
 
 	FarmBean getFarmById(int id);
 	
+	FarmBean getFarmByUserName(String userName);
+	
 }
