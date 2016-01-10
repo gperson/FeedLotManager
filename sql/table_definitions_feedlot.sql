@@ -97,12 +97,11 @@ CREATE TABLE SALE (
 #######################################################################
 CREATE TABLE FEEDING (
 	`feedingId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
-	`feedingTime`					INT NOT NULL,
-    `feedingDate`					DATETIME NOT Null,
-	`localeId` 						INT NOT NULL,
-	`bunckScore`					INT NOT NULL,
-	`deliveredAmountTMRD`			INT NOT NULL,
-	`userId`						INT NOT NULL,
+	`feedingTime`					DATETIME,
+	`localeId` 						INT NULL,
+	`bunckScore`					INT NULL,
+	`deliveredAmountTMRD`			INT NULL,
+	`userId`						INT NULL,
     PRIMARY KEY ( feedingId ),
     FOREIGN KEY ( localeId ) REFERENCES LOCALE( localeId ),
     FOREIGN KEY ( userId ) REFERENCES USERS( userId )

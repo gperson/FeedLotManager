@@ -1,13 +1,20 @@
 package com.holz.web.controllers;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.holz.web.models.Locale;
 import com.holz.web.models.enums.FarmLoadOption;
 import com.holz.web.services.FarmServices;
 
@@ -45,6 +52,13 @@ public class MainController {
 		ModelAndView model = new ModelAndView("manager.pickLocation");
 		model.addObject("farm",this.farmServices.getFarmByUserName(getUserName(),FarmLoadOption.LOCALES_WITH_HERDS));
 		return model;
+	}
+		
+	@ResponseBody
+	@RequestMapping(value = "/pickedLocation", method = RequestMethod.POST)
+	public boolean getSearchResultViaAjax(@RequestBody Locale locale) {
+		return true;
+
 	}
 
 	private String getUserName(){

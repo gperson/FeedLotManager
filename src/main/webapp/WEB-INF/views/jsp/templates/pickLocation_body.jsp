@@ -3,7 +3,7 @@
 	<h2 class="home_title center_row">Feeding Location</h2>
 	<div class="center_row col-md-12">
 		<c:forEach var="locale" items="${farm.locales}">
-    		<div class="location_selector well well-sm">
+    		<div data-locale="${locale.localeId}" class="location_selector well well-sm">
 				<label><c:out value="${locale.localeName}"/></label>
 				<span>
 					<c:forEach var="herd" items="${locale.herdIds}" varStatus="status">
