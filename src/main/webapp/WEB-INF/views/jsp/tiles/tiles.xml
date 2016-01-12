@@ -25,23 +25,44 @@
   </definition>
   
   <definition name="manager.pickLocation" template="/WEB-INF/views/jsp/layouts/main.jsp">
-    <put-attribute name="title" value="Feed Lot Manager - No Access" />
+    <put-attribute name="title" value="Feed Lot Manager" />
     <put-attribute name="header" type="template" value="/WEB-INF/views/jsp/templates/header.jsp" />
     <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/pickLocation_body.jsp" />
     <put-attribute name="footer" type="template" value="/WEB-INF/views/jsp/templates/footer.jsp" />
   </definition>
   
-  <definition name="manager.mixFeed" template="/WEB-INF/views/jsp/layouts/main.jsp">
-    <put-attribute name="title" value="Feed Lot Manager - No Access" />
+  <definition name="manager.feedMix" template="/WEB-INF/views/jsp/layouts/main.jsp">
+    <put-attribute name="title" value="Feed Lot Manager" />
     <put-attribute name="header" type="template" value="/WEB-INF/views/jsp/templates/header.jsp" />
-    <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/mixFeed_body.jsp" />
+    <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/feedMix_body.jsp" />
     <put-attribute name="footer" type="template" value="/WEB-INF/views/jsp/templates/footer.jsp" />
   </definition>
   
   <definition name="manager.deliver" template="/WEB-INF/views/jsp/layouts/main.jsp">
-    <put-attribute name="title" value="Feed Lot Manager - No Access" />
+    <put-attribute name="title" value="Feed Lot Manager" />
     <put-attribute name="header" type="template" value="/WEB-INF/views/jsp/templates/header.jsp" />
     <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/deliver_body.jsp" />
+    <put-attribute name="footer" type="template" value="/WEB-INF/views/jsp/templates/footer.jsp" />
+  </definition>
+  
+  <definition name="manager.manage" template="/WEB-INF/views/jsp/layouts/main.jsp">
+    <put-attribute name="title" value="Feed Lot Manager - Manage" />
+    <put-attribute name="header" type="template" value="/WEB-INF/views/jsp/templates/header.jsp" />
+    <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/manage_body.jsp" />
+    <put-attribute name="footer" type="template" value="/WEB-INF/views/jsp/templates/footer.jsp" />
+  </definition>
+  
+  <definition name="manager.editFeeding" template="/WEB-INF/views/jsp/layouts/main.jsp">
+    <put-attribute name="title" value="Feed Lot Manager - Manage" />
+    <put-attribute name="header" type="template" value="/WEB-INF/views/jsp/templates/header.jsp" />
+    <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/editFeeding_body.jsp" />
+    <put-attribute name="footer" type="template" value="/WEB-INF/views/jsp/templates/footer.jsp" />
+  </definition>
+  
+  <definition name="manager.reports" template="/WEB-INF/views/jsp/layouts/main.jsp">
+    <put-attribute name="title" value="Feed Lot Manager - Manage" />
+    <put-attribute name="header" type="template" value="/WEB-INF/views/jsp/templates/header.jsp" />
+    <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/reports_body.jsp" />
     <put-attribute name="footer" type="template" value="/WEB-INF/views/jsp/templates/footer.jsp" />
   </definition>
 </tiles-definitions>

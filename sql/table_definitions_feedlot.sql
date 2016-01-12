@@ -118,7 +118,7 @@ CREATE TABLE FEED_TYPES (
 CREATE TABLE FEED_STOCK (
 	`feedStockId` 					INT UNIQUE NOT NULL AUTO_INCREMENT,
 	`feedTypeId`					INT NOT NULL,
-    `stockAmount` 					INT NOT NULL,
+    `stockAmount` 					DOUBLE NOT NULL,
     PRIMARY KEY ( feedStockId ),
     FOREIGN KEY ( feedTypeId ) REFERENCES FEED_TYPES( feedTypeId )
 ) ENGINE = InnoDB;
