@@ -18,3 +18,10 @@ input:-webkit-autofill {
 	margin-bottom: 0px;
 	margin-top: 20px;
 }
+#forgot_pwd {
+	margin-bottom: 10px;
+	margin-top: -10px;
+}
+#forgot_pwd a {
+	font-size: smaller;
+}

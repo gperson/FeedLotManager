@@ -16,8 +16,11 @@
 			  <span class="input-group-addon" id="passwordInput">Password</span>
 			  <input type="password" class="form-control" name="password" placeholder="Password" aria-describedby="passwordInput">
 			</div>
+			<div id="forgot_pwd">
+				<a href="#">Forget username or password?</a>
+			</div>
 			<input name="submit" class="btn btn-primary" type="submit" value="Submit" />
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />			
 		</form>
 	</div>
 </div>
