@@ -1,27 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<style>
-#login-box {
-	text-align: center;
-	display: table;
-    margin: 0 auto;
-    padding-top: 20px;
-}
-#login-box .input-group {
-	width: 225px;
-	margin-bottom: 10px;
-}
-#login-box .input-group-addon {
-	width: 95px;
-}
-input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px white inset;
-}
-#login-box alert {
-	margin-bottom: 0px;
-	margin-top: 20px;
-}
-</style>
-
 <div id="content">
 	<div id="login-box">
 		<c:if test="${not empty error}">
