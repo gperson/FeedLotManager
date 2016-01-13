@@ -7,7 +7,23 @@
 	padding-top: 10px;
 }
 
-#pounds {
+.center_div {
+	display: table;
+    margin: 0 auto;
+}
+
+.deliver_row > div {
+	display: inline-block;
+	margin-top: 10px;
+}
+
+.bold_label {
+	padding-right: 8px;
+	font-weight: bold;
+}
+
+
+/*#pounds {
 	background-color: #f5f5f5;	
 }
 
@@ -46,7 +62,7 @@ select {
 
 select:hover {
 	cursor: pointer;
-}
+}*/
 
 .input-group-addon, #amount_delivered{
 	font-weight: bold;
@@ -86,6 +102,7 @@ select:hover {
 /*
   Deliver page
 */
+/*
 .center_row .form-group {
 	width: 250px;
 	margin: auto;
@@ -107,4 +124,4 @@ select:hover {
 #amount_delivered {
 	margin-left: 35px;
     padding-right: 11px;
-}
+}*/
