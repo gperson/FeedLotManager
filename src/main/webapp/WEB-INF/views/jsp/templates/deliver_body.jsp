@@ -1,4 +1,7 @@
 <div id="content">
+	<div class="center_row col-md-12">
+		<h2 class="center_row">Feed Mix</h2>
+	</div>
 	<div class="center_div">
 		<form role="form">
 			<div class="deliver_row">

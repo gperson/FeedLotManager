@@ -1,4 +1,8 @@
 $( document ).ready(function() {
+	var headers = {};
+	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
+	headers['Accept'] = 'application/json';
+	headers['Content-Type'] = 'application/json';
 	
 	/*
 	 * Click location
@@ -6,10 +10,7 @@ $( document ).ready(function() {
 	$(".location_selector").click(function(){
 		$.ajax({
 			type : "POST",
-			headers: { 
-		        'Accept': 'application/json',
-		        'Content-Type': 'application/json' 
-		    },
+			headers: headers,
 			url : "/pickedLocation",
 			data : JSON.stringify({ 'localeId' : parseInt($(this).data("locale"))}),
 			dataType : 'json',
@@ -25,10 +26,7 @@ $( document ).ready(function() {
 	$("#next_feedMix").click(function(){
 //		$.ajax({
 //			type : "POST",
-//			headers: { 
-//		        'Accept': 'application/json',
-//		        'Content-Type': 'application/json' 
-//		    },
+//			headers: headers,
 //			url : "/pickedLocation",
 //			data : JSON.stringify({ 'localeId' : parseInt($(this).data("locale"))}),
 //			dataType : 'json',
@@ -45,10 +43,7 @@ $( document ).ready(function() {
 	$("#finish").click(function(){
 //		$.ajax({
 //			type : "POST",
-//			headers: { 
-//		        'Accept': 'application/json',
-//		        'Content-Type': 'application/json' 
-//		    },
+//			headers: headers,
 //			url : "/pickedLocation",
 //			data : JSON.stringify({ 'localeId' : parseInt($(this).data("locale"))}),
 //			dataType : 'json',
