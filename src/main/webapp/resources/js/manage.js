@@ -1,7 +1,9 @@
 $(document).ready(function() {
 	$("#location_popup").hide();
 
-	$("td").click(function(){
+	$(".loc-row").click(function(){
+		//TODO Dont open when edit/delete is clicked
+		
 		var id = $(this).attr("id");
 
 		//AJAX LOAD DATA
