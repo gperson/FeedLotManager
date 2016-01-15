@@ -41,8 +41,7 @@
 				</div>
 			</div>
 			<div class="center_row col-md-12">
-				<input class="btn btn-info" type="button" value="Continue"></input>
-				<input class="btn btn-info" type="button" value="Add Mix"></input> 
+				<input class="btn btn-info" type="button" value="Continue Feeding"></input>
 				<input id="finish" class="btn btn-primary" type="button" value="Finish"></input>
 			</div>
 		</form>

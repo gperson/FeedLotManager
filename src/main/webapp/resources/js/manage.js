@@ -1,27 +1,9 @@
 $(document).ready(function() {
-	$("#location_popup").hide();
+	$("#fade").hide();
 
-	$(".loc-row").click(function(){
-		//TODO Dont open when edit/delete is clicked
-		
-		var id = $(this).attr("id");
-
-		//AJAX LOAD DATA
-		$("#fade").show();
-		$("#location_popup").show();
-	});
-
-	$("#save_location").click(function(){
-		//Save data
-		$("#fade").hide();
-		$("#location_popup").hide();
-	});
-
-	$("#cancel_location").click(function(){
-		//Clear fields
-		$("#fade").hide();
-		$("#location_popup").hide();
-	});
+	loadLocations();
+	$("#locationsTab").click(function(){loadLocations});
+	
 });
 
 /*
@@ -74,4 +56,41 @@ function move(tbFrom, tbTo)
 		no.text = arrTo[ii];
 		tbTo[ii] = no;
 	}
+}
+
+function loadLocations(){
+	var headers = {};
+	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
+
+	/*
+	 * Click location
+	 */
+	$.ajax({
+		type : "GET",
+		headers: headers,
+		url : "/admin/locationsTab",
+		success : function(e){
+			$('#locations').append($(e));
+		}
+	});		
+}
+
+function openLocationPopup(e,edit){
+	//TODO Dont open when edit/delete is clicked
+
+	var id = $(this).attr("id");
+
+	//AJAX LOAD DATA
+	$("#fade").show();
+	$("#location_popup").show();
+};
+
+function saveLocation(){
+	$("#fade").hide();
+	$("#location_popup").hide();
+}
+
+function closeLocationPopup(){
+	$("#fade").hide();
+	$("#location_popup").hide();
 }

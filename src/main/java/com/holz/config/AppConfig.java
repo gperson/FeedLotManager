@@ -14,12 +14,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 
 @EnableWebMvc
 @Configuration
 @ComponentScan({ "com.holz.web.*" })
-@Import({ SecurityConfig.class, DataConfig.class, TilesConfig.class })
+@Import({ SecurityConfig.class, DataConfig.class, ViewResolverConfig.class })
 @EnableTransactionManagement
 public class AppConfig extends WebMvcConfigurerAdapter {
 	

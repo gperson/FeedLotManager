@@ -10,7 +10,7 @@
 	</div>
 	<sec:authorize access="hasRole('ADMIN')">
 		<div class="center_row col-md-12">
-			<a href="/manage" class="btn btn-default" role="button">Manage</a>
+			<a href="/admin/manage" class="btn btn-default" role="button">Manage</a>
 		</div>
 		<div class="center_row col-md-12">
 			<a href="/reports" class="btn btn-default" role="button">Reports</a>
