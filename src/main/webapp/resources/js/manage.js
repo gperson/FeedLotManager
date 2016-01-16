@@ -145,6 +145,57 @@ function loadPackersTab(){
 	});		
 }
 
+function openPackerPopup(e,edit){
+	var id = $(e).attr("id");
+	
+	if(edit === true){
+		$("#save_location").attr("data-id",id);
+		$("#packerName").val($(e).parent().parent().find(".pName").text());
+		$("#packerLocation").val($(e).parent().parent().find(".pLocation").text());
+	} else {
+		$("#save_location").attr("data-id",0);
+		$("#packerName").val("");
+		$("#packerLocation").val("");
+	}
+
+	$("#fade").show();
+	$("#packer_popup").show();
+};
+
+function savePacker(){
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/admin/savePacker",
+		data : JSON.stringify({ 
+			id : parseInt($("#save_location").attr("data-id")), 
+			name : $("#packerName").val(),
+			location : $("#packerLocation").val()
+		}),
+		dataType : 'json',
+		contentType: 'application/json',
+		success : function(result){
+			if(result.success === true){
+				loadPackersTab();
+			} else {
+				alert("An error occurred.");
+			}
+			
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+	$("#fade").hide();
+	$("#packer_popup").hide();
+}
+
+function closePackerPopup(){
+	$("#fade").hide();
+	$("#packer_popup").hide();
+}
+
 function loadSoldLivestockTab(){
 	$.ajax({
 		type : "GET",

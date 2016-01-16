@@ -1,7 +1,7 @@
 package com.holz.web.models;
 
 public class User {
-	private int userId;						
+	private int id;						
 	private String username;						
 	private String firstName;				
 	private String lastName;						
@@ -10,11 +10,11 @@ public class User {
 	private Farm farm;
 	private boolean enabled;
 	
-	public int getUserId() {
-		return userId;
+	public int getId() {
+		return id;
 	}
 	public void setUserId(int userId) {
-		this.userId = userId;
+		this.id = userId;
 	}
 	public String getUsername() {
 		return username;

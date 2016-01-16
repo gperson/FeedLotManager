@@ -34,6 +34,15 @@ CREATE TABLE ROLES (
 #######################################################################
 ############			TABLES HERD						###############
 #######################################################################
+CREATE TABLE SUPPLIER (
+	`supplierId`					INT UNIQUE NOT NULL AUTO_INCREMENT,
+    `supplierName`					VARCHAR(100) NOT NULL,
+    `supplierLocation`				VARCHAR(100),
+    `farmId`						INT NOT NULL,
+    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
+    PRIMARY KEY ( supplierId )
+) ENGINE = InnoDB;
+
 CREATE TABLE HERD (
 	`herdId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
     `farmId`						INT NOT NULL,
@@ -45,26 +54,19 @@ CREATE TABLE HERD (
     `implantDate`					DATETIME,
     `optiflexDate`					DATETIME,
     `dateEntered`					DATETIME NOT NULL,
+    `supplierId`					INT NOT NULL,
     PRIMARY KEY ( herdId ),
+    FOREIGN KEY ( supplierId ) REFERENCES SUPPLIER( supplierId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
 ) ENGINE = InnoDB;
 
-CREATE TABLE SUPPLIER (
-	`supplierId`					INT UNIQUE NOT NULL AUTO_INCREMENT,
-    `supplierName`					VARCHAR(100),
-    `supplierLocation`				VARCHAR(100),
+CREATE TABLE PACKER (
+	`packerId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
+    `packerName`					VARCHAR(100) NOT NULL,
+    `packerLocation`				VARCHAR(100),
     `farmId`						INT NOT NULL,
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
-    PRIMARY KEY ( supplierId )
-) ENGINE = InnoDB;
-
-CREATE TABLE HERD_SUPPLIERS_MAP (
-	`herdSupplierId`				INT UNIQUE NOT NULL AUTO_INCREMENT,
-	`supplierId`					INT NOT NULL,
-	`herdId`						INT NOT NULL,
-	PRIMARY KEY ( herdSupplierId ),
-	FOREIGN KEY ( supplierId ) REFERENCES SUPPLIER( supplierId ),
-	FOREIGN KEY ( herdId ) REFERENCES HERD( herdId )
+    PRIMARY KEY ( packerId )
 ) ENGINE = InnoDB;
 
 CREATE TABLE LOCALE (
@@ -94,7 +96,8 @@ CREATE TABLE SALE (
     `shrinkPercent`					DOUBLE NOT NULL,
     `packerId` 						INT NOT NULL,
     PRIMARY KEY ( saleId ),
-	FOREIGN KEY ( localeId ) REFERENCES LOCALE( localeId )
+	FOREIGN KEY ( localeId ) REFERENCES LOCALE( localeId ),
+    FOREIGN KEY ( packerId ) REFERENCES PACKER( packerId )
 ) ENGINE = InnoDB;
 
 
