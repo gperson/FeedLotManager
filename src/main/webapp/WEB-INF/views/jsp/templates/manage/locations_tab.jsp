@@ -17,23 +17,15 @@
 			<td>34, 67, 78</td>
 			<td>200</td>
 			<td>
-				<button type="button" class="editLocation btn btn-info btn-xs">Edit</button>
-			</td>
-		</tr>
-		<tr class="" id="2">
-			<td>NW Back Lot</td>
-			<td>56, 800, 8</td>
-			<td>250</td>
-			<td>
 				<button onclick="openLocationPopup(this,false)" type="button" class="btn btn-info btn-xs">Edit</button>
-				<button type="button" class="btn btn-warning btn-xs">Delete</button>
+				<button type="button" class="btn btn-warning btn-xs">Disable</button>
 			</td>
 		</tr>
 	</tbody>
 </table>
 
 <!-- Add/Edit Location popup -->
-<div id="location_popup" style="display:none;">
+<div id="location_popup" class="popup" style="display:none;">
 	<form name="combo_box" class="swapper" role="form">
 		<div class="form-group">
 		  <label for="name">Location Name:</label>

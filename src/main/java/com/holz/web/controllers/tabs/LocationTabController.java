@@ -1,4 +1,4 @@
-package com.holz.web.controllers;
+package com.holz.web.controllers.tabs;
 
 import java.security.Principal;
 
@@ -12,7 +12,7 @@ import com.holz.web.services.FarmServices;
 import com.holz.web.services.SupplierServices;
 
 @Controller
-public class ManageController {
+public class LocationTabController {
 	
 	@Autowired 
 	SupplierServices supplierServices;
@@ -20,9 +20,9 @@ public class ManageController {
 	@Autowired 
 	FarmServices farmServices;
 	
-	@RequestMapping(value = { "/admin/manage**" }, method = RequestMethod.GET)
-	public ModelAndView Manage(Principal principal) {
-		ModelAndView model = new ModelAndView("manager.manage");
+	@RequestMapping(value = { "/admin/locationsTab" }, method = RequestMethod.GET)
+	public ModelAndView LocationsTab(Principal principal) {
+		ModelAndView model = new ModelAndView("templates/manage/locations_tab");
 		return model;
 	}
 	

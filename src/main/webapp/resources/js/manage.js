@@ -1,5 +1,10 @@
+var headers = {};
+
 $(document).ready(function() {
 	$("#fade").hide();
+	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
+	headers['Accept'] = 'application/json';
+	headers['Content-Type'] = 'application/json';
 
 	loadLocationsTab();
 	
@@ -94,16 +99,6 @@ function loadLocationsTab(){
 	});		
 }
 
-function openLocationPopup(e,edit){
-	//TODO Dont open when edit/delete is clicked
-
-	var id = $(this).attr("id");
-
-	//AJAX LOAD DATA
-	$("#fade").show();
-	$("#location_popup").show();
-};
-
 function saveLocation(){
 	$("#fade").hide();
 	$("#location_popup").hide();
@@ -113,13 +108,8 @@ function closeLocationPopup(){
 	$("#fade").hide();
 	$("#location_popup").hide();
 }
-function loadFeedTab(){
-	var headers = {};
-	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
 
-	/*
-	 * Click location
-	 */
+function loadFeedTab(){
 	$.ajax({
 		type : "GET",
 		headers: headers,
@@ -130,13 +120,8 @@ function loadFeedTab(){
 		}
 	});		
 }
-function loadLivestockTab(){
-	var headers = {};
-	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
 
-	/*
-	 * Click location
-	 */
+function loadLivestockTab(){
 	$.ajax({
 		type : "GET",
 		headers: headers,
@@ -147,13 +132,8 @@ function loadLivestockTab(){
 		}
 	});		
 }
-function loadPackersTab(){
-	var headers = {};
-	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
 
-	/*
-	 * Click location
-	 */
+function loadPackersTab(){
 	$.ajax({
 		type : "GET",
 		headers: headers,
@@ -164,13 +144,8 @@ function loadPackersTab(){
 		}
 	});		
 }
-function loadSoldLivestockTab(){
-	var headers = {};
-	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
 
-	/*
-	 * Click location
-	 */
+function loadSoldLivestockTab(){
 	$.ajax({
 		type : "GET",
 		headers: headers,
@@ -181,13 +156,8 @@ function loadSoldLivestockTab(){
 		}
 	});		
 }
-function loadSuppliersTab(){
-	var headers = {};
-	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
 
-	/*
-	 * Click location
-	 */
+function loadSuppliersTab(){
 	$.ajax({
 		type : "GET",
 		headers: headers,
@@ -198,13 +168,59 @@ function loadSuppliersTab(){
 		}
 	});		
 }
-function loadUsersTab(){
-	var headers = {};
-	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
 
-	/*
-	 * Click location
-	 */
+function openSupplierPopup(e,edit){
+	var id = $(e).attr("id");
+	
+	if(edit === true){
+		$("#save_location").attr("data-id",id);
+		$("#supplierName").val($(e).parent().parent().find(".sName").text());
+		$("#supplierLocation").val($(e).parent().parent().find(".sLocation").text());
+	} else {
+		$("#save_location").attr("data-id",0);
+		$("#supplierName").val("");
+		$("#supplierLocation").val("");
+	}
+
+	$("#fade").show();
+	$("#supplier_popup").show();
+};
+
+function saveSupplier(){
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/admin/saveSupplier",
+		data : JSON.stringify({ 
+			id : parseInt($("#save_location").attr("data-id")), 
+			name : $("#supplierName").val(),
+			location : $("#supplierLocation").val()
+		}),
+		dataType : 'json',
+		contentType: 'application/json',
+		success : function(result){
+			if(result.success === true){
+				loadSuppliersTab();
+			} else {
+				alert("An error occurred.");
+			}
+			
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+	$("#fade").hide();
+	$("#supplier_popup").hide();
+}
+
+function closeSupplierPopup(){
+	$("#fade").hide();
+	$("#supplier_popup").hide();
+}
+
+function loadUsersTab(){
 	$.ajax({
 		type : "GET",
 		headers: headers,

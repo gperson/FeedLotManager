@@ -33,9 +33,9 @@ INSERT INTO HERD
 VALUES (4, 1, 700, 700, 180, 'HOLZ4', NOW(), NOW(), NOW(), NOW());
 #Seed SUPPLIER
 INSERT INTO SUPPLIER
-VALUES (1, 'Bob Huggins');
+VALUES (1, 'Bob Huggins','Algona, IA');
 INSERT INTO SUPPLIER
-VALUES 	(2, 'Ray Ramano');
+VALUES 	(2, 'Ray Ramano', 'Fort Worth Texas');
 #Seed Supplier map
 INSERT INTO HERD_SUPPLIERS_MAP
 VALUES (1, 1, 1);

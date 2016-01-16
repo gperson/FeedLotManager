@@ -52,6 +52,9 @@ CREATE TABLE HERD (
 CREATE TABLE SUPPLIER (
 	`supplierId`					INT UNIQUE NOT NULL AUTO_INCREMENT,
     `supplierName`					VARCHAR(100),
+    `supplierLocation`				VARCHAR(100),
+    `farmId`						INT NOT NULL,
+    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
     PRIMARY KEY ( supplierId )
 ) ENGINE = InnoDB;
 

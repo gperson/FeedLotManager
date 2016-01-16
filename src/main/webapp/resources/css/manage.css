@@ -20,19 +20,19 @@
 	margin-right: 5px;
 }
 
-#location_popup {
+.popup {
 	width: 377px;
 	position: absolute;
 	top: 25%;
 	left: 37%;
-	min-height: 230px;
-	padding: 16px;
+	min-height: 200px;
+	padding: 15px;
 	background-color: white;
 	z-index:2000;
 	overflow: auto;
 }
 
-#location_popup_btns {
+#popup_btns {
 	margin-top: 15px;
 }
 
