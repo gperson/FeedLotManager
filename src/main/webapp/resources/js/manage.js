@@ -1,9 +1,27 @@
 $(document).ready(function() {
 	$("#fade").hide();
 
-	loadLocations();
-	$("#locationsTab").click(function(){loadLocations});
+	loadLocationsTab();
 	
+	$(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+		var target = $(e.target).attr("href")
+		if(target === '#locations'){
+			loadLocationsTab();
+		} else if(target === '#packers'){
+			loadPackersTab();
+		} else if(target === '#livestock'){
+			loadLivestockTab();
+		} else if(target === '#feed'){
+			loadFeedTab();
+		} else if(target === '#suppliers'){
+			loadSuppliersTab();
+		} else if(target === '#users'){
+			loadUsersTab();
+		} else if(target === '#soldLivestock'){
+			loadSoldLivestockTab();
+		}
+		
+	});
 });
 
 /*
@@ -58,7 +76,7 @@ function move(tbFrom, tbTo)
 	}
 }
 
-function loadLocations(){
+function loadLocationsTab(){
 	var headers = {};
 	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
 
@@ -70,6 +88,7 @@ function loadLocations(){
 		headers: headers,
 		url : "/admin/locationsTab",
 		success : function(e){
+			$('#locations').empty();
 			$('#locations').append($(e));
 		}
 	});		
@@ -93,4 +112,106 @@ function saveLocation(){
 function closeLocationPopup(){
 	$("#fade").hide();
 	$("#location_popup").hide();
+}
+function loadFeedTab(){
+	var headers = {};
+	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
+
+	/*
+	 * Click location
+	 */
+	$.ajax({
+		type : "GET",
+		headers: headers,
+		url : "/admin/feedTab",
+		success : function(e){
+			$('#feed').empty();
+			$('#feed').append($(e));
+		}
+	});		
+}
+function loadLivestockTab(){
+	var headers = {};
+	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
+
+	/*
+	 * Click location
+	 */
+	$.ajax({
+		type : "GET",
+		headers: headers,
+		url : "/admin/livestockTab",
+		success : function(e){
+			$('#livestock').empty();
+			$('#livestock').append($(e));
+		}
+	});		
+}
+function loadPackersTab(){
+	var headers = {};
+	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
+
+	/*
+	 * Click location
+	 */
+	$.ajax({
+		type : "GET",
+		headers: headers,
+		url : "/admin/packersTab",
+		success : function(e){
+			$('#packers').empty();
+			$('#packers').append($(e));
+		}
+	});		
+}
+function loadSoldLivestockTab(){
+	var headers = {};
+	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
+
+	/*
+	 * Click location
+	 */
+	$.ajax({
+		type : "GET",
+		headers: headers,
+		url : "/admin/soldLivestockTab",
+		success : function(e){
+			$('#soldLivestock').empty();
+			$('#soldLivestock').append($(e));
+		}
+	});		
+}
+function loadSuppliersTab(){
+	var headers = {};
+	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
+
+	/*
+	 * Click location
+	 */
+	$.ajax({
+		type : "GET",
+		headers: headers,
+		url : "/admin/suppliersTab",
+		success : function(e){
+			$('#suppliers').empty();
+			$('#suppliers').append($(e));
+		}
+	});		
+}
+function loadUsersTab(){
+	var headers = {};
+	headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
+
+	/*
+	 * Click location
+	 */
+	$.ajax({
+		type : "GET",
+		headers: headers,
+		url : "/admin/usersTab",
+		success : function(e){
+			$('#users').empty();
+			$('#users').append($(e));
+		}
+	});		
 }

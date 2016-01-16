@@ -21,4 +21,40 @@ public class ManageController {
 		ModelAndView model = new ModelAndView("templates/manage/locations_tab");
 		return model;
 	}
+	
+	@RequestMapping(value = { "/admin/feedTab" }, method = RequestMethod.GET)
+	public ModelAndView FeedTab() {
+		ModelAndView model = new ModelAndView("templates/manage/feed_tab");
+		return model;
+	}
+	
+	@RequestMapping(value = { "/admin/livestockTab" }, method = RequestMethod.GET)
+	public ModelAndView LivestockTab() {
+		ModelAndView model = new ModelAndView("templates/manage/livestock_tab");
+		return model;
+	}
+	
+	@RequestMapping(value = { "/admin/packersTab" }, method = RequestMethod.GET)
+	public ModelAndView PackersTab() {
+		ModelAndView model = new ModelAndView("templates/manage/packers_tab");
+		return model;
+	}
+	
+	@RequestMapping(value = { "/admin/soldLivestockTab" }, method = RequestMethod.GET)
+	public ModelAndView SoldLivestockTab() {
+		ModelAndView model = new ModelAndView("templates/manage/soldLivestock_tab");
+		return model;
+	}
+	
+	@RequestMapping(value = { "/admin/suppliersTab" }, method = RequestMethod.GET)
+	public ModelAndView SuppliersTab() {
+		ModelAndView model = new ModelAndView("templates/manage/suppliers_tab");
+		return model;
+	}
+	
+	@RequestMapping(value = { "/admin/usersTab" }, method = RequestMethod.GET)
+	public ModelAndView UsersTab() {
+		ModelAndView model = new ModelAndView("templates/manage/users_tab");
+		return model;
+	}
 }
