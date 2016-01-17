@@ -23,9 +23,38 @@ public class HerdDaoImpl implements HerdDao {
 
 	@Override
 	public List<Herd> getHerds(int farmId) {
-		String sql = "SELECT herdId, quantity, weight, cost, tagNumber, estimatedSaleDate, implantDate, optiflexDate, dateEntered, sold "
-				+ "S.supplierId, supplierName, supplierLocation "
-				+ "FROM HERD H JOIN SUPPLIER S ON H.supplierId = S.supplierId WHERE H.farmId=" + farmId;
+		return getHerds(farmId,0);
+	}
+
+	@Override
+	public void saveOrUpdate(Herd herd, int farmId) {
+		String sql = "INSERT INTO HERD "+
+				"VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+		if(herd.getId() != 0){
+			sql = "UPDATE HERD SET quantity=?,weight=?,cost=?,tagNumber=?,estimatedSaleDate=?,implantDate=?,optiflexDate=?,supplierId=? where herdId=? AND farmId =?";
+			this.jdbcTemplate.update(sql, new Object[]{herd.getQuantity(),herd.getWeight(),herd.getCost(),herd.getTagNumber(),herd.getEstimatedSaleDate(),herd.getImplantDate(),herd.getOptiflexDate(),herd.getSupplier().getId(),herd.getId(),farmId});
+		} else {
+			this.jdbcTemplate.update(sql, 
+					new Object[]{0,farmId,herd.getQuantity(), herd.getWeight(), herd.getCost(),
+					herd.getTagNumber(), herd.getEstimatedSaleDate(),herd.getImplantDate(),
+					herd.getOptiflexDate(), herd.getDateEntered(),herd.getSupplier().getId(),
+					herd.isSold()});
+		}
+	}
+
+	@Override
+	public List<Herd> getHerdsForLocale(int farmId, int localeId) {
+		return getHerds(farmId,localeId);
+	}
+
+	private List<Herd> getHerds(int farmId, int localeId){
+		String sql = "SELECT H.herdId, quantity, weight, cost, tagNumber, estimatedSaleDate, implantDate, optiflexDate, dateEntered, sold, S.supplierId, supplierName, supplierLocation "
+				+ "FROM HERD H "
+				+ "JOIN SUPPLIER S ON H.supplierId = S.supplierId "
+				+ (localeId != 0 ? "JOIN HERD_LOCALE_MAP HLM ON HLM.herdId = H.herdId " : "")
+				+ "WHERE H.farmId=" + farmId +" "
+				+ (localeId != 0 ? "AND sold=false AND HLM.localeId="+localeId : "");
+
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Herd>>() {
 			@Override
 			public List<Herd> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -52,22 +81,6 @@ public class HerdDaoImpl implements HerdDao {
 				return herds;
 			}
 		});
-	}
-
-	@Override
-	public void saveOrUpdate(Herd herd, int farmId) {
-		String sql = "INSERT INTO HERD "+
-				"VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-		if(herd.getId() != 0){
-			sql = "UPDATE HERD SET quantity=?,weight=?,cost=?,tagNumber=?,estimatedSaleDate=?,implantDate=?,optiflexDate=?,supplierId=? where herdId=? AND farmId =?";
-			this.jdbcTemplate.update(sql, new Object[]{herd.getQuantity(),herd.getWeight(),herd.getCost(),herd.getTagNumber(),herd.getEstimatedSaleDate(),herd.getImplantDate(),herd.getOptiflexDate(),herd.getSupplier().getId(),herd.getId(),farmId});
-		} else {
-			this.jdbcTemplate.update(sql, 
-					new Object[]{0,farmId,herd.getQuantity(), herd.getWeight(), herd.getCost(),
-					herd.getTagNumber(), herd.getEstimatedSaleDate(),herd.getImplantDate(),
-					herd.getOptiflexDate(), herd.getDateEntered(),herd.getSupplier().getId(),
-					herd.isSold()});
-		}
 	}
 
 }

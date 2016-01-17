@@ -3,26 +3,40 @@ package com.holz.web.models;
 import java.util.List;
 
 public class Locale {
-	private int localeId;
+	private int id;
 	private String localeName;
-	private List<String> herdIds;
+	private List<Herd> herds;
+	private int livestockCount;
+	private boolean enabled;
 	
-	public List<String> getHerdIds() {
-		return herdIds;
-	}
-	public void setHerdIds(List<String> herdIds) {
-		this.herdIds = herdIds;
-	}
 	public String getLocaleName() {
 		return localeName;
 	}
 	public void setLocaleName(String localeName) {
 		this.localeName = localeName;
 	}
-	public int getLocaleId() {
-		return localeId;
+	public int getId() {
+		return id;
 	}
-	public void setLocaleId(int localeId) {
-		this.localeId = localeId;
+	public void setId(int localeId) {
+		this.id = localeId;
+	}
+	public int getLivestockCount() {
+		return livestockCount;
+	}
+	public void setLivestockCount(int livestockCount) {
+		this.livestockCount = livestockCount;
+	}
+	public List<Herd> getHerds() {
+		return herds;
+	}
+	public void setHerds(List<Herd> herds) {
+		this.herds = herds;
+	}
+	public boolean isEnabled() {
+		return enabled;
+	}
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="main_buttons">
 	<button id="addLocation" type="button" class="btn btn-info" onclick="openLocationPopup(this,true)">Add
 		Location</button>
@@ -12,15 +13,26 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr class="" id="1">
-			<td>SE Lot</td>
-			<td>34, 67, 78</td>
-			<td>200</td>
-			<td>
-				<button onclick="openLocationPopup(this,false)" type="button" class="btn btn-info btn-xs">Edit</button>
-				<button type="button" class="btn btn-warning btn-xs">Disable</button>
-			</td>
-		</tr>
+		<c:forEach var="locale" items="${locales}">
+    		<tr class="" id="${locale.id}">
+				<td class="lName">${locale.localeName}</td>
+				<td class="lHerds">
+					<c:forEach var="herd" items="${locale.herds}" varStatus="status">
+				    		<c:out value="${herd.id}"/><c:if test="${!status.last}">,</c:if>	         					    		 
+					</c:forEach>
+				</td>
+				<td class="lCount">${locale.livestockCount}</td>
+				<td>
+					<button onclick="openLocationPopup(this,false)" type="button" class="btn btn-info btn-xs">Edit</button>
+					<c:if test="${!locale.enabled}">
+						<button onclick="enableDisableLocale(${locale.id},true);" type="button" class="btn btn-default btn-xs">Enable</button>
+					</c:if>
+					<c:if test="${locale.enabled}">
+						<button onclick="enableDisableLocale(${locale.id},false);"type="button" class="btn btn-danger btn-xs">Disable</button>
+					</c:if>
+				</td>
+			</tr>
+		</c:forEach>
 	</tbody>
 </table>
 

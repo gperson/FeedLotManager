@@ -73,7 +73,9 @@ CREATE TABLE PACKER (
 CREATE TABLE LOCALE (
 	`localeId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
     `farmId`						INT NOT NULL,
-    `localeName`					VARCHAR(50) NOT NULL
+    `localeName`					VARCHAR(50) NOT NULL,
+    `livestockCount`				INT NOT NULL,
+    `enabled`						BOOL NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE HERD_LOCALE_MAP (

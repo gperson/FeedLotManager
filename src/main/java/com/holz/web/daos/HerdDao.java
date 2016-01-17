@@ -9,5 +9,7 @@ public interface HerdDao {
 	List<Herd> getHerds(int farmId);
 	
 	void saveOrUpdate(Herd herd, int farmId);
+
+	List<Herd> getHerdsForLocale(int farmId, int localeId);
 	
 }
