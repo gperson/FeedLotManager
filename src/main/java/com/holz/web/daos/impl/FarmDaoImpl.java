@@ -75,7 +75,7 @@ public class FarmDaoImpl implements FarmDao {
 				List<Herd> herds = new ArrayList<Herd>();
 				while(rs.next()) {
 					Herd h = new Herd();
-					h.setHerdId(rs.getInt("herdId"));
+					h.setId(rs.getInt("herdId"));
 					h.setQuantity(rs.getInt("quantity"));
 					h.setWeight(rs.getDouble("weight"));
 					h.setWeight(rs.getDouble("cost"));

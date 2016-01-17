@@ -203,6 +203,88 @@ function loadLivestockTab(){
 	});		
 }
 
+function openBuyLivestockPopup(e,edit){
+	var row = $(e).parent().parent();
+	var id = row.find(".hId").text();
+	
+	if(edit === true){
+		$("#save_buyLivestock").attr("data-id",id);
+		$("#save_buyLivestock").attr("data-supplier",$("#supplier").attr("data-supplier"));
+		$("#quantity").val(row.find(".hQuantity").text());
+		$("#weight").val(row.find(".hWeight").text());
+		$("#cost").val(row.find(".hCost").text());
+		$("#tagNumber").val(row.find(".hTag").text());
+		$("#estimatedSaleDate").val(row.find(".hSale").text());
+		$("#implantDate").val(row.find(".hImplant").text());
+		$("#optiflexDate").val(row.find(".hOptiflex").text());
+		$("#supplier").val(row.find(".hSupplier").text());
+	} else {
+		$("#save_buyLivestock").attr("data-id",0);
+		$("#save_buyLivestock").attr("data-supplier",0);
+		$("#quantity").val("");
+		$("#weight").val("");
+		$("#cost").val("");
+		$("#tagNumber").val("");
+		$("#estimatedSaleDate").val("");
+		$("#implantDate").val("");
+		$("#optiflexDate").val("");
+		$("#supplier").val("");
+	}
+
+	$("#fade").show();
+	$("#buyLivestock_popup").show();
+};
+
+function saveBuyLivestock(){
+	var obj = JSON.stringify({ 
+		id : parseInt($("#save_buyLivestock").attr("data-id")), 
+		quantity : $("#quantity").val(),
+		weight : $("#weight").val(),
+		cost : $("#cost").val(),
+		tagNumber : $("#tagNumber").val(),
+		estimatedSaleDate : Date.parse($("#estimatedSaleDate").val()),
+		implantDate : Date.parse(($("#implantDate").val())),
+		optiflexDate : Date.parse($("#optiflexDate").val()),
+		supplier : {
+			id : parseInt($("#supplier").attr("data-supplier"))
+		}});
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/admin/saveBuyLivestock",
+		data : JSON.stringify({ 
+			id : parseInt($("#save_buyLivestock").attr("data-id")), 
+			quantity : $("#quantity").val(),
+			weight : $("#weight").val(),
+			cost : $("#cost").val(),
+			tagNumber : $("#tagNumber").val(),
+			estimatedSaleDate : Date.parse($("#estimatedSaleDate").val()),
+			implantDate : Date.parse($("#implantDate").val()),
+			optiflexDate : Date.parse($("#optiflexDate").val()),
+			supplier : {
+				id : parseInt($("#supplier").attr("data-supplier"))
+			}
+		}),
+		dataType : 'json',
+		contentType: 'application/json',
+		success : function(result){
+			if(result.success === true){
+				loadLivestockTab();
+			} else {
+				alert("An error occurred.");
+			}
+			
+		}
+	});
+	$("#fade").hide();
+	$("#buyLivestock_popup").hide();
+}
+
+function closeBuyLivestockPopup(){
+	$("#fade").hide();
+	$("#buyLivestock_popup").hide();
+}
+
 function loadPackersTab(){
 	$.ajax({
 		type : "GET",

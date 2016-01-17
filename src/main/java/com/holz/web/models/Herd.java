@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Herd {
 	
-	private int herdId;
+	private int id;
 	private int quantity;
 	private double weight;
 	private double cost;
@@ -13,12 +13,13 @@ public class Herd {
 	private Date implantDate;
 	private Date optiflexDate;
 	private Date dateEntered;
+	private Supplier supplier;
 	
-	public int getHerdId() {
-		return herdId;
+	public int getId() {
+		return id;
 	}
-	public void setHerdId(int herdId) {
-		this.herdId = herdId;
+	public void setId(int herdId) {
+		this.id = herdId;
 	}
 	public int getQuantity() {
 		return quantity;
@@ -67,5 +68,11 @@ public class Herd {
 	}
 	public void setDateEntered(Date dateEntered) {
 		this.dateEntered = dateEntered;
+	}
+	public Supplier getSupplier() {
+		return supplier;
+	}
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
 }
