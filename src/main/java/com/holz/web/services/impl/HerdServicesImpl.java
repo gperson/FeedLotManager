@@ -1,5 +1,6 @@
 package com.holz.web.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,10 @@ public class HerdServicesImpl implements HerdServices {
 
 	@Override
 	public void saveOrUpdateHerd(Herd herd,int farmId) {
+		if(herd.getId() == 0){
+			herd.setDateEntered(new Date());
+			herd.setSold(false);
+		}
 		this.herdDao.saveOrUpdate(herd, farmId);
 	}
 

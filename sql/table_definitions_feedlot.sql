@@ -47,7 +47,7 @@ CREATE TABLE HERD (
 	`herdId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
     `farmId`						INT NOT NULL,
     `quantity`						INT NOT NULL,
-    `weight`						INT NOT NULL,
+    `weight`						DOUBLE NOT NULL,
     `cost`							DOUBLE NOT NULL,
     `tagNumber`						VARCHAR(15) NOT NULL,
     `estimatedSaleDate`				DATETIME,
@@ -55,6 +55,7 @@ CREATE TABLE HERD (
     `optiflexDate`					DATETIME,
     `dateEntered`					DATETIME NOT NULL,
     `supplierId`					INT NOT NULL,
+    `sold`							BOOLEAN NOT NULL,
     PRIMARY KEY ( herdId ),
     FOREIGN KEY ( supplierId ) REFERENCES SUPPLIER( supplierId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )

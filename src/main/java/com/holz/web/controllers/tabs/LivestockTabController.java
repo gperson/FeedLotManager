@@ -15,12 +15,16 @@ import com.holz.web.models.enums.FarmLoadOption;
 import com.holz.web.models.responses.AjaxResponse;
 import com.holz.web.services.FarmServices;
 import com.holz.web.services.HerdServices;
+import com.holz.web.services.SupplierServices;
 
 @Controller
 public class LivestockTabController {
 	
 	@Autowired 
 	HerdServices herdServices;
+	
+	@Autowired
+	SupplierServices supplierServices;
 	
 	@Autowired 
 	FarmServices farmServices;
@@ -30,6 +34,7 @@ public class LivestockTabController {
 		ModelAndView model = new ModelAndView("templates/manage/livestock_tab");
 		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
 		model.addObject("herds", this.herdServices.getHerds(farmId));
+		model.addObject("suppliers", this.supplierServices.getSuppliers(farmId));
 		return model;
 	}
 

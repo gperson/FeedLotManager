@@ -1,6 +1,6 @@
 package com.holz.web.models;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Herd {
 	
@@ -14,6 +14,7 @@ public class Herd {
 	private Date optiflexDate;
 	private Date dateEntered;
 	private Supplier supplier;
+	private boolean sold;
 	
 	public int getId() {
 		return id;
@@ -74,5 +75,11 @@ public class Herd {
 	}
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
+	}
+	public boolean isSold() {
+		return sold;
+	}
+	public void setSold(boolean sold) {
+		this.sold = sold;
 	}
 }

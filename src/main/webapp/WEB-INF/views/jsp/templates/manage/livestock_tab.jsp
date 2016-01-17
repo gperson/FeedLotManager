@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="main_buttons">
 	<button onclick="openBuyLivestockPopup(this,false);" type="button" class="btn btn-info">New Herd</button>
 </div>
@@ -25,12 +26,12 @@
 				<td class="hQuantity">${herd.quantity}</td>
 				<td class="hWeight">${herd.weight}</td>
 				<td class="hCost">${herd.cost}</td>
-				<td class="hTag">${hered.tagNumber}</td>
-				<td class="hSale">${hered.estimatedSaleDate}</td>
-				<td class="hImplant">${herd.implantDate}</td>
-				<td class="hOptiflex">${herd.optiflexDate}</td>
+				<td class="hTag">${herd.tagNumber}</td>
+				<td class="hSale"><fmt:formatDate value="${herd.estimatedSaleDate}" pattern="MM/dd/yyyy"/></td>
+				<td class="hImplant"><fmt:formatDate value="${herd.implantDate}" pattern="MM/dd/yyyy"/></td>
+				<td class="hOptiflex"><fmt:formatDate value="${herd.optiflexDate}" pattern="MM/dd/yyyy"/></td>
 				<td class="hSupplier" data-supplier="${herd.supplier.id}">${herd.supplier.name}</td>
-				<td class="hEntered">${herd.dateEntered}</td>
+				<td class="hEntered"><fmt:formatDate value="${herd.dateEntered}" pattern="MM/dd/yyyy"/></td>
 				<td>
 					<button id="${buyLivestock.id}" onclick="openBuyLivestockPopup(this,true);" type="button" class="btn btn-info btn-xs">Edit</button>
 				</td>
@@ -70,7 +71,12 @@
 		</div>
 		<div class="form-group">
 		  <label for="supplier">Supplier:</label>
-		  <input type="text" class="form-control" id="supplier">
+		  <select class="form-control" id="supplier">
+		  	<option value="0">Select Supplier</option>
+		  	<c:forEach var="supplier" items="${suppliers}">
+			    <option value="${supplier.id}">${supplier.name}</option>
+		    </c:forEach>
+		  </select>
 		</div>		
 		<div id="popup_btns">
 			<button id="save_buyLivestock" onclick="saveBuyLivestock()" type="button" class="btn btn-primary">Save</button>

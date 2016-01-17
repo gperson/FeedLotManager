@@ -209,7 +209,7 @@ function openBuyLivestockPopup(e,edit){
 	
 	if(edit === true){
 		$("#save_buyLivestock").attr("data-id",id);
-		$("#save_buyLivestock").attr("data-supplier",$("#supplier").attr("data-supplier"));
+		$("#supplier").val(row.find(".hSupplier").attr("data-supplier"));
 		$("#quantity").val(row.find(".hQuantity").text());
 		$("#weight").val(row.find(".hWeight").text());
 		$("#cost").val(row.find(".hCost").text());
@@ -217,10 +217,8 @@ function openBuyLivestockPopup(e,edit){
 		$("#estimatedSaleDate").val(row.find(".hSale").text());
 		$("#implantDate").val(row.find(".hImplant").text());
 		$("#optiflexDate").val(row.find(".hOptiflex").text());
-		$("#supplier").val(row.find(".hSupplier").text());
 	} else {
 		$("#save_buyLivestock").attr("data-id",0);
-		$("#save_buyLivestock").attr("data-supplier",0);
 		$("#quantity").val("");
 		$("#weight").val("");
 		$("#cost").val("");
@@ -228,7 +226,7 @@ function openBuyLivestockPopup(e,edit){
 		$("#estimatedSaleDate").val("");
 		$("#implantDate").val("");
 		$("#optiflexDate").val("");
-		$("#supplier").val("");
+		$("#supplier").val(0);
 	}
 
 	$("#fade").show();
@@ -236,18 +234,6 @@ function openBuyLivestockPopup(e,edit){
 };
 
 function saveBuyLivestock(){
-	var obj = JSON.stringify({ 
-		id : parseInt($("#save_buyLivestock").attr("data-id")), 
-		quantity : $("#quantity").val(),
-		weight : $("#weight").val(),
-		cost : $("#cost").val(),
-		tagNumber : $("#tagNumber").val(),
-		estimatedSaleDate : Date.parse($("#estimatedSaleDate").val()),
-		implantDate : Date.parse(($("#implantDate").val())),
-		optiflexDate : Date.parse($("#optiflexDate").val()),
-		supplier : {
-			id : parseInt($("#supplier").attr("data-supplier"))
-		}});
 	$.ajax({
 		type : "POST",
 		headers: headers,
@@ -262,7 +248,7 @@ function saveBuyLivestock(){
 			implantDate : Date.parse($("#implantDate").val()),
 			optiflexDate : Date.parse($("#optiflexDate").val()),
 			supplier : {
-				id : parseInt($("#supplier").attr("data-supplier"))
+				id : parseInt($("#supplier").val())
 			}
 		}),
 		dataType : 'json',

@@ -23,7 +23,7 @@ public class HerdDaoImpl implements HerdDao {
 
 	@Override
 	public List<Herd> getHerds(int farmId) {
-		String sql = "SELECT herdId, quantity, weight, cost, tagNumber, estimatedSaleDate, implantDate, optiflexDate, dateEntered, "
+		String sql = "SELECT herdId, quantity, weight, cost, tagNumber, estimatedSaleDate, implantDate, optiflexDate, dateEntered, sold "
 				+ "S.supplierId, supplierName, supplierLocation "
 				+ "FROM HERD H JOIN SUPPLIER S ON H.supplierId = S.supplierId WHERE H.farmId=" + farmId;
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Herd>>() {
@@ -35,16 +35,18 @@ public class HerdDaoImpl implements HerdDao {
 					h.setId(rs.getInt("herdId"));
 					h.setQuantity(rs.getInt("quantity"));
 					h.setWeight(rs.getDouble("weight"));
-					h.setWeight(rs.getDouble("cost"));
+					h.setCost(rs.getDouble("cost"));
 					h.setTagNumber(rs.getString("tagNumber"));
 					h.setEstimatedSaleDate(rs.getDate("estimatedSaleDate"));
 					h.setImplantDate(rs.getDate("implantDate"));
 					h.setOptiflexDate(rs.getDate("optiflexDate"));
 					h.setDateEntered(rs.getDate("dateEntered"));
+					h.setSold(rs.getBoolean("sold"));
 					Supplier s = new Supplier();
 					s.setId(rs.getInt("supplierId"));
 					s.setLocation(rs.getString("supplierLocation"));
 					s.setName(rs.getString("supplierName"));
+					h.setSupplier(s);
 					herds.add(h);
 				}
 				return herds;
@@ -55,13 +57,17 @@ public class HerdDaoImpl implements HerdDao {
 	@Override
 	public void saveOrUpdate(Herd herd, int farmId) {
 		String sql = "INSERT INTO HERD "+
-				 "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-	if(herd.getId() != 0){
-		sql = "UPDATE HERD SET quantity=?,weight=?,cost=?,tagNumber=?,estimatedSaleDate=?,implantDate=?,optiflexDate=?,dateEntered=?,supplierId=? where herdId=? AND farmId =?";
-		this.jdbcTemplate.update(sql, new Object[]{herd.getQuantity(),herd.getWeight(),herd.getCost(),herd.getTagNumber(),herd.getEstimatedSaleDate(),herd.getImplantDate(),herd.getOptiflexDate(),herd.getDateEntered(),herd.getSupplier().getId(),herd.getId(),farmId});
-	} else {
-		this.jdbcTemplate.update(sql, new Object[]{0,farmId,herd.getQuantity(), herd.getWeight(),herd.getTagNumber(),herd.getEstimatedSaleDate(),herd.getImplantDate(),herd.getOptiflexDate(),herd.getDateEntered(),herd.getSupplier().getId()});
-	}
+				"VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+		if(herd.getId() != 0){
+			sql = "UPDATE HERD SET quantity=?,weight=?,cost=?,tagNumber=?,estimatedSaleDate=?,implantDate=?,optiflexDate=?,supplierId=? where herdId=? AND farmId =?";
+			this.jdbcTemplate.update(sql, new Object[]{herd.getQuantity(),herd.getWeight(),herd.getCost(),herd.getTagNumber(),herd.getEstimatedSaleDate(),herd.getImplantDate(),herd.getOptiflexDate(),herd.getSupplier().getId(),herd.getId(),farmId});
+		} else {
+			this.jdbcTemplate.update(sql, 
+					new Object[]{0,farmId,herd.getQuantity(), herd.getWeight(), herd.getCost(),
+					herd.getTagNumber(), herd.getEstimatedSaleDate(),herd.getImplantDate(),
+					herd.getOptiflexDate(), herd.getDateEntered(),herd.getSupplier().getId(),
+					herd.isSold()});
+		}
 	}
 
 }

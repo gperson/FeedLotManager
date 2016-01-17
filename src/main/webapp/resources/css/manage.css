@@ -31,6 +31,9 @@
 	z-index:2000;
 	overflow: auto;
 }
+#buyLivestock_popup{
+	top: 5% !important;
+}
 
 #popup_btns {
 	margin-top: 15px;
