@@ -121,6 +121,76 @@ function loadFeedTab(){
 	});		
 }
 
+function openFeedPopup(e,edit){
+	var row = $(e).parent().parent();
+	var id = row.attr("id");
+	
+	if(edit === true){
+		$("#save_feed").attr("data-id",id);
+		$("#feedType").val(row.find(".fFeedType").text());
+		$("#dmp").val(row.find(".fDMP").text());
+	} else {
+		$("#save_feed").attr("data-id",0);
+		$("#feedType").val("");
+		$("#dmp").val("");
+	}
+
+	$("#fade").show();
+	$("#feed_popup").show();
+};
+
+function saveFeed(){
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/admin/saveFeed",
+		data : JSON.stringify({ 
+			id : parseInt($("#save_feed").attr("data-id")), 
+			feedType : $("#feedType").val(),
+			driedMatterPercentage : $("#dmp").val(),
+			enabled : true
+		}),
+		dataType : 'json',
+		contentType: 'application/json',
+		success : function(result){
+			if(result.success === true){
+				loadFeedTab();
+			} else {
+				alert("An error occurred.");
+			}
+			
+		}
+	});
+	$("#fade").hide();
+	$("#feed_popup").hide();
+}
+
+function closeFeedPopup(){
+	$("#fade").hide();
+	$("#feed_popup").hide();
+}
+
+function enableDisableFeed(id,enable){
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/admin/enableDisableFeed",
+		data : JSON.stringify({ 
+			id : id,
+			enabled : enable, 			
+		}),
+		dataType : 'json',
+		contentType: 'application/json',
+		success : function(result){
+			if(result.success === true){
+				loadFeedTab();
+			} else {
+				alert("An error occurred.");
+			}		
+		}
+	});
+}
+
 function loadLivestockTab(){
 	$.ajax({
 		type : "GET",
@@ -239,7 +309,7 @@ function saveSupplier(){
 		headers: headers,
 		url : "/admin/saveSupplier",
 		data : JSON.stringify({ 
-			id : parseInt($("#save_location").attr("data-id")), 
+			id : parseInt($("#save_supplier").attr("data-id")), 
 			name : $("#supplierName").val(),
 			location : $("#supplierLocation").val()
 		}),
@@ -368,7 +438,7 @@ function enableDisableUser(id,enable){
 		contentType: 'application/json',
 		success : function(result){
 			if(result.success === true){
-				
+				loadUsersTab();
 			} else {
 				alert("An error occurred.");
 			}		

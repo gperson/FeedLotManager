@@ -53,4 +53,10 @@ public class FeedDaoImpl implements FeedDao {
 		}	
 	}
 
+	@Override
+	public void enableDisableFeed(Feed feed, int farmId) {
+		String sql =  "UPDATE FEED_TYPES SET enabled =? WHERE feedTypeId=? AND farmId=?";
+		this.jdbcTemplate.update(sql, new Object[]{feed.isEnabled(),feed.getId(),farmId});
+	}
+
 }
