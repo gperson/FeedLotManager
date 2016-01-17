@@ -34,8 +34,8 @@
 		  <input type="text" class="form-control" id="supplierLocation">
 		</div>		
 		<div id="popup_btns">
-			<button id="save_location" onclick="saveSupplier()" type="button" class="btn btn-primary">Save</button>
-			<button id="cancel_location" onclick="closeSupplierPopup()" type="button" class="btn btn-default">Cancel</button>
+			<button id="save_supplier" onclick="saveSupplier()" type="button" class="btn btn-primary">Save</button>
+			<button id="cancel_supplier" onclick="closeSupplierPopup()" type="button" class="btn btn-default">Cancel</button>
 		</div>
 	</form>
 </div>

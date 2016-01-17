@@ -15,11 +15,11 @@ INSERT INTO USERS
 VALUES (2,'HHolz', 'Howard', 'Holz', 'howard@gmail.com', '$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.',1, 1);
 #Seed ROLES Table
 INSERT INTO ROLES
-VALUES ('JHolz','ADMIN');
+VALUES ('JHolz','Admin');
 INSERT INTO ROLES
-VALUES ('JHolz','DEFAULT');
+VALUES ('JHolz','Default');
 INSERT INTO ROLES
-VALUES ('HHolz','DEFAULT');
+VALUES ('HHolz','Default');
 
 #Seed HERDS ETC
 #Seed HERD

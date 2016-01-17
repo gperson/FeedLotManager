@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.holz.web.models.Supplier;
 import com.holz.web.models.User;
 import com.holz.web.models.enums.FarmLoadOption;
 import com.holz.web.models.responses.AjaxResponse;
@@ -46,6 +45,14 @@ public class UsersTabController {
 	@RequestMapping(value = { "/admin/resetPassword" }, method = RequestMethod.POST)
 	public AjaxResponse UpdatePassword(@RequestBody User user, Principal principal) {
 		this.userServives.resetPassword(user.getUsername());
+		return new AjaxResponse(true);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = { "/admin/enableDisableUser" }, method = RequestMethod.POST)
+	public AjaxResponse EnableDisableUser(@RequestBody User user, Principal principal) {
+		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		this.userServives.enableDisableUser(user, farmId);
 		return new AjaxResponse(true);
 	}
 }

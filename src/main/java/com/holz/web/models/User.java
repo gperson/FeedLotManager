@@ -1,5 +1,9 @@
 package com.holz.web.models;
 
+import java.util.List;
+
+import com.holz.web.models.enums.RoleType;
+
 public class User {
 	private int id;						
 	private String username;						
@@ -9,6 +13,7 @@ public class User {
 	private String password;						
 	private Farm farm;
 	private boolean enabled;
+	private List<RoleType> roles;
 	
 	public int getId() {
 		return id;
@@ -57,5 +62,11 @@ public class User {
 	}
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	public List<RoleType> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<RoleType> roles) {
+		this.roles = roles;
 	}
 }

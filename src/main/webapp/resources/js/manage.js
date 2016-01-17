@@ -146,12 +146,12 @@ function loadPackersTab(){
 }
 
 function openPackerPopup(e,edit){
-	var id = $(e).attr("id");
+	var id = $(e).attr("id"), row = $(e).parent().parent();
 	
 	if(edit === true){
 		$("#save_location").attr("data-id",id);
-		$("#packerName").val($(e).parent().parent().find(".pName").text());
-		$("#packerLocation").val($(e).parent().parent().find(".pLocation").text());
+		$("#packerName").val(row.find(".pName").text());
+		$("#packerLocation").val(row.find(".pLocation").text());
 	} else {
 		$("#save_location").attr("data-id",0);
 		$("#packerName").val("");
@@ -181,10 +181,6 @@ function savePacker(){
 				alert("An error occurred.");
 			}
 			
-		},
-		error: function (xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
 		}
 	});
 	$("#fade").hide();
@@ -221,14 +217,14 @@ function loadSuppliersTab(){
 }
 
 function openSupplierPopup(e,edit){
-	var id = $(e).attr("id");
+	var id = $(e).attr("id"), row = $(e).parent().parent();
 	
 	if(edit === true){
-		$("#save_location").attr("data-id",id);
-		$("#supplierName").val($(e).parent().parent().find(".sName").text());
-		$("#supplierLocation").val($(e).parent().parent().find(".sLocation").text());
+		$("#save_supplier").attr("data-id",id);
+		$("#supplierName").val(row.find(".sName").text());
+		$("#supplierLocation").val(row.find(".sLocation").text());
 	} else {
-		$("#save_location").attr("data-id",0);
+		$("#save_supplier").attr("data-id",0);
 		$("#supplierName").val("");
 		$("#supplierLocation").val("");
 	}
@@ -256,10 +252,6 @@ function saveSupplier(){
 				alert("An error occurred.");
 			}
 			
-		},
-		error: function (xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
 		}
 	});
 	$("#fade").hide();
@@ -281,4 +273,110 @@ function loadUsersTab(){
 			$('#users').append($(e));
 		}
 	});		
+}
+
+function openUserPopup(e,edit){
+	var row = $(e).parent().parent();
+	var id = row.attr("id");
+	
+	if(edit === true){
+		$("#save_user").attr("data-id",id);
+		$("#username").val(row.find(".uUsername").text());
+		$("#username").prop("disabled",true);
+		$("#userFirstName").val(row.find(".uName").text().split(" ")[0]);
+		$("#userLastName").val(row.find(".uName").text().split(" ")[1]);
+		$("#email").val(row.find(".uEmail").text());
+		$("#adminRole").prop('checked',row.find(".uRoles").text().indexOf("Admin") > -1 ? true : false);
+	} else {
+		$("#save_user").attr("data-id",0);
+		$("#username").val("");
+		$("#userFirstName").val("");
+		$("#userLastName").val("");
+		$("#email").val("");
+		$("#username").prop("disabled",false);
+		$("#adminRole").prop('checked', false);
+	}
+
+	$("#fade").show();
+	$("#user_popup").show();
+};
+
+function saveUser(){
+	var uRoles =  [ 'Default' ];
+	if($("#adminRole").prop("checked") === true){
+		uRoles[1] = "Admin";
+	}
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/admin/saveUser",
+		data : JSON.stringify({ 
+			id : parseInt($("#save_user").attr("data-id")), 
+			firstName : $("#userFirstName").val(),
+			lastName : $("#userLastName").val(),
+			email : $("#email").val(),
+			username : $("#username").val(),
+			roles : uRoles,
+			enabled : true,
+			password : ''
+		}),
+		dataType : 'json',
+		contentType: 'application/json',
+		success : function(result){
+			if(result.success === true){
+				loadUsersTab();
+			} else {
+				alert("An error occurred.");
+			}
+			
+		}
+	});
+	$("#fade").hide();
+	$("#user_popup").hide();
+}
+
+function resetPassword(username){	
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/admin/resetPassword",
+		data : JSON.stringify({ 
+			username : username, 			
+		}),
+		dataType : 'json',
+		contentType: 'application/json',
+		success : function(result){
+			if(result.success === true){
+				loadUsersTab();
+			} else {
+				alert("An error occurred.");
+			}		
+		}
+	});
+}
+
+function enableDisableUser(id,enable){
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/admin/enableDisableUser",
+		data : JSON.stringify({ 
+			id : id,
+			enabled : enable, 			
+		}),
+		dataType : 'json',
+		contentType: 'application/json',
+		success : function(result){
+			if(result.success === true){
+				
+			} else {
+				alert("An error occurred.");
+			}		
+		}
+	});
+}
+
+function closeUserPopup(){
+	$("#fade").hide();
+	$("#user_popup").hide();
 }

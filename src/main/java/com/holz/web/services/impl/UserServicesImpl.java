@@ -1,6 +1,7 @@
 package com.holz.web.services.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +26,11 @@ public class UserServicesImpl implements UserServices {
 
 	@Override
 	public void saveOrUpdateUser(User user, int farmId) {
+		if(user.getId() == 0){
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String uuid = UUID.randomUUID().toString();
+			user.setPassword(passwordEncoder.encode(uuid));
+		}
 		this.userDao.saveOrUpdate(user, farmId);		
 	}
 
@@ -33,6 +39,11 @@ public class UserServicesImpl implements UserServices {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		//TODO Send email to reset password
 		this.userDao.updatePassword(username, passwordEncoder.encode("ChangeMe"));
+	}
+
+	@Override
+	public void enableDisableUser(User user, int farmId) {
+		this.userDao.enableDisableUser(user, farmId);
 	}
 
 }

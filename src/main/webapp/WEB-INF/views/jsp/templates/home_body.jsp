@@ -8,7 +8,7 @@
 	<div class="center_row col-md-12">
 		<a href="/editFeeding" class="btn btn-default" role="button">Edit Existing</a>
 	</div>
-	<sec:authorize access="hasRole('ADMIN')">
+	<sec:authorize access="hasRole('Admin')">
 		<div class="center_row col-md-12">
 			<a href="/admin/manage" class="btn btn-default" role="button">Manage</a>
 		</div>

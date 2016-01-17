@@ -11,4 +11,6 @@ public interface UserServices {
 	void saveOrUpdateUser(User user,int farmId);
 	
 	void resetPassword(String username);
+
+	void enableDisableUser(User user, int farmId);
 }
