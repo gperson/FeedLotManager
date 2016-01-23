@@ -22,7 +22,7 @@ public class LocaleDaoImpl implements LocaleDao {
 
 	@Override
 	public List<Locale> getLocales(int farmId) {
-		String sql = "SELECT localeId, localeName, livestockCount, enabled FROM LOCALE WHERE farmId = "+farmId;
+		String sql = "SELECT localeId, localeName, enabled FROM LOCALE WHERE farmId = "+farmId;
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Locale>>() {
 			@Override
 			public List<Locale> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -31,7 +31,6 @@ public class LocaleDaoImpl implements LocaleDao {
 					Locale l = new Locale();
 					l.setId(rs.getInt("localeId"));
 					l.setLocaleName(rs.getString("localeName"));
-					l.setLivestockCount(rs.getInt("livestockCount"));
 					l.setEnabled(rs.getBoolean("enabled"));
 					locales.add(l);
 				}
@@ -45,10 +44,10 @@ public class LocaleDaoImpl implements LocaleDao {
 		String sql = "INSERT INTO LOCALE "+
 				"VALUES (?,?,?,?)";
 		if(locale.getId() != 0){
-			sql = "UPDATE SUPPLIER SET localeName=?,livestockCount=? where localeId=? AND farmId=?";
-			this.jdbcTemplate.update(sql, new Object[]{locale.getLocaleName(),locale.getLivestockCount(),locale.getId(),farmId});
+			sql = "UPDATE LOCALE SET localeName=? where localeId=? AND farmId=?";
+			this.jdbcTemplate.update(sql, new Object[]{locale.getLocaleName(),locale.getId(),farmId});
 		} else {
-			this.jdbcTemplate.update(sql, new Object[]{0,farmId,locale.getLocaleName(),locale.getLivestockCount()});
+			this.jdbcTemplate.update(sql, new Object[]{0,farmId,locale.getLocaleName(),true});
 		}
 	}
 
@@ -56,5 +55,22 @@ public class LocaleDaoImpl implements LocaleDao {
 	public void enableDisableLocale(Locale locale, int farmId) {
 		String sql =  "UPDATE LOCALE SET enabled =? WHERE localeId=? AND farmId=?";
 		this.jdbcTemplate.update(sql, new Object[]{locale.isEnabled(),locale.getId(),farmId});
+	}
+
+	@Override
+	public boolean hasAccessToLocale(int farmId, Locale locale) {
+		String sql = "SELECT COUNT(*) AS LocalesFound FROM LOCALE WHERE farmId = "+ farmId +
+				" AND localeId = " + locale.getId();
+		
+		int found = jdbcTemplate.query(sql, new ResultSetExtractor<Integer>() {
+			@Override
+			public Integer extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if(rs.next()){
+					return rs.getInt("LocalesFound");
+				}
+				return 0;
+			}
+		});
+		return found == 1;
 	}
 }

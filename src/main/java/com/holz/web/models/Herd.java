@@ -14,8 +14,7 @@ public class Herd {
 	private Date optiflexDate;
 	private Date dateEntered;
 	private Supplier supplier;
-	private boolean sold;
-	
+	private GroupedHerd groupedHerd;
 	public int getId() {
 		return id;
 	}
@@ -76,10 +75,10 @@ public class Herd {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
-	public boolean isSold() {
-		return sold;
+	public GroupedHerd getGroupedHerd() {
+		return groupedHerd;
 	}
-	public void setSold(boolean sold) {
-		this.sold = sold;
+	public void setGroupedHerd(GroupedHerd groupedHerd) {
+		this.groupedHerd = groupedHerd;
 	}
 }

@@ -11,5 +11,7 @@ public interface LocaleDao {
 	void saveOrUpdate(Locale locale, int farmId);
 
 	void enableDisableLocale(Locale locale, int farmId);
+
+	boolean hasAccessToLocale(int farmId, Locale locale);
 	
 }

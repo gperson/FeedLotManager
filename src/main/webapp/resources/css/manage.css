@@ -52,3 +52,9 @@
 	opacity:.60;
 	filter: alpha(opacity=6 0);
 }
+#name {
+	font-weight: normal;
+}
+#herd_swapper{
+	margin-bottom: 12px;
+}

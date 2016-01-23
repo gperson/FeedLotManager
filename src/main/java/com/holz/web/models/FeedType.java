@@ -1,10 +1,11 @@
 package com.holz.web.models;
 
-public class Feed {
+public class FeedType {
 	private int id;
 	private String feedType;
 	private double driedMatterPercentage;
 	private boolean enabled;
+	
 	public int getId() {
 		return id;
 	}

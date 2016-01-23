@@ -100,6 +100,58 @@ function loadLocationsTab(){
 }
 
 function saveLocation(){
+	var locationId = parseInt($("#save_location").attr("data-id"));
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/admin/saveLocale",
+		data : JSON.stringify({ 
+			id : locationId, 
+			localeName : $("#name").val(),
+			enabled : true
+		}),
+		dataType : 'json',
+		contentType: 'application/json',
+		success : function(result){
+			if(result.success === true){
+				var groupId = parseInt($("#save_location").attr("data-group"));
+				var herdIds = $("#new_group_herds").find("option");
+				var orphansIds = $("#orphan_group_herds").find("option");
+				var newHerds = [], orphanHerds = [];
+				var index = 0;
+				for(i = 0; i < herdIds.length;i++){
+					newHerds[i] = $(herdIds[i]).val();
+				}
+				for(i = 0; i < orphansIds.length;i++){
+					orphanHerds[i] = $(orphansIds[i]).val();
+				}
+				$.ajax({
+					type : "POST",
+					headers: headers,
+					url : "/admin/saveGroupedHerd",
+					data : JSON.stringify({
+						groupedId : groupId,
+						localeId : locationId,
+						current : newHerds,
+						orphans : orphanHerds
+					}),
+					dataType : 'json',
+					contentType: 'application/json',
+					success : function(result){
+						if(result.success === true){
+							loadLocationsTab();
+						} else {
+							alert("An error updating new herds occurred.");
+						}
+						
+					}
+				});
+			} else {
+				alert("An error saving location information occurred.");
+			}
+			
+		}
+	});
 	$("#fade").hide();
 	$("#location_popup").hide();
 }
@@ -108,6 +160,31 @@ function closeLocationPopup(){
 	$("#fade").hide();
 	$("#location_popup").hide();
 }
+
+function openLocationPopup(e,edit){
+	var row = $(e).parent().parent();
+	var id = row.attr("id");
+	var groupId = row.attr('data-group');
+	
+	if(edit === true){
+		$("#save_location").attr("data-id",id);
+		$("#save_location").attr("data-group",groupId);
+		$("#name").val(row.find(".lName").text());
+		var current = row.find('.lHerds').text().trim();
+		$("#new_group_herds option").remove();
+		if(!(current === "")){
+			$("#new_group_herds").append($('<option id="current_group" value="'+current+'">'+current+'</option>'));
+		}
+	} else {
+		$("#save_location").attr("data-id",0);
+		$("#save_location").attr("data-group",0);
+		$("#name").val('');
+		$("#new_group_herds option").remove();
+	}
+
+	$("#fade").show();
+	$("#location_popup").show();
+};
 
 function loadFeedTab(){
 	$.ajax({

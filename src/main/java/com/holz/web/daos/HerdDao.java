@@ -6,10 +6,14 @@ import com.holz.web.models.Herd;
 
 public interface HerdDao {
 
-	List<Herd> getHerds(int farmId);
+	List<Herd> getAllHerds(int farmId);
 	
 	void saveOrUpdate(Herd herd, int farmId);
 
-	List<Herd> getHerdsForLocale(int farmId, int localeId);
+	List<Herd> getHerdsForGroupedLocal(int farmId, int groupedLocale);
+
+	List<Herd> getOrphanHerds(int farmId);
+
+	void updateGroupIds(List<Herd> herds, int groupId, int farmId);
 	
 }

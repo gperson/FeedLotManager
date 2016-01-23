@@ -33,7 +33,7 @@ public class LivestockTabController {
 	public ModelAndView LivestockTab(Principal principal) {
 		ModelAndView model = new ModelAndView("templates/manage/livestock_tab");
 		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
-		model.addObject("herds", this.herdServices.getHerds(farmId));
+		model.addObject("herds", this.herdServices.getAllHerds(farmId));
 		model.addObject("suppliers", this.supplierServices.getSuppliers(farmId));
 		return model;
 	}

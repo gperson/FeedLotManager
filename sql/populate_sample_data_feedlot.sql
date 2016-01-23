@@ -24,13 +24,13 @@ VALUES ('HHolz','Default');
 #Seed HERDS ETC
 #Seed HERD
 INSERT INTO HERD
-VALUES (1, 1, 500, 600, 140, 'HOLZ1', NOW(), NOW(), NOW(), NOW());
+VALUES (0, 1, 500, 600, 140, 'HOLZ1', NOW(), NOW(), NOW(), NOW(),1,false);
 INSERT INTO HERD
-VALUES (2, 1, 200, 800, 150, 'HOLZ2', NOW(), NOW(), NOW(), NOW());
+VALUES (0, 1, 200, 800, 150, 'HOLZ2', NOW(), NOW(), NOW(), NOW(),2,false);
 INSERT INTO HERD
-VALUES (3, 1, 50, 800, 120, 'HOLZ3', NOW(), NOW(), NOW(), NOW());
+VALUES (0, 1, 50, 800, 120, 'HOLZ3', NOW(), NOW(), NOW(), NOW(),1,false);
 INSERT INTO HERD
-VALUES (4, 1, 700, 700, 180, 'HOLZ4', NOW(), NOW(), NOW(), NOW());
+VALUES (0, 1, 700, 700, 180, 'HOLZ4', NOW(), NOW(), NOW(), NOW(),1,false);
 #Seed SUPPLIER
 INSERT INTO SUPPLIER
 VALUES (1, 'Bob Huggins','Algona, IA',1);
@@ -38,13 +38,13 @@ INSERT INTO SUPPLIER
 VALUES 	(2, 'Ray Ramano', 'Fort Worth Texas',1);
 #Seed Locale
 INSERT INTO LOCALE
-VALUES (1, 1, 'Home Place SW');
+VALUES (1, 1, 'Home Place SW',0);
 INSERT INTO LOCALE
-VALUES (2, 1, 'Home Place NW');
+VALUES (2, 1, 'Home Place NW',0);
 INSERT INTO LOCALE
-VALUES (3, 1, 'Home Place New Shed');
+VALUES (3, 1, 'Home Place New Shed',0);
 INSERT INTO LOCALE
-VALUES (4, 1, 'South Place');
+VALUES (4, 1, 'South Place',0);
 #Seed Locale Herd Mapping
 INSERT INTO HERD_LOCALE_MAP
 VALUES (1, 1, 1, NOW());
@@ -54,7 +54,10 @@ INSERT INTO HERD_LOCALE_MAP
 VALUES (3, 1, 3, NOW());
 INSERT INTO HERD_LOCALE_MAP
 VALUES (4, 4, 4, NOW());
-
+INSERT INTO HERD_LOCALE_MAP
+VALUES (5, null, 3, NOW());
+INSERT INTO HERD_LOCALE_MAP
+VALUES (6, null, 2, NOW());
 #Seed FEEDING ETC
 #Seed FEED_TYPES
 INSERT INTO FEED_TYPES

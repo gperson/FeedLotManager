@@ -6,10 +6,12 @@ import com.holz.web.models.Locale;
 
 public interface LocaleServices {
 
-	List<Locale> getLocales(int farmId);
+	List<Locale> getLocalesAndGroupedHerd(int farmId);
 	
 	void saveOrUpdateLocale(Locale locale,int farmId);
 
 	void enableDisableUser(Locale locale, int farmId);
+
+	boolean hasAccessToLocale(int farmId, Locale locale);
 	
 }

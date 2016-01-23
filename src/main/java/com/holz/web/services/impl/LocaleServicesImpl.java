@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.holz.web.daos.GroupedHerdDao;
 import com.holz.web.daos.HerdDao;
 import com.holz.web.daos.LocaleDao;
+import com.holz.web.models.GroupedHerd;
 import com.holz.web.models.Locale;
 import com.holz.web.services.LocaleServices;
 
@@ -20,21 +22,25 @@ public class LocaleServicesImpl implements LocaleServices {
 	
 	@Autowired
 	private HerdDao herdDao;
+	
+	@Autowired
+	private GroupedHerdDao groupedHerdDao;
 
 	@Override
-	public List<Locale> getLocales(int farmId) {
+	public List<Locale> getLocalesAndGroupedHerd(int farmId) {
 		List<Locale> locales = this.localeDao.getLocales(farmId);
 		for(Locale l : locales){
-			l.setHerds(this.herdDao.getHerdsForLocale(farmId,l.getId()));
+			GroupedHerd group = this.groupedHerdDao.getGroupedHerdForLocale(l.getId(), farmId);			
+			if(group != null){
+				group.setHerds(this.herdDao.getHerdsForGroupedLocal(farmId, group.getId()));
+			}
+			l.setGroupedHerd(group);
 		}
 		return locales;
 	}
 
 	@Override
 	public void saveOrUpdateLocale(Locale locale,int farmId) {
-		if(locale.getId() == 0){
-			locale.setLivestockCount(0);
-		}
 		this.localeDao.saveOrUpdate(locale, farmId);
 	}
 
@@ -42,4 +48,10 @@ public class LocaleServicesImpl implements LocaleServices {
 	public void enableDisableUser(Locale locale, int farmId) {
 		this.localeDao.enableDisableLocale(locale, farmId);
 	}
+
+	@Override
+	public boolean hasAccessToLocale(int farmId, Locale locales) {
+		return this.localeDao.hasAccessToLocale(farmId,locales);
+	}
+
 }

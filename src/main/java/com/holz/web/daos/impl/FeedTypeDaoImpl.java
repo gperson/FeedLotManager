@@ -11,25 +11,25 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
-import com.holz.web.daos.FeedDao;
-import com.holz.web.models.Feed;
+import com.holz.web.daos.FeedTypeDao;
+import com.holz.web.models.FeedType;
 
 @Repository
-public class FeedDaoImpl implements FeedDao {
+public class FeedTypeDaoImpl implements FeedTypeDao {
 
 	@Autowired 
 	JdbcTemplate jdbcTemplate; 
 	
 	@Override
-	public List<Feed> getFeeds(int farmId) {
+	public List<FeedType> getFeedTypes(int farmId) {
 		String sql = "SELECT F.feedTypeId, F.feedType, F.driedMatterPercentage, F.enabled "+ 
 					 "FROM FEED_TYPES F WHERE F.farmId=" + farmId;
-		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Feed>>() {
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<FeedType>>() {
 			@Override
-			public List<Feed> extractData(ResultSet rs) throws SQLException, DataAccessException {
-				List<Feed> feeds = new ArrayList<Feed>();
+			public List<FeedType> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<FeedType> feeds = new ArrayList<FeedType>();
 				while(rs.next()) {
-					Feed f = new Feed();
+					FeedType f = new FeedType();
 					f.setId(rs.getInt("feedTypeId"));
 					f.setDriedMatterPercentage(rs.getDouble("driedMatterPercentage"));
 					f.setFeedType(rs.getString("feedType"));
@@ -42,7 +42,7 @@ public class FeedDaoImpl implements FeedDao {
 	}
 
 	@Override
-	public void saveOrUpdate(Feed feed, int farmId) {
+	public void saveOrUpdate(FeedType feed, int farmId) {
 		String sql = "INSERT INTO FEED_TYPES "+
 					 "VALUES (?,?,?,?,?)";
 		if(feed.getId() != 0){
@@ -54,7 +54,7 @@ public class FeedDaoImpl implements FeedDao {
 	}
 
 	@Override
-	public void enableDisableFeed(Feed feed, int farmId) {
+	public void enableDisableFeedType(FeedType feed, int farmId) {
 		String sql =  "UPDATE FEED_TYPES SET enabled =? WHERE feedTypeId=? AND farmId=?";
 		this.jdbcTemplate.update(sql, new Object[]{feed.isEnabled(),feed.getId(),farmId});
 	}
