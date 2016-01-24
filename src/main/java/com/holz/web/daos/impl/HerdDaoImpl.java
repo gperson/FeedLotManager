@@ -27,7 +27,7 @@ public class HerdDaoImpl implements HerdDao {
 	String SELECT_HERD_INFO = "SELECT H.herdId, quantity, weight, cost, tagNumber, estimatedSaleDate, implantDate, optiflexDate, dateEntered, S.supplierId, supplierName, supplierLocation, H.groupedHerdsId "
 			+ "FROM HERD H "
 			+ "JOIN SUPPLIER S ON H.supplierId = S.supplierId ";
-	
+
 	@Override
 	public List<Herd> getAllHerds(int farmId) {
 		String sql = SELECT_HERD_INFO 
@@ -72,9 +72,8 @@ public class HerdDaoImpl implements HerdDao {
 				+ "AND H.groupedHerdsId IS NULL OR GH.localeId IS NULL ORDER BY H.herdId DESC";
 		return getHerds(sql);
 	}
-	
+
 	private List<Herd> getHerds(String sql){		
-		System.out.println(sql);
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Herd>>() {
 			@Override
 			public List<Herd> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -106,26 +105,31 @@ public class HerdDaoImpl implements HerdDao {
 
 	@Override
 	public void updateGroupIds(List<Herd> herds, int groupId, int farmId) {
-		String ids = "";
-		for(Herd h : herds)
-			ids = ids + "," + h.getId();
-		String sql = "UPDATE HERD SET groupedHerdsId=? where herdId IN("+ids.substring(1)+") AND farmId =?";
-		this.jdbcTemplate.update(sql, new Object[]{groupId,farmId});
+		if(herds.size() > 0){
+			String ids = "";
+			for(Herd h : herds)
+				ids = ids + "," + h.getId();
+			String sql = "UPDATE HERD SET groupedHerdsId=? where herdId IN("+ids.substring(1)+") AND farmId =?";
+			this.jdbcTemplate.update(sql, new Object[]{groupId,farmId});
+		}
 	}
 
 	@Override
 	public List<Herd> getHerds(List<Integer> ids, int farmId) {
-		String idsStr = "";
-		for(int id : ids)
-			idsStr = idsStr + "," + id;
-		String sql = SELECT_HERD_INFO 
-				+ "WHERE H.farmId=" + farmId + " AND H.herdId IN ("+idsStr.substring(1)+")";
-		return getHerds(sql);
+		if(ids.size() > 0){
+			String idsStr = "";
+			for(int id : ids)
+				idsStr = idsStr + "," + id;
+			String sql = SELECT_HERD_INFO 
+					+ "WHERE H.farmId=" + farmId + " AND H.herdId IN ("+idsStr.substring(1)+")";
+			return getHerds(sql);
+		}
+		return new ArrayList<Herd>();
 	}
-	
+
 	private Date getDateTime(Timestamp ts){
 		if (ts != null)
-		    return new java.util.Date(ts.getTime());
+			return new java.util.Date(ts.getTime());
 		else
 			return null;
 	}

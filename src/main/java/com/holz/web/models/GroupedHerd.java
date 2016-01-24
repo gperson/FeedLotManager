@@ -40,9 +40,11 @@ public class GroupedHerd {
 		this.id = id;
 	}
 	public int getCount() {
+		if(this.herds != null){
+			for(Herd h : this.herds){
+				count = count + h.getQuantity();
+			}
+		}
 		return count;
-	}
-	public void setCount(int count) {
-		this.count = count;
 	}
 }

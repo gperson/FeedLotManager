@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.holz.web.models.GroupedHerd;
 import com.holz.web.models.GroupedHerdUpdate;
 import com.holz.web.models.Locale;
 import com.holz.web.models.enums.FarmLoadOption;
