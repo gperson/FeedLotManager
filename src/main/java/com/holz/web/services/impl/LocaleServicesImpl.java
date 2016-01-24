@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.holz.web.daos.GroupedHerdDao;
 import com.holz.web.daos.HerdDao;
 import com.holz.web.daos.LocaleDao;
+import com.holz.web.daos.SaleDao;
 import com.holz.web.models.GroupedHerd;
 import com.holz.web.models.Locale;
 import com.holz.web.services.LocaleServices;
@@ -24,6 +25,9 @@ public class LocaleServicesImpl implements LocaleServices {
 	private HerdDao herdDao;
 	
 	@Autowired
+	private SaleDao saleDao;
+	
+	@Autowired
 	private GroupedHerdDao groupedHerdDao;
 
 	@Override
@@ -32,7 +36,8 @@ public class LocaleServicesImpl implements LocaleServices {
 		for(Locale l : locales){
 			GroupedHerd group = this.groupedHerdDao.getGroupedHerdForLocale(l.getId(), farmId);			
 			if(group != null){
-				group.setHerds(this.herdDao.getHerdsForGroupedLocal(farmId, group.getId()));
+				group.setHerds(this.herdDao.getHerdsForGroupedHerd(farmId, group.getId()));
+				group.setSales(this.saleDao.getSalesForGroupHerd(farmId, group.getId()));
 			}
 			l.setGroupedHerd(group);
 		}

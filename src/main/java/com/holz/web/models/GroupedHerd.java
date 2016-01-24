@@ -7,7 +7,7 @@ public class GroupedHerd {
 	private List<Herd> herds;
 	private List<Feeding> feedings;
 	private Locale locale;
-	private Sale sale;
+	private List<Sale> sales;
 	private int count;
 	public Locale getLocale() {
 		return locale;
@@ -20,12 +20,6 @@ public class GroupedHerd {
 	}
 	public void setHerds(List<Herd> herds) {
 		this.herds = herds;
-	}
-	public Sale getSale() {
-		return sale;
-	}
-	public void setSale(Sale sale) {
-		this.sale = sale;
 	}
 	public List<Feeding> getFeedings() {
 		return feedings;
@@ -45,6 +39,17 @@ public class GroupedHerd {
 				count = count + h.getQuantity();
 			}
 		}
+		if(this.sales != null){
+			for(Sale s : sales){
+				count = count - s.getQuantity();
+			}
+		}
 		return count;
+	}
+	public List<Sale> getSales() {
+		return sales;
+	}
+	public void setSales(List<Sale> sales) {
+		this.sales = sales;
 	}
 }

@@ -1,5 +1,7 @@
 package com.holz.web.daos;
 
+import java.util.List;
+
 import com.holz.web.models.GroupedHerd;
 
 public interface GroupedHerdDao {
@@ -11,5 +13,7 @@ public interface GroupedHerdDao {
 	GroupedHerd saveNewGroupedHerd(GroupedHerd group);
 
 	void deleteGroupedHerd(int groupHerdId);
+
+	List<GroupedHerd> getGroupedHerds(int farmId);
 	
 }

@@ -360,11 +360,11 @@ function openPackerPopup(e,edit){
 	var id = $(e).attr("id"), row = $(e).parent().parent();
 	
 	if(edit === true){
-		$("#save_location").attr("data-id",id);
+		$("#save_packer").attr("data-id",id);
 		$("#packerName").val(row.find(".pName").text());
 		$("#packerLocation").val(row.find(".pLocation").text());
 	} else {
-		$("#save_location").attr("data-id",0);
+		$("#save_packer").attr("data-id",0);
 		$("#packerName").val("");
 		$("#packerLocation").val("");
 	}
@@ -379,7 +379,7 @@ function savePacker(){
 		headers: headers,
 		url : "/admin/savePacker",
 		data : JSON.stringify({ 
-			id : parseInt($("#save_location").attr("data-id")), 
+			id : parseInt($("#save_packer").attr("data-id")), 
 			name : $("#packerName").val(),
 			location : $("#packerLocation").val()
 		}),
@@ -413,6 +413,73 @@ function loadSoldLivestockTab(){
 			$('#soldLivestock').append($(e));
 		}
 	});		
+}
+
+function openSalePopup(e,edit){
+	var row = $(e).parent().parent();
+	var id = row.attr("id");
+	
+	if(edit === true){
+		$("#save_sale").attr("data-id",id);
+		$("#saPrice").val(row.find(".saPrice").text());
+		$("#saWeight").val(row.find(".saWeight").text());
+		$("#saDate").val(row.find(".saDate").text());
+		$("#saDressing").val(row.find(".saDressing").text());
+		$("#saShrink").val(row.find(".saShrink").text());
+		$("#saQuantity").val(row.find(".saQuantity").text());
+		$("#saPacker").val(row.find(".saPacker").text());
+		$("#saHerds").val(row.find(".saHerds").attr("id"));
+	} else {
+		$("#save_sale").attr("data-id",0);
+		$("#saPrice").val("");
+		$("#saWeight").val("");
+		$("#saDate").val("");
+		$("#saDressing").val("");
+		$("#saShrink").val("");
+		$("#saQuantity").val("");
+		$("#saPacker").val(0);
+		$("#saHerds").val(0);
+	}
+
+	$("#fade").show();
+	$("#sale_popup").show();
+};
+
+function saveSale(){
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/admin/saveSoldLivestock",
+		data : JSON.stringify({ 
+			id : parseInt($("#save_sale").attr("data-id")), 
+			packer : { id : $("#saPacker").val() },
+			quantity : $("#saQuantity").val(),
+			weight : $("#saWeight").val(),
+			dressingPercent : $("#saDressing").val(),
+			saleDate : $("#saDate").val(),
+			salePrice : $("#saPrice").val(),
+			shrinkPercent : $("#saShrink").val(),
+			location : $("#packerLocation").val(),
+			groupedHerd : { id : $("#saLocale").val() }
+		}),
+		dataType : 'json',
+		contentType: 'application/json',
+		success : function(result){
+			if(result.success === true){
+				loadSoldLivestockTab();
+			} else {
+				alert("An error occurred.");
+			}
+			
+		}
+	});
+	$("#fade").hide();
+	$("#sale_popup").hide();
+}
+
+function closeSalePopup(){
+	$("#fade").hide();
+	$("#sale_popup").hide();
 }
 
 function loadSuppliersTab(){

@@ -34,7 +34,7 @@ public class HerdServicesImpl implements HerdServices {
 
 	@Override
 	public List<Herd> getHerdsForGroupedLocal(int farmId, int groupedLocale) {
-		return this.herdDao.getHerdsForGroupedLocal(farmId, groupedLocale);
+		return this.herdDao.getHerdsForGroupedHerd(farmId, groupedLocale);
 	}
 
 	@Override

@@ -31,7 +31,7 @@
 	z-index:2000;
 	overflow: auto;
 }
-#buyLivestock_popup{
+#buyLivestock_popup, #sale_popup{
 	top: 5% !important;
 }
 

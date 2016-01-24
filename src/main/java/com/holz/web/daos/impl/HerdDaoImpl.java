@@ -55,12 +55,12 @@ public class HerdDaoImpl implements HerdDao {
 	}
 
 	@Override
-	public List<Herd> getHerdsForGroupedLocal(int farmId, int groupedHerdId) {
+	public List<Herd> getHerdsForGroupedHerd(int farmId, int groupedHerdId) {
 		String sql = SELECT_HERD_INFO 
 				+ "JOIN GROUPED_HERDS GH ON GH.groupedHerdsId = H.groupedHerdsId "
 				+ "WHERE H.farmId=" + farmId +" "
-				+ "AND GH.groupedHerdsId="+groupedHerdId + " "
-				+ "AND GH.groupedHerdsId NOT IN (SELECT groupedHerdsId FROM SALE) ORDER BY H.herdId DESC";
+				+ "AND GH.groupedHerdsId="+groupedHerdId + " ORDER BY H.herdId DESC";
+				//TODO Flag not sold + "AND GH.groupedHerdsId NOT IN (SELECT groupedHerdsId FROM SALE) ORDER BY H.herdId DESC";
 		return getHerds(sql);
 	}
 

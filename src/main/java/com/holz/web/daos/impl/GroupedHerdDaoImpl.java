@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import com.holz.web.daos.GroupedHerdDao;
 import com.holz.web.models.GroupedHerd;
+import com.holz.web.models.Locale;
 
 @Repository
 public class GroupedHerdDaoImpl implements GroupedHerdDao {
@@ -42,6 +45,31 @@ public class GroupedHerdDaoImpl implements GroupedHerdDao {
 		});
 	}
 
+	@Override
+	public List<GroupedHerd> getGroupedHerds(int farmId) {
+		String sql = "SELECT groupedHerdsId, L.localeId, L.localeName FROM GROUPED_HERDS GH "
+				+ "JOIN LOCALE L ON L.localeId = GH.localeId "
+				+ "WHERE farmId = " + farmId + " "
+				+ "AND GH.localeId IS NOT NULL";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<GroupedHerd>>() {
+			@Override
+			public List<GroupedHerd> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<GroupedHerd> groups = new ArrayList<GroupedHerd>();
+				while(rs.next()){
+					GroupedHerd gh = new GroupedHerd();
+					gh.setId(rs.getInt("groupedHerdsId"));
+					groups.add(gh);
+					Locale l = new Locale();
+					l.setLocaleName(rs.getString("localeName"));
+					l.setId(rs.getInt("localeId"));
+					gh.setLocale(l);
+				}
+				return groups;
+			}
+		});
+	}
+
+	
 	@Override
 	public GroupedHerd saveNewGroupedHerd(GroupedHerd group) {
 		final String sql = "INSERT INTO GROUPED_HERDS "+

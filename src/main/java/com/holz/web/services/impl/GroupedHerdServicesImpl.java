@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.holz.web.daos.GroupedHerdDao;
 import com.holz.web.daos.HerdDao;
+import com.holz.web.daos.LocaleDao;
 import com.holz.web.models.GroupedHerd;
 import com.holz.web.models.GroupedHerdUpdate;
 import com.holz.web.models.Herd;
@@ -26,6 +27,9 @@ public class GroupedHerdServicesImpl implements GroupedHerdServices {
 
 	@Autowired
 	private HerdDao herdDao;
+	
+	@Autowired
+	private LocaleDao localeDao;
 
 	@Override
 	public void saveOrUpdateGroupedHerd(GroupedHerdUpdate groupUpdate, int farmId) {
@@ -113,4 +117,8 @@ public class GroupedHerdServicesImpl implements GroupedHerdServices {
 		}
 	}
 
+	@Override
+	public List<GroupedHerd> getGroupedHerds(int farmId){
+		return this.groupedHerdDao.getGroupedHerds(farmId);
+	}
 }
