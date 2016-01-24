@@ -63,7 +63,7 @@ CREATE TABLE LOCALE (
 
 CREATE TABLE GROUPED_HERDS (
 	`groupedHerdsId`				INT UNIQUE NOT NULL AUTO_INCREMENT,
-    `localeId`						INT UNIQUE,
+    `localeId`						INT NULL,
 	PRIMARY KEY ( groupedHerdsId ),
     FOREIGN KEY ( localeId ) REFERENCES LOCALE( localeId )
 ) ENGINE = InnoDB;
@@ -115,17 +115,6 @@ CREATE TABLE FEED_TYPES (
     PRIMARY KEY ( feedTypeId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
 ) ENGINE = InnoDB;
-
-/*
-CREATE TABLE LOCALES_FEEDING (
-	`localeFeedingId`			INT UNIQUE NOT NULL AUTO_INCREMENT,
-	`localeId`					INT NOT NULL,
-    `feedingId`					INT NOT NULL,
-    `groupedHerdsId`				INT NOT NULL,
-    PRIMARY KEY ( localeFeedingId ),
-    FOREIGN KEY ( localeId ) REFERENCES LOCALE( localeId ),
-    FOREIGN KEY ( groupedHerdsId ) REFERENCES GROUPED_HERDS( groupedHerdsId )
-) ENGINE = InnoDB;*/
 
 CREATE TABLE FEEDING (
 	`feedingId`						INT UNIQUE NOT NULL AUTO_INCREMENT,

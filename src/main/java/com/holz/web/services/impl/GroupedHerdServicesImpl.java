@@ -1,6 +1,8 @@
 package com.holz.web.services.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,45 +23,93 @@ public class GroupedHerdServicesImpl implements GroupedHerdServices {
 
 	@Autowired
 	private GroupedHerdDao groupedHerdDao;
-	
+
 	@Autowired
 	private HerdDao herdDao;
 
 	@Override
 	public void saveOrUpdateGroupedHerd(GroupedHerdUpdate groupUpdate, int farmId) {
+
 		GroupedHerd group = new GroupedHerd();
-		group.setId(groupUpdate.getGroupedId());
 		Locale l = new Locale();
 		l.setId(groupUpdate.getLocaleId());
 		group.setLocale(l);
-		
-		if(group.getId() == 0){
-			//Create group if id = 0
-			group = this.groupedHerdDao.saveOrUpdateGroupedHerd(group);
-		}
-		
-		//Update adding new herds/group to group
+
+		//Get all herds that are going to be in the group
+		List<Integer> ids = new ArrayList<Integer>();
 		for(String h : groupUpdate.getCurrent()){
-			List<Herd> herds = new ArrayList<Herd>();
-			for(String herdId : h.replace(" ", "").split(",")){
-				Herd herd = new Herd();
-				herd.setId(Integer.parseInt(herdId));
-				herds.add(herd);
+			for(String herdId : h.trim().split(",")){
+				ids.add(Integer.parseInt(herdId.replace("\n", "").replace("\t", "").replace("\r", "").replace(" ", "")));
 			}
-			group.setHerds(herds);
-			this.herdDao.updateGroupIds(group.getHerds(),group.getId(),farmId);
 		}
+		if(ids.size() > 0){
+			group.setHerds(this.herdDao.getHerds(ids,farmId));
+		} else {
+			group.setHerds(new ArrayList<Herd>());
+		}
+
+		//Determine if these herds already belonged to a group
+		//If they belonged to a group and merging with a group, take oldest Id
+		Date oldest = new Date();
+		int oldestGroupId = 0;
+		for(Herd h : group.getHerds()){
+			if(h.getDateEntered().before(oldest) && h.getGroupedHerd().getId() != 0){
+				oldest = h.getDateEntered();
+				oldestGroupId = h.getGroupedHerd().getId();
+			}
+		}
+		group.setId(oldestGroupId);
 		
+		//Get Groups to delete
+		List<Integer> delete = new ArrayList<Integer>();
+		for(Herd h : group.getHerds()){
+			if(h.getGroupedHerd().getId() != oldestGroupId && h.getGroupedHerd().getId() != 0){
+				delete.add(h.getGroupedHerd().getId());
+			}
+			h.getGroupedHerd().setId(oldestGroupId);
+		}
+
+		if(group.getId() == 0 && group.getHerds().size() > 0){
+			//Create group if needed
+			group = this.groupedHerdDao.saveNewGroupedHerd(group);
+		} else if(group.getId() != 0 && group.getHerds().size() > 0){		
+			//Update locale if it already had group id
+			this.groupedHerdDao.updateGroupedHerdLocationForHerd(group);
+		}
+
+		if(group.getHerds().size() > 0){
+			//Update herds to group id
+			this.herdDao.updateGroupIds(group.getHerds(), group.getId(), farmId);
+		}
+
 		//Update orphans grouped herds to null location
-		List<Herd> orphans = new ArrayList<Herd>();
-		for(String o : groupUpdate.getOrphans()){
-			Herd h = new Herd();
-			h.setId(Integer.parseInt(o.split(",")[0]));
-			orphans.add(h);
-			group.setHerds(orphans);
-			group.getLocale().setId(-1);
-			this.groupedHerdDao.saveOrUpdateGroupedHerd(group);
-			orphans = new ArrayList<Herd>();
+		ids = new ArrayList<Integer>();
+		for(String o : groupUpdate.getOrphans()) {
+			for(String herdId : o.split(",")){
+				ids.add(Integer.parseInt(herdId.replace("\n", "").replace("\r", "").replace("\t", "").replace(" ", "")));
+			}
+		}
+		List<Herd> newOrphans = this.herdDao.getHerds(ids,farmId);
+
+		GroupedHerd gh = new GroupedHerd();
+		gh.setLocale(new Locale());
+		gh.getLocale().setId(-1);
+		gh.setHerds(new ArrayList<Herd>());
+		gh.getHerds().add(null);
+		
+		HashMap<Integer, Boolean> map = new HashMap<Integer, Boolean>(); //Hold groups we already set to null
+		for(Herd orphan : newOrphans){
+			if(orphan.getGroupedHerd().getId() != 0 && !map.containsKey(orphan.getGroupedHerd().getId())){
+				gh.getHerds().set(0, orphan);
+				gh.setId(orphan.getGroupedHerd().getId());
+				this.groupedHerdDao.updateGroupedHerdLocationForHerd(gh);
+				map.put(orphan.getGroupedHerd().getId(), true);
+			}
+		}
+
+		//Delete group ids where there are no longer herds attached to them		
+		for(int id : delete){
+			this.groupedHerdDao.deleteGroupedHerd(id);
 		}
 	}
 

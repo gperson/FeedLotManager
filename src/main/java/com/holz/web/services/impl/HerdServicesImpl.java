@@ -44,7 +44,7 @@ public class HerdServicesImpl implements HerdServices {
 		Map<Integer, String> map = new HashMap<Integer, String>();
 		List<String> orphans = new ArrayList<String>();
 		for(Herd h : this.herdDao.getOrphanHerds(farmId)){
-			int groupId = h.getId();
+			int groupId = h.getGroupedHerd().getId();
 			if(groupId != 0){
 				if(map.containsKey(groupId)){
 					String current = map.get(groupId);

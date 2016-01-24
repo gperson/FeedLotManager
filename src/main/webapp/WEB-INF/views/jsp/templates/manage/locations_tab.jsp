@@ -14,7 +14,7 @@
 	</thead>
 	<tbody>
 		<c:forEach var="locale" items="${locales}">
-    		<tr class="" id="${locale.id}" data-group="${locale.groupedHerd.id}">
+    		<tr class="" id="${locale.id}">
 				<td class="lName">${locale.localeName}</td>
 				<td class="lHerds">
 					<c:forEach var="herd" items="${locale.groupedHerd.herds}" varStatus="status">

@@ -114,7 +114,6 @@ function saveLocation(){
 		contentType: 'application/json',
 		success : function(result){
 			if(result.success === true){
-				var groupId = parseInt($("#save_location").attr("data-group"));
 				var herdIds = $("#new_group_herds").find("option");
 				var orphansIds = $("#orphan_group_herds").find("option");
 				var newHerds = [], orphanHerds = [];
@@ -130,7 +129,6 @@ function saveLocation(){
 					headers: headers,
 					url : "/admin/saveGroupedHerd",
 					data : JSON.stringify({
-						groupedId : groupId,
 						localeId : locationId,
 						current : newHerds,
 						orphans : orphanHerds
@@ -168,7 +166,6 @@ function openLocationPopup(e,edit){
 	
 	if(edit === true){
 		$("#save_location").attr("data-id",id);
-		$("#save_location").attr("data-group",groupId);
 		$("#name").val(row.find(".lName").text());
 		var current = row.find('.lHerds').text().trim();
 		$("#new_group_herds option").remove();
@@ -177,7 +174,6 @@ function openLocationPopup(e,edit){
 		}
 	} else {
 		$("#save_location").attr("data-id",0);
-		$("#save_location").attr("data-group",0);
 		$("#name").val('');
 		$("#new_group_herds option").remove();
 	}

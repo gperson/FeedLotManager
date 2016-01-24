@@ -2,6 +2,7 @@ package com.holz.web.daos.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -66,8 +67,9 @@ public class HerdDaoImpl implements HerdDao {
 	@Override
 	public List<Herd> getOrphanHerds(int farmId){
 		String sql = SELECT_HERD_INFO 
+				+ "LEFT JOIN GROUPED_HERDS GH ON GH.groupedHerdsId = H.groupedHerdsId "
 				+ "WHERE H.farmId=" + farmId +" "
-				+ "AND groupedHerdsId IS NULL ORDER BY H.herdId DESC";
+				+ "AND H.groupedHerdsId IS NULL OR GH.localeId IS NULL ORDER BY H.herdId DESC";
 		return getHerds(sql);
 	}
 	
@@ -84,10 +86,10 @@ public class HerdDaoImpl implements HerdDao {
 					h.setWeight(rs.getDouble("weight"));
 					h.setCost(rs.getDouble("cost"));
 					h.setTagNumber(rs.getString("tagNumber"));
-					h.setEstimatedSaleDate(rs.getDate("estimatedSaleDate"));
-					h.setImplantDate(rs.getDate("implantDate"));
-					h.setOptiflexDate(rs.getDate("optiflexDate"));
-					h.setDateEntered(rs.getDate("dateEntered"));
+					h.setEstimatedSaleDate(getDateTime(rs.getTimestamp("estimatedSaleDate")));
+					h.setImplantDate(getDateTime(rs.getTimestamp("implantDate")));
+					h.setOptiflexDate(getDateTime(rs.getTimestamp("optiflexDate")));
+					h.setDateEntered(getDateTime(rs.getTimestamp("dateEntered")));
 					h.setGroupedHerd(new GroupedHerd());
 					h.getGroupedHerd().setId(rs.getInt("groupedHerdsId"));
 					Supplier s = new Supplier();
@@ -109,6 +111,23 @@ public class HerdDaoImpl implements HerdDao {
 			ids = ids + "," + h.getId();
 		String sql = "UPDATE HERD SET groupedHerdsId=? where herdId IN("+ids.substring(1)+") AND farmId =?";
 		this.jdbcTemplate.update(sql, new Object[]{groupId,farmId});
+	}
+
+	@Override
+	public List<Herd> getHerds(List<Integer> ids, int farmId) {
+		String idsStr = "";
+		for(int id : ids)
+			idsStr = idsStr + "," + id;
+		String sql = SELECT_HERD_INFO 
+				+ "WHERE H.farmId=" + farmId + " AND H.herdId IN ("+idsStr.substring(1)+")";
+		return getHerds(sql);
+	}
+	
+	private Date getDateTime(Timestamp ts){
+		if (ts != null)
+		    return new java.util.Date(ts.getTime());
+		else
+			return null;
 	}
 
 }

@@ -15,5 +15,7 @@ public interface HerdDao {
 	List<Herd> getOrphanHerds(int farmId);
 
 	void updateGroupIds(List<Herd> herds, int groupId, int farmId);
+
+	List<Herd> getHerds(List<Integer> ids, int farmId);
 	
 }

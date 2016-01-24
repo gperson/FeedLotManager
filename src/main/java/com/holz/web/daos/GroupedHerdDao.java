@@ -6,6 +6,10 @@ public interface GroupedHerdDao {
 
 	GroupedHerd getGroupedHerdForLocale(int localeId, int farmId);
 
-	GroupedHerd saveOrUpdateGroupedHerd(GroupedHerd group);
+	void updateGroupedHerdLocationForHerd(GroupedHerd group);
+
+	GroupedHerd saveNewGroupedHerd(GroupedHerd group);
+
+	void deleteGroupedHerd(int groupHerdId);
 	
 }

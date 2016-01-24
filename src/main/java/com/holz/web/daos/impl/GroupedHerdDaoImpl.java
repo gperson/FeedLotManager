@@ -43,31 +43,35 @@ public class GroupedHerdDaoImpl implements GroupedHerdDao {
 	}
 
 	@Override
-	public GroupedHerd saveOrUpdateGroupedHerd(GroupedHerd group) {
+	public GroupedHerd saveNewGroupedHerd(GroupedHerd group) {
 		final String sql = "INSERT INTO GROUPED_HERDS "+
 				"VALUES (?,?)";
 		final GroupedHerd g = group;
-		if(group.getId() != 0 && group.getHerds().size() > 1){
-			this.jdbcTemplate.update("UPDATE GROUPED_HERDS SET localeId=? "
-					+ "FROM GROUPED_HERDS GH "
-					+ "JOIN HERD H ON H.groupedHerdsId = GH.groupedHerdsId "
-					+ "WHERE GH.groupedHerdsId=? AND H.herdId=?",
-					new Object[]{group.getLocale().getId() == -1 ? null : group.getLocale().getId(),group.getId(),group.getHerds().get(0).getId()});
-		} else {
-			KeyHolder keyHolder = new GeneratedKeyHolder();
-			jdbcTemplate.update(
-			    new PreparedStatementCreator() {
-			        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-			            PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-			            ps.setInt(1, 0);
-			            ps.setInt(2, g.getLocale().getId());
-			            return ps;
-			        }
-			    },
-			    keyHolder);
-			group.setId(keyHolder.getKey().intValue());
-		}
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(
+			new PreparedStatementCreator() {
+				public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+					PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+					ps.setInt(1, 0);
+					ps.setInt(2, g.getLocale().getId());
+					return ps;
+				}
+			},keyHolder);
+		group.setId(keyHolder.getKey().intValue());
 		return group;
 	}
+
+	@Override
+	public void updateGroupedHerdLocationForHerd(GroupedHerd group) {
+		this.jdbcTemplate.update("UPDATE GROUPED_HERDS GH "
+			+ "JOIN HERD H ON H.groupedHerdsId = GH.groupedHerdsId "
+			+ "SET localeId=? "
+			+ "WHERE GH.groupedHerdsId=? AND H.herdId=?",
+			new Object[]{group.getLocale().getId() == -1 ? null : group.getLocale().getId(),group.getId(),group.getHerds().get(0).getId()});
+	}
 	
+	@Override
+	public void deleteGroupedHerd(int groupHerdId){
+		this.jdbcTemplate.execute("delete from grouped_herds where groupedHerdsId = "+groupHerdId);
+	}
 }
