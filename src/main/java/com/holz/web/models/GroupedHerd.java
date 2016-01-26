@@ -36,12 +36,12 @@ public class GroupedHerd {
 	public int getCount() {
 		if(this.herds != null){
 			for(Herd h : this.herds){
-				count = count + h.getQuantity();
+				this.count = this.count + h.getQuantity();
 			}
 		}
 		if(this.sales != null){
-			for(Sale s : sales){
-				count = count - s.getQuantity();
+			for(Sale s : this.sales){
+				this.count = this.count - s.getQuantity();
 			}
 		}
 		return count;

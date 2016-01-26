@@ -119,6 +119,10 @@ public class GroupedHerdServicesImpl implements GroupedHerdServices {
 
 	@Override
 	public List<GroupedHerd> getGroupedHerds(int farmId){
-		return this.groupedHerdDao.getGroupedHerds(farmId);
+		List<GroupedHerd> groupedHerds = this.groupedHerdDao.getGroupedHerds(farmId);
+		for(GroupedHerd g : groupedHerds){
+			g.setHerds(this.herdDao.getHerdsForGroupedHerd(farmId, g.getId()));
+		}
+		return groupedHerds;
 	}
 }

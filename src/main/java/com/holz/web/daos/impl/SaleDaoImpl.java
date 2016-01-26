@@ -29,18 +29,18 @@ public class SaleDaoImpl implements SaleDao {
 	
 	@Override
 	public List<Sale> getSalesForGroupHerd(int farmId, int groupId) {
-		return getSales(farmId,0);
+		return getSales(farmId,groupId);
 	}
 
 	@Override
 	public void saveOrUpdate(Sale sale, int farmId) {
 		String sql = "INSERT INTO Sale "+
-					 "VALUES (?,?,?,?,?,?,?,?,?)";
+					 "VALUES (?,?,?,?,?,?,?,?,?,?)";
 		if(sale.getId() != 0){
-			sql = "UPDATE Sale SET salePrice=?, groupedHerdsId=? ,saleWeight=?, quantity=?, saleDate?, dressingPercent=?, shrinkPercent=?, packerId=? where saleId=? AND farmId =?";
-			this.jdbcTemplate.update(sql, new Object[]{sale.getSalePrice(),sale.getGroupedHerd().getId(),sale.getSaleWeight(),sale.getQuantity(),sale.getDressingPercent(),sale.getShrinkPercent(),sale.getPacker().getId(),sale.getId(),farmId});
+			sql = "UPDATE Sale SET salePrice=?, groupedHerdsId=? ,saleWeight=?, quantity=?, saleDate=?, dressingPercent=?, shrinkPercent=?, packerId=? where saleId=? AND farmId =?";
+			this.jdbcTemplate.update(sql, new Object[]{sale.getSalePrice(),sale.getGroupedHerd().getId(),sale.getSaleWeight(),sale.getQuantity(),sale.getSaleDate(),sale.getDressingPercent(),sale.getShrinkPercent(),sale.getPacker().getId(),sale.getId(),farmId});
 		} else {
-			this.jdbcTemplate.update(sql, new Object[]{0,sale.getGroupedHerd().getId(),sale.getSalePrice(),sale.getSaleWeight(),sale.getQuantity(),sale.getDressingPercent(),sale.getShrinkPercent(),sale.getPacker().getId()});
+			this.jdbcTemplate.update(sql, new Object[]{0,sale.getGroupedHerd().getId(),sale.getSalePrice(),sale.getSaleWeight(),sale.getQuantity(),sale.getSaleDate(),sale.getDressingPercent(),sale.getShrinkPercent(),sale.getPacker().getId(),farmId});
 		}	
 	}
 	

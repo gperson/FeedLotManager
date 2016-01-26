@@ -26,6 +26,7 @@ public class SaleServicesImpl implements SaleServices {
 		List<Sale> sales = this.saleDao.getAllSales(farmId);
 		for(Sale s : sales){
 			this.herdDao.getHerdsForGroupedHerd(farmId, s.getGroupedHerd().getId());
+			s.getGroupedHerd().setHerds(this.herdDao.getHerdsForGroupedHerd(farmId, s.getGroupedHerd().getId()));
 		}
 		return sales;
 	}

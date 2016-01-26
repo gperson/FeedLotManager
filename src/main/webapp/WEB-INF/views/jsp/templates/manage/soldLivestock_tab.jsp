@@ -19,7 +19,7 @@
 	<tbody>
 		<c:forEach var="sale" items="${sales}">
     		<tr id="${sale.id}">
-				<td id="${sale.groupedHerd.Id}" class="saHerds">
+				<td id="${sale.groupedHerd.id}" class="saHerds">
 					<c:forEach var="herd" items="${sale.groupedHerd.herds}" varStatus="status">
 				    		<c:out value="${herd.id}"/><c:if test="${!status.last}">,</c:if>	         					    		 
 					</c:forEach>
@@ -30,7 +30,7 @@
 				<td class="saDressing">${sale.dressingPercent}</td>
 				<td class="saShrink">${sale.shrinkPercent}</td>
 				<td class="saQuantity">${sale.quantity}</td>
-				<td class="saPacker">${sale.packer.packerName}</td>
+				<td data-packer="${sale.packer.id}" class="saPacker">${sale.packer.name}</td>
 				<td>
 					<button id="${supplier.id}" onclick="openSalePopup(this,true);" type="button" class="btn btn-info btn-xs">Edit</button>
 				</td>

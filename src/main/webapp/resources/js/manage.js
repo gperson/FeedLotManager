@@ -427,8 +427,8 @@ function openSalePopup(e,edit){
 		$("#saDressing").val(row.find(".saDressing").text());
 		$("#saShrink").val(row.find(".saShrink").text());
 		$("#saQuantity").val(row.find(".saQuantity").text());
-		$("#saPacker").val(row.find(".saPacker").text());
-		$("#saHerds").val(row.find(".saHerds").attr("id"));
+		$("#saPacker").val(row.find(".saPacker").attr("data-packer"));
+		$("#saLocale").val(row.find(".saHerds").attr("id"));
 	} else {
 		$("#save_sale").attr("data-id",0);
 		$("#saPrice").val("");
@@ -438,7 +438,7 @@ function openSalePopup(e,edit){
 		$("#saShrink").val("");
 		$("#saQuantity").val("");
 		$("#saPacker").val(0);
-		$("#saHerds").val(0);
+		$("#saLocale").val(0);
 	}
 
 	$("#fade").show();
@@ -452,15 +452,14 @@ function saveSale(){
 		url : "/admin/saveSoldLivestock",
 		data : JSON.stringify({ 
 			id : parseInt($("#save_sale").attr("data-id")), 
-			packer : { id : $("#saPacker").val() },
-			quantity : $("#saQuantity").val(),
-			weight : $("#saWeight").val(),
-			dressingPercent : $("#saDressing").val(),
-			saleDate : $("#saDate").val(),
-			salePrice : $("#saPrice").val(),
-			shrinkPercent : $("#saShrink").val(),
-			location : $("#packerLocation").val(),
-			groupedHerd : { id : $("#saLocale").val() }
+			packer : { id : parseInt($("#saPacker").val()) },
+			quantity : parseInt($("#saQuantity").val()),
+			saleWeight : parseFloat($("#saWeight").val()),
+			dressingPercent : parseFloat($("#saDressing").val()),
+			saleDate : Date.parse($("#saDate").val()),
+			salePrice : parseFloat($("#saPrice").val()),
+			shrinkPercent : parseFloat($("#saShrink").val()),
+			groupedHerd : { id : parseInt($("#saLocale").val()) }
 		}),
 		dataType : 'json',
 		contentType: 'application/json',
