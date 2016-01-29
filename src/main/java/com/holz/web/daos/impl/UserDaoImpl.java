@@ -21,34 +21,40 @@ public class UserDaoImpl implements UserDao {
 	@Autowired 
 	JdbcTemplate jdbcTemplate; 
 
+	String SELECT_USER = "SELECT U.username, U.firstName, U.lastName, U.email, U.enabled, U.userId, "+
+				"(SELECT GROUP_CONCAT(R.role) FROM ROLES R WHERE U.username = R.username) AS roles "+
+				"FROM USERS U ";
 	@Override
 	public List<User> getUsersForFarm(int farmId) {
-		String sql = "SELECT U.username, U.firstName, U.lastName, U.email, U.enabled, U.userId, "+
-				"(SELECT GROUP_CONCAT(R.role) FROM ROLES R WHERE U.username = R.username) AS roles "+
-				"FROM USERS U WHERE U.farmId=" + farmId;
+		String sql = SELECT_USER + "WHERE U.farmId=" + farmId;
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<User>>() {
 			@Override
 			public List<User> extractData(ResultSet rs) throws SQLException, DataAccessException {
 				List<User> users = new ArrayList<User>();
 				while(rs.next()) {
-					User u = new User();
-					u.setEmail(rs.getString("email"));
-					u.setUsername(rs.getString("username"));
-					u.setFirstName(rs.getString("firstName"));
-					u.setLastName(rs.getString("lastName"));
-					u.setEnabled(rs.getBoolean("enabled"));
-					u.setUserId(rs.getInt("userId"));
-					String[] arr = rs.getString("roles").split(",");
-					List<RoleType> roles = new ArrayList<RoleType>();
-					for(int i = 0; i < arr.length; i++){
-						roles.add(RoleType.valueOf(arr[i].trim()));
-					}
-					u.setRoles(roles);
+					User u = buildUser(rs);
 					users.add(u);
 				}
 				return users;
 			}
 		});
+	}
+	
+	private User buildUser(ResultSet rs) throws SQLException{
+		User u = new User();
+		u.setEmail(rs.getString("email"));
+		u.setUsername(rs.getString("username"));
+		u.setFirstName(rs.getString("firstName"));
+		u.setLastName(rs.getString("lastName"));
+		u.setEnabled(rs.getBoolean("enabled"));
+		u.setUserId(rs.getInt("userId"));
+		String[] arr = rs.getString("roles").split(",");
+		List<RoleType> roles = new ArrayList<RoleType>();
+		for(int i = 0; i < arr.length; i++){
+			roles.add(RoleType.valueOf(arr[i].trim()));
+		}
+		u.setRoles(roles);
+		return u;
 	}
 
 	@Override
@@ -87,6 +93,20 @@ public class UserDaoImpl implements UserDao {
 	public void enableDisableUser(User user, int farmId) {
 		String sql =  "UPDATE USERS SET enabled =? WHERE userId=? AND farmId=?";
 		this.jdbcTemplate.update(sql, new Object[]{user.isEnabled(),user.getId(),farmId});
+	}
+
+	@Override
+	public User getUser(String username) {
+		String sql = SELECT_USER + "WHERE U.username=?";
+		return jdbcTemplate.query(sql,new Object[]{username}, new ResultSetExtractor<User>() {
+			@Override
+			public User extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if(rs.first()) {
+					return buildUser(rs);
+				}
+				return null;
+			}
+		});
 	}
 
 }

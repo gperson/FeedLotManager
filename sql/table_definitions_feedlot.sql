@@ -64,6 +64,7 @@ CREATE TABLE LOCALE (
 CREATE TABLE GROUPED_HERDS (
 	`groupedHerdsId`				INT UNIQUE NOT NULL AUTO_INCREMENT,
     `localeId`						INT NULL,
+    `isSold`						BOOLEAN,
 	PRIMARY KEY ( groupedHerdsId ),
     FOREIGN KEY ( localeId ) REFERENCES LOCALE( localeId )
 ) ENGINE = InnoDB;
@@ -78,9 +79,11 @@ CREATE TABLE SALE (
     `dressingPercent`				DOUBLE NOT NULL,
     `shrinkPercent`					DOUBLE NOT NULL,
     `packerId` 						INT NOT NULL,
+    `farmId` 						INT NOT NULL,
     PRIMARY KEY ( saleId ),
 	FOREIGN KEY ( groupedHerdsId ) REFERENCES GROUPED_HERDS( groupedHerdsId ),
-    FOREIGN KEY ( packerId ) REFERENCES PACKER( packerId )
+    FOREIGN KEY ( packerId ) REFERENCES PACKER( packerId ),
+    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
 ) ENGINE = InnoDB;
 
 CREATE TABLE HERD (
@@ -119,68 +122,25 @@ CREATE TABLE FEED_TYPES (
 CREATE TABLE FEEDING (
 	`feedingId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
 	`feedingTime`					DATETIME,
-	`bunckScore`					INT,
-	`deliveredAmountTMRD`			DOUBLE,
+	`bunkScore`						INT,
+	`deliveredAmount`				DOUBLE,
 	`userId`						INT NOT NULL,
 	`hasLeftovers`					BOOL,
     `groupedHerdsId`				INT NOT NULL,
+    `farmId`						INT NOT NULL,
     PRIMARY KEY ( feedingId ),
     FOREIGN KEY ( userId ) REFERENCES USERS( userId ),
-    FOREIGN KEY ( groupedHerdsId ) REFERENCES GROUPED_HERDS( groupedHerdsId )
+    FOREIGN KEY ( groupedHerdsId ) REFERENCES GROUPED_HERDS( groupedHerdsId ),
+    FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
 ) ENGINE = InnoDB;
 
 CREATE TABLE FEED (
 	`feedId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
-	`feedAmount`					INT NOT NULL,
-    `feedTypeId`					INT UNIQUE NOT NULL,
+	`feedAmount`					DOUBLE NOT NULL,
+    `feedTypeId`					INT NOT NULL,
     `feedingId`						INT NOT NULL,
+    `ratio`						    DOUBLE NOT NULL,
     PRIMARY KEY ( feedId ),
     FOREIGN KEY ( feedTypeId ) REFERENCES FEED_TYPES( feedTypeId ),
     FOREIGN KEY ( feedingId ) REFERENCES FEEDING( feedingId )
 ) ENGINE = InnoDB;
-
-/*
-DELIMITER $$
-DROP PROCEDURE IF EXISTS feedlot.SAVE_OR_UPDATE_HERD $$
-CREATE PROCEDURE feedlot.SAVE_OR_UPDATE_HERD
-(
-	IN `p_herdId`	INT,
-    IN `p_farmId` INT,
-    IN `p_quantity` INT,
-    IN `p_weight` DOUBLE,
-    IN `p_cost` DOUBLE,
-    IN `p_tagNumber` VARCHAR(15),
-    IN `p_estimatedSaleDate` DATETIME,
-    IN `p_implantDate` DATETIME,
-    IN `p_optiflexDate` DATETIME,
-    IN `p_dateEntered` DATETIME,
-    IN `p_supplierId` INT,
-    IN `p_sold` BOOLEAN
-)
-BEGIN
-DECLARE newHerdId INT;
-IF EXISTS (SELECT herdId FROM HERD WHERE herdId = p_herdId)
-THEN
-  UPDATE HERD 
-  SET 
-	quantity=p_quantity,
-    weight=p_weight,
-    cost=p_cost,
-    tagNumber=p_tagNumber,
-    estimatedSaleDate=p_estimatedSaleDate,
-    implantDate=p_implantDate,
-    optiflexDate=p_optiflexDate,
-    dateEntered=p_dateEntered,
-    supplierId=p_supplierId,
-    sold=p_sold
-    WHERE herdId=p_herdId AND farmId = p_farmId;
-else
-  INSERT INTO HERD 
-  VALUES (0,p_farmId,p_quantity,p_weight,p_cost,p_tagNumber,p_estimatedSaleDate,p_implantDate,p_optiflexDate,p_dateEntered,p_supplierId,p_sold);
-  SELECT LAST_INSERT_ID() INTO newHerdId;
-  INSERT INTO HERD_LOCALE_MAP VALUES (0,null,newHerdId,NOW());
-END IF;
-END $$
-DELIMITER ;
-
-CALL SAVE_OR_UPDATE_HERD(8,1,2,3,4,'5',NOW(),NOW(),NOW(),NOW(),2,false);*/

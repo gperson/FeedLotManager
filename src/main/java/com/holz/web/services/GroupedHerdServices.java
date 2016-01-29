@@ -10,5 +10,7 @@ public interface GroupedHerdServices {
 	void saveOrUpdateGroupedHerd(GroupedHerdUpdate groupedHerdUpdate, int farmId);
 
 	List<GroupedHerd> getGroupedHerds(int farmId);
+
+	boolean userHasAccessToGroupedHerd(String username, int groupedHerdId, int farmId);
 	
 }

@@ -9,6 +9,16 @@ public class AjaxResponse {
 		this.success = success;
 	}
 	
+	public AjaxResponse(boolean success, String message) {
+		this.success = success;
+		this.message = message;
+	}
+	
+	public AjaxResponse(boolean success, Object object) {
+		this.success = success;
+		this.object = object;
+	}
+	
 	public boolean isSuccess() {
 		return success;
 	}

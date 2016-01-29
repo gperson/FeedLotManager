@@ -60,7 +60,6 @@ public class HerdDaoImpl implements HerdDao {
 				+ "JOIN GROUPED_HERDS GH ON GH.groupedHerdsId = H.groupedHerdsId "
 				+ "WHERE H.farmId=" + farmId +" "
 				+ "AND GH.groupedHerdsId="+groupedHerdId + " ORDER BY H.herdId DESC";
-				//TODO Flag not sold + "AND GH.groupedHerdsId NOT IN (SELECT groupedHerdsId FROM SALE) ORDER BY H.herdId DESC";
 		return getHerds(sql);
 	}
 

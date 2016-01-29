@@ -36,7 +36,7 @@
 				<div>
 					<div>
 						<label class="bold_label" style="padding-left: 33px; padding-right: 5px;">All Remaining</label> 
-						<input type="checkbox">
+						<input id="hasLeftovers" type="checkbox">
 					</div>
 				</div>
 			</div>

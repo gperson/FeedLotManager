@@ -27,16 +27,19 @@
   <definition name="manager.pickLocation" extends="manager.home">
     <put-attribute name="title" value="Feed Lot Manager" />
     <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/pickLocation_body.jsp" />
+    <put-attribute name="specialJs" value="/resources/js/feeding.js"/>
   </definition>
   
   <definition name="manager.feedMix" extends="manager.home">
     <put-attribute name="title" value="Feed Lot Manager" />
     <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/feedMix_body.jsp" />
+    <put-attribute name="specialJs" value="/resources/js/feeding.js"/>
   </definition>
   
   <definition name="manager.deliver" extends="manager.home">
     <put-attribute name="title" value="Feed Lot Manager" />
     <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/deliver_body.jsp" />
+    <put-attribute name="specialJs" value="/resources/js/feeding.js"/>
   </definition>
   
   <definition name="manager.manage" extends="manager.home">

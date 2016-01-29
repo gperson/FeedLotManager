@@ -46,4 +46,9 @@ public class UserServicesImpl implements UserServices {
 		this.userDao.enableDisableUser(user, farmId);
 	}
 
+	@Override
+	public User getUser(String username) {
+		return this.userDao.getUser(username);
+	}
+
 }

@@ -32,5 +32,10 @@ public class FeedTypeServicesImpl implements FeedTypeServices {
 		this.feedDao.enableDisableFeedType(feed,farmId);
 	}
 
+	@Override
+	public List<FeedType> getEnabledFeedTypes(int farmId) {
+		return this.feedDao.getEnabledFeedTypes(farmId);
+	}
+
 
 }

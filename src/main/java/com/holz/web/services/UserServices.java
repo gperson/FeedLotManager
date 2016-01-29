@@ -13,4 +13,6 @@ public interface UserServices {
 	void resetPassword(String username);
 
 	void enableDisableUser(User user, int farmId);
+
+	User getUser(String username);
 }

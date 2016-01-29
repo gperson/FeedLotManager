@@ -9,6 +9,7 @@ public class GroupedHerd {
 	private Locale locale;
 	private List<Sale> sales;
 	private int count;
+	private boolean sold;
 	public Locale getLocale() {
 		return locale;
 	}
@@ -51,5 +52,11 @@ public class GroupedHerd {
 	}
 	public void setSales(List<Sale> sales) {
 		this.sales = sales;
+	}
+	public boolean isSold() {
+		return sold;
+	}
+	public void setSold(boolean sold) {
+		this.sold = sold;
 	}
 }

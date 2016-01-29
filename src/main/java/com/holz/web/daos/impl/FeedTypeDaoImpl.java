@@ -20,25 +20,13 @@ public class FeedTypeDaoImpl implements FeedTypeDao {
 	@Autowired 
 	JdbcTemplate jdbcTemplate; 
 	
+	String SELECT_FEED_TYPE = "SELECT F.feedTypeId, F.feedType, F.driedMatterPercentage, F.enabled "+ 
+					 "FROM FEED_TYPES F WHERE F.farmId=";
+	
 	@Override
 	public List<FeedType> getFeedTypes(int farmId) {
-		String sql = "SELECT F.feedTypeId, F.feedType, F.driedMatterPercentage, F.enabled "+ 
-					 "FROM FEED_TYPES F WHERE F.farmId=" + farmId;
-		return jdbcTemplate.query(sql, new ResultSetExtractor<List<FeedType>>() {
-			@Override
-			public List<FeedType> extractData(ResultSet rs) throws SQLException, DataAccessException {
-				List<FeedType> feeds = new ArrayList<FeedType>();
-				while(rs.next()) {
-					FeedType f = new FeedType();
-					f.setId(rs.getInt("feedTypeId"));
-					f.setDriedMatterPercentage(rs.getDouble("driedMatterPercentage"));
-					f.setFeedType(rs.getString("feedType"));
-					f.setEnabled(rs.getBoolean("enabled"));
-					feeds.add(f);
-				}
-				return feeds;
-			}
-		});
+		String sql = SELECT_FEED_TYPE + farmId;
+		return getFeedTypes(sql);
 	}
 
 	@Override
@@ -59,4 +47,27 @@ public class FeedTypeDaoImpl implements FeedTypeDao {
 		this.jdbcTemplate.update(sql, new Object[]{feed.isEnabled(),feed.getId(),farmId});
 	}
 
+	@Override
+	public List<FeedType> getEnabledFeedTypes(int farmId) {
+		String sql = SELECT_FEED_TYPE + farmId + " AND enabled=1";
+		return getFeedTypes(sql);
+	}
+
+	private List<FeedType> getFeedTypes(String sql){
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<FeedType>>() {
+			@Override
+			public List<FeedType> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<FeedType> feeds = new ArrayList<FeedType>();
+				while(rs.next()) {
+					FeedType f = new FeedType();
+					f.setId(rs.getInt("feedTypeId"));
+					f.setDriedMatterPercentage(rs.getDouble("driedMatterPercentage"));
+					f.setFeedType(rs.getString("feedType"));
+					f.setEnabled(rs.getBoolean("enabled"));
+					feeds.add(f);
+				}
+				return feeds;
+			}
+		});
+	}
 }

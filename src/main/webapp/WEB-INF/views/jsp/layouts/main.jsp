@@ -12,6 +12,12 @@
 	<link href="/resources/css/common.css" rel="stylesheet" type="text/css">       
   	<link rel="stylesheet" type="text/css" href="<tiles:getAsString name='specialCss'/>">
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+	    var headers = {};
+	    headers[$("meta[name='_csrf_header']").attr("content")] = $("meta[name='_csrf']").attr("content");
+	    headers['Accept'] = 'application/json';
+	    headers['Content-Type'] = 'application/json';
+    </script>
     <script type="text/javascript" src="/resources/js/common.js"></script>
     <script src="<tiles:getAsString name='specialJs'/>"	type="text/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo= sha512-2e8qq0ETcfWRI4HJBzQiA3UoyFk6tbNyG+qSaIBZLyW9Xf3sWZHN/lxe9fTh1U45DpPf07yj94KsUHHWe4Yk1A==" crossorigin="anonymous"></script> 

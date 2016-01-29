@@ -125,4 +125,9 @@ public class GroupedHerdServicesImpl implements GroupedHerdServices {
 		}
 		return groupedHerds;
 	}
+	
+	@Override
+	public boolean userHasAccessToGroupedHerd(String username, int groupedHerdId, int farmId){
+		return this.groupedHerdDao.userHasAccessToGroupedHerd(username, groupedHerdId, farmId);
+	}
 }

@@ -11,5 +11,7 @@ public interface FeedTypeServices {
 	void saveOrUpdateFeedType(FeedType feed,int farmId);
 
 	void enableDisableFeedType(FeedType feed, int farmId);
+
+	List<FeedType> getEnabledFeedTypes(int farmId);
 	
 }

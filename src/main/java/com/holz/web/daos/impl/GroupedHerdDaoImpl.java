@@ -28,6 +28,25 @@ public class GroupedHerdDaoImpl implements GroupedHerdDao {
 	JdbcTemplate jdbcTemplate; 
 
 	@Override
+	public boolean userHasAccessToGroupedHerd(String username, int groupedHerdId, int farmId){
+		String sql ="SELECT COUNT(*) AS accessCount FROM GROUPED_HERDS GH "
+			+ "JOIN LOCALE L on GH.localeId = L.localeId "
+			+ "WHERE GH.groupedHerdsId = ? "
+			+ "AND L.farmId = ? "
+			+ "AND L.farmId = (SELECT U.farmId FROM USERS U WHERE U.username = ?)";
+		return this.jdbcTemplate.query(sql, new Object[]{groupedHerdId,farmId,username}, new ResultSetExtractor<Boolean>() {
+			@Override
+			public Boolean extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if(rs.first()){
+					int accessCount = rs.getInt("accessCount");
+					return (accessCount > 0);
+				}
+				return false;
+			}
+		});
+	}
+	
+	@Override
 	public GroupedHerd getGroupedHerdForLocale(int localeId, int farmId) {
 		String sql = "SELECT groupedHerdsId FROM GROUPED_HERDS GH "
 				+ "JOIN LOCALE L ON L.localeId = GH.localeId "
@@ -73,7 +92,7 @@ public class GroupedHerdDaoImpl implements GroupedHerdDao {
 	@Override
 	public GroupedHerd saveNewGroupedHerd(GroupedHerd group) {
 		final String sql = "INSERT INTO GROUPED_HERDS "+
-				"VALUES (?,?)";
+				"VALUES (?,?,?)";
 		final GroupedHerd g = group;
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(
@@ -82,6 +101,7 @@ public class GroupedHerdDaoImpl implements GroupedHerdDao {
 					PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 					ps.setInt(1, 0);
 					ps.setInt(2, g.getLocale().getId());
+					ps.setBoolean(3, false);
 					return ps;
 				}
 			},keyHolder);

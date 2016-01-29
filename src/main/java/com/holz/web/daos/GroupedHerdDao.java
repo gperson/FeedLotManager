@@ -15,5 +15,7 @@ public interface GroupedHerdDao {
 	void deleteGroupedHerd(int groupHerdId);
 
 	List<GroupedHerd> getGroupedHerds(int farmId);
+
+	boolean userHasAccessToGroupedHerd(String username, int groupedHerdId, int farmId);
 	
 }
