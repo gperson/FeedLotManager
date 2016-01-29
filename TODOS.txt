@@ -1,0 +1,8 @@
+TODOS
+# Error handler
+# Sell all remaining,
+# sold flag
+# enable disable...think one isnt wired up
+# alerts/email when oflex
+# password reset 
+
