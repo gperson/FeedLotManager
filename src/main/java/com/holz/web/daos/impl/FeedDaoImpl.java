@@ -42,7 +42,7 @@ public class FeedDaoImpl implements FeedDao {
 
 	@Override
 	public List<Leftovers> getLeftoverFeeds(int farmId) {
-		String sql = "SELECT FG.feedingId, F.feedId, (F.feedAmount-(F.ratio*FG.deliveredAmount)) AS feedAmount, FT.feedTypeId, FT.feedType "+
+		String sql = "SELECT FG.feedingId, F.feedId, F.feedAmount AS feedAmount, FT.feedTypeId, FT.feedType "+
 				"FROM FEEDING FG "+
 				"JOIN FEED F ON F.feedingId = FG.feedingId "+
 				"JOIN FEED_TYPES FT ON F.feedTypeId = FT.feedTypeId "+
@@ -89,6 +89,7 @@ public class FeedDaoImpl implements FeedDao {
 				List<Feed> feeds = new ArrayList<Feed>();
 				while(rs.next()) {
 					Feed f = new Feed();
+					f.setRatio(rs.getDouble("ratio"));
 					f.setAmount(rs.getDouble("feedAmount"));
 					FeedType feedType = new FeedType();
 					feedType.setId(rs.getInt("feedTypeId"));
