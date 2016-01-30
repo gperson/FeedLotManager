@@ -8,6 +8,7 @@ public class Feeding {
 	private List<Feed> feeds;
 	private GroupedHerd groupedHerd;
 	private Date feedingTime;
+	private Date lastUpdated;
 	private int bunkScore;
 	private double deliveredAmount;
 	private User user;
@@ -78,5 +79,11 @@ public class Feeding {
 	}
 	public void setLeftovers(List<Leftovers> leftovers) {
 		this.leftovers = leftovers;
+	}
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 }

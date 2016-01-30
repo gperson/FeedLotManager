@@ -41,7 +41,7 @@
 				</div>
 			</div>
 			<div class="center_row col-md-12">
-				<input class="btn btn-info" type="button" value="Continue Feeding"></input>
+				<a href="/pickLocation" class="btn btn-info" role="button">Continue Feeding</a>
 				<input id="finish" class="btn btn-primary" type="button" value="Finish"></input>
 			</div>
 		</form>

@@ -52,6 +52,7 @@
   <definition name="manager.editFeeding" extends="manager.home">
     <put-attribute name="title" value="Feed Lot Manager - Manage" />
     <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/editFeeding_body.jsp" />
+    <put-attribute name="specialJs" value="/resources/js/editFeeding.js"/>
   </definition>
   
   <definition name="manager.reports" extends="manager.home">

@@ -74,20 +74,23 @@ public class GroupedHerdDaoImpl implements GroupedHerdDao {
 			@Override
 			public List<GroupedHerd> extractData(ResultSet rs) throws SQLException, DataAccessException {
 				List<GroupedHerd> groups = new ArrayList<GroupedHerd>();
-				while(rs.next()){
-					GroupedHerd gh = new GroupedHerd();
-					gh.setId(rs.getInt("groupedHerdsId"));
-					groups.add(gh);
-					Locale l = new Locale();
-					l.setLocaleName(rs.getString("localeName"));
-					l.setId(rs.getInt("localeId"));
-					gh.setLocale(l);
+				while(rs.next()){					
+					groups.add(buildGrouedHerd(rs));
 				}
 				return groups;
 			}
 		});
 	}
 
+	private GroupedHerd buildGrouedHerd(ResultSet rs) throws SQLException{
+		GroupedHerd gh = new GroupedHerd();
+		gh.setId(rs.getInt("groupedHerdsId"));
+		Locale l = new Locale();
+		l.setLocaleName(rs.getString("localeName"));
+		l.setId(rs.getInt("localeId"));
+		gh.setLocale(l);
+		return gh;
+	}
 	
 	@Override
 	public GroupedHerd saveNewGroupedHerd(GroupedHerd group) {
@@ -121,5 +124,25 @@ public class GroupedHerdDaoImpl implements GroupedHerdDao {
 	@Override
 	public void deleteGroupedHerd(int groupHerdId){
 		this.jdbcTemplate.execute("delete from grouped_herds where groupedHerdsId = "+groupHerdId);
+	}
+
+	@Override
+	public GroupedHerd getGroupedHerdForFeeding(int feedingId, int farmId) {
+		String sql = "SELECT GH.groupedHerdsId, L.localeId, L.localeName "
+				+ "FROM GROUPED_HERDS GH "
+				+ "JOIN LOCALE L ON L.localeId = GH.localeId "
+				+ "JOIN FEEDING F ON GH.groupedHerdsId = F.groupedHerdsId "
+				+ "WHERE F.farmId = " + farmId + " "
+				+ "AND F.feedingId = " + feedingId + " " 
+				+ "AND GH.localeId IS NOT NULL";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<GroupedHerd>() {
+			@Override
+			public GroupedHerd extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if(rs.first()){					
+					return buildGrouedHerd(rs);
+				}
+				return null;
+			}
+		});
 	}
 }

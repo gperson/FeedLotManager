@@ -1,5 +1,7 @@
 package com.holz.web.daos;
 
+import java.util.List;
+
 import com.holz.web.models.Feeding;
 
 public interface FeedingDao {
@@ -11,5 +13,7 @@ public interface FeedingDao {
 	Feeding getFeeding(int id);
 
 	void updateFeedingNoLeftovers(int feedingId);
+
+	List<Feeding> getAllActiveFeedings(int farmId);
 
 }

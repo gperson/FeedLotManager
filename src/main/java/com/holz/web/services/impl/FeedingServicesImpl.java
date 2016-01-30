@@ -11,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.holz.web.daos.FeedingDao;
 import com.holz.web.daos.FeedDao;
+import com.holz.web.daos.GroupedHerdDao;
 import com.holz.web.models.Feed;
 import com.holz.web.models.FeedType;
 import com.holz.web.models.Feeding;
+import com.holz.web.models.GroupedHerd;
 import com.holz.web.models.Leftovers;
 import com.holz.web.services.FeedingServices;
 
@@ -26,6 +28,9 @@ public class FeedingServicesImpl implements FeedingServices {
 	
 	@Autowired
 	private FeedDao feedDao;
+	
+	@Autowired
+	private GroupedHerdDao groupedHerdDao;
 
 	@Override
 	public Feeding saveOrUpdateFeeding(Feeding feeding, int farmId) {		
@@ -140,6 +145,18 @@ public class FeedingServicesImpl implements FeedingServices {
 			f.setRatio(f.getAmount()/total);
 		}
 		this.feedDao.saveFeedSelections(feeding.getFeeds(),feeding.getId());
+	}
+
+	@Override
+	public List<Feeding> getAllFeedings(int farmId) {
+		List<Feeding> feedings = this.feedingDao.getAllActiveFeedings(farmId);
+		for(Feeding fdg : feedings){
+			fdg.setFeeds(this.feedDao.getFeedsForFeeding(fdg.getId()));
+			GroupedHerd groupedHerd = new GroupedHerd();
+			groupedHerd.setLocale(this.groupedHerdDao.getGroupedHerdForFeeding(fdg.getId(), farmId).getLocale());
+			fdg.setGroupedHerd(groupedHerd);
+		}
+		return feedings;
 	}
 
 }

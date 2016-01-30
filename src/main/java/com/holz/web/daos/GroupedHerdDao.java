@@ -17,5 +17,7 @@ public interface GroupedHerdDao {
 	List<GroupedHerd> getGroupedHerds(int farmId);
 
 	boolean userHasAccessToGroupedHerd(String username, int groupedHerdId, int farmId);
+
+	GroupedHerd getGroupedHerdForFeeding(int feedindId, int farmId);
 	
 }

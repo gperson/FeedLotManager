@@ -128,6 +128,7 @@ CREATE TABLE FEEDING (
 	`hasLeftovers`					BOOL,
     `groupedHerdsId`				INT NOT NULL,
     `farmId`						INT NOT NULL,
+    `lastUpdated`					DATETIME,
     PRIMARY KEY ( feedingId ),
     FOREIGN KEY ( userId ) REFERENCES USERS( userId ),
     FOREIGN KEY ( groupedHerdsId ) REFERENCES GROUPED_HERDS( groupedHerdsId ),

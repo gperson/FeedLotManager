@@ -115,6 +115,8 @@ public class FeedingController {
 	@RequestMapping(value = { "/editFeeding" }, method = RequestMethod.GET)
 	public ModelAndView editFeeding(Principal principal) {
 		ModelAndView model = new ModelAndView("manager.editFeeding");
+		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();
+		model.addObject("feedings", this.feedingServices.getAllFeedings(farmId));
 		return model;
 	}
 }

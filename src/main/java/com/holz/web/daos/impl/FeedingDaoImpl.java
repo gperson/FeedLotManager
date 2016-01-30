@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -31,20 +34,21 @@ public class FeedingDaoImpl implements FeedingDao {
 		final Feeding feeding = currentFeeding;
 		final int farm = farmId;
 		if(feeding.getId() == 0){
-			final String sql = "INSERT INTO FEEDING VALUES (?,?,?,?,?,?,?,?)";
+			final String sql = "INSERT INTO FEEDING VALUES (?,?,?,?,?,?,?,?,?)";
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			jdbcTemplate.update(
 					new PreparedStatementCreator() {
 						public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 							PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 							ps.setInt(1, 0);
-							ps.setTimestamp(2,toTimstamp(feeding.getFeedingTime()));
+							ps.setTimestamp(2,toTimestamp(feeding.getFeedingTime()));
 							ps.setInt(3,feeding.getBunkScore());
 							ps.setDouble(4,feeding.getDeliveredAmount());
 							ps.setInt(5,feeding.getUser().getId());
 							ps.setBoolean(6,true);
 							ps.setInt(7,feeding.getGroupedHerd().getId());
 							ps.setInt(8, farm);
+							ps.setTimestamp(9, toTimestamp(new Date()));
 							return ps;
 						}
 					},keyHolder);
@@ -54,15 +58,16 @@ public class FeedingDaoImpl implements FeedingDao {
 			String sql = "UPDATE FEEDING SET feedingTime=?, bunkScore=?, deliveredAmount=?," 
 					+ " userId=?," 
 					+ " groupedHerdsId=?," 
-					+ " hasLeftovers=? "
+					+ " hasLeftovers=?, "
+					+ " lastUpdated=? "
 					+ "WHERE feedingId=? AND farmId=?";
 			this.jdbcTemplate.update(sql,feeding.getFeedingTime(),feeding.getBunkScore(),feeding.getDeliveredAmount(),
-					feeding.getUser().getId(),feeding.getGroupedHerd().getId(),feeding.isHasLeftovers(),feeding.getId(),farmId);
+					feeding.getUser().getId(),feeding.getGroupedHerd().getId(),feeding.isHasLeftovers(),new Date(),feeding.getId(),farmId);
 		}
 		return null;
 	}
 
-	private java.sql.Timestamp toTimstamp(java.util.Date date)
+	private java.sql.Timestamp toTimestamp(java.util.Date date)
 	{
 		if(date == null)
 			return null;
@@ -88,35 +93,64 @@ public class FeedingDaoImpl implements FeedingDao {
 
 	@Override
 	public Feeding getFeeding(int id) {
-		String sql ="SELECT feedingId,feedingTime,bunkScore,deliveredAmount,userId,hasLeftovers,groupedHerdsId,farmId "
+		String sql ="SELECT feedingId,feedingTime,bunkScore,deliveredAmount,userId,hasLeftovers,groupedHerdsId,farmId,lastUpdated "
 				+ "FROM FEEDING F "
 				+ "WHERE F.feedingId = ?";
 		return this.jdbcTemplate.query(sql, new Object[]{id}, new ResultSetExtractor<Feeding>() {
 			@Override
 			public Feeding extractData(ResultSet rs) throws SQLException, DataAccessException {
 				if(rs.first()){
-					Feeding f = new Feeding();
-					f.setId(rs.getInt("feedingId"));
-					f.setFeedingTime(rs.getTimestamp("feedingTime"));
-					f.setBunkScore(rs.getInt("bunkScore"));
-					f.setDeliveredAmount(rs.getDouble("deliveredAmount"));
-					User user = new User();
-					user.setUserId(rs.getInt("userId"));
-					f.setUser(user);
-					f.setHasLeftovers(rs.getBoolean("hasLeftovers"));
-					GroupedHerd groupedHerd = new GroupedHerd();
-					groupedHerd.setId(rs.getInt("groupedHerdsId"));
-					f.setGroupedHerd(groupedHerd);
-					return f;
+					return buildFeeding(rs);
 				}
 				return null;
 			}
 		});
 	}
 
+	private Feeding buildFeeding(ResultSet rs) throws SQLException{
+		Feeding f = new Feeding();
+		f.setId(rs.getInt("feedingId"));
+		f.setFeedingTime(rs.getTimestamp("feedingTime"));
+		f.setBunkScore(rs.getInt("bunkScore"));
+		f.setDeliveredAmount(rs.getDouble("deliveredAmount"));
+		f.setLastUpdated(rs.getTimestamp("lastUpdated"));
+		User user = new User();
+		user.setUserId(rs.getInt("userId"));
+		f.setUser(user);
+		f.setHasLeftovers(rs.getBoolean("hasLeftovers"));
+		GroupedHerd groupedHerd = new GroupedHerd();
+		groupedHerd.setId(rs.getInt("groupedHerdsId"));
+		f.setGroupedHerd(groupedHerd);
+		return f;
+	}
+	
 	@Override
 	public void updateFeedingNoLeftovers(int feedingId) {
 		String sql = "UPDATE FEEDING SET hasLeftovers=false WHERE feedingId=?";
 		this.jdbcTemplate.update(sql,feedingId);
+	}
+
+	@Override
+	public List<Feeding> getAllActiveFeedings(int farmId) {
+		String sql ="SELECT feedingId,feedingTime,bunkScore,deliveredAmount,U.userId,hasLeftovers,F.groupedHerdsId,lastUpdated, "
+				+ "firstName, lastName "
+				+ "FROM FEEDING F "
+				+ "JOIN GROUPED_HERDS GH on GH.groupedHerdsId = F.groupedHerdsId " //Get local feed
+				+ "JOIN LOCALE L ON GH.localeId = L.localeId "
+				+ "JOIN USERS U ON F.userId = U.userId "
+				+ "WHERE F.farmId = ?";
+		return this.jdbcTemplate.query(sql, new Object[]{farmId}, new ResultSetExtractor<List<Feeding>>() {
+			@Override
+			public List<Feeding> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<Feeding> fdgs = new ArrayList<Feeding>();
+				while(rs.next()){
+					Feeding f = buildFeeding(rs);
+					f.getUser().setFirstName(rs.getString("firstName"));
+					f.getUser().setLastName(rs.getString("lastName"));
+					fdgs.add(f);
+				}
+				return fdgs;
+			}
+		});
 	}
 }
