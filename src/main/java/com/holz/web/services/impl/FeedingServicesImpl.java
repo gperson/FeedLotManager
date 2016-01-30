@@ -38,7 +38,13 @@ public class FeedingServicesImpl implements FeedingServices {
 			//Subtract from Feed amounts
 			double total = 0;
 			for(Feed f : feeding.getFeeds()){
-				f.setAmount(f.getAmount() - (f.getRatio()*feeding.getDeliveredAmount()));
+				if(feeding.isHasLeftovers()){
+					f.setAmount(f.getAmount() - (f.getRatio()*feeding.getDeliveredAmount()));
+				} else {
+					//Used all remaining
+					feeding.setDeliveredAmount(feeding.getDeliveredAmount() + f.getAmount());
+					f.setAmount(0);
+				}
 				total = total + f.getAmount();
 			}
 			this.feedDao.updateFeedAmounts(feeding.getFeeds(),farmId);

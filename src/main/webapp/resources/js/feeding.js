@@ -66,6 +66,18 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
+	/*
+	 * Handles 'All Remaining' check box
+	 */
+	$("#hasLeftovers").click(function(){
+		if($("#hasLeftovers").is(":checked")){
+			$("#amount").val("");
+			$("#amount").prop('disabled',true);
+		} else {
+			$("#amount").prop('disabled',false);
+		}
+	});
 
 	/*
 	 *  Click 'Finish'
@@ -83,7 +95,7 @@ $(document).ready(function(){
 				bunkScore : parseInt($("#bunk_score").val()),
 				deliveredAmount : parseFloat($("#amount").val()),
 				feedingTime : time,
-				hasLeftovers : $("#hasLeftovers").is(":checked")
+				hasLeftovers : (!$("#hasLeftovers").is(":checked"))
 			}),
 			dataType : 'json',
 			contentType: 'application/json',
