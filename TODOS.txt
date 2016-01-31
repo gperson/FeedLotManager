@@ -6,4 +6,5 @@ TODOS
 # alerts/email when oflex
 # password reset 
 # 404 Page
+# HTTPS
 

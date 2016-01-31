@@ -117,6 +117,8 @@ public class FeedingController {
 		ModelAndView model = new ModelAndView("manager.editFeeding");
 		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();
 		model.addObject("feedings", this.feedingServices.getAllFeedings(farmId));
+		model.addObject("groupedHerds",this.groupedHerdServices.getGroupedHerds(farmId));
+		model.addObject("feeds", this.feedTypeServices.getEnabledFeedTypes(farmId));
 		return model;
 	}
 }
