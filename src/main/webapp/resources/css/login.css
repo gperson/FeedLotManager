@@ -1,4 +1,4 @@
-#login-box {
+#login-box,#change-password {
 	text-align: center;
 	display: table;
     margin: 0 auto;
@@ -8,15 +8,17 @@
 	width: 225px;
 	margin-bottom: 10px;
 }
+#change-password .input-group {
+	margin-bottom: 10px;
+}
 #login-box .input-group-addon {
 	width: 95px;
 }
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
-#login-box alert {
-	margin-bottom: 0px;
-	margin-top: 20px;
+#login-box .alert, #change-password .alert {
+	margin-bottom: 10px;
 }
 #forgot_pwd {
 	margin-bottom: 10px;

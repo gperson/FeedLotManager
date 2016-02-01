@@ -17,7 +17,7 @@
 			  <input type="password" class="form-control" name="password" placeholder="Password" aria-describedby="passwordInput">
 			</div>
 			<div id="forgot_pwd">
-				<a href="#">Forget username or password?</a>
+				<a href="/resetPassword">Forget username or password?</a>
 			</div>
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 			<input name="submit" class="btn btn-primary" type="submit" value="Submit" />

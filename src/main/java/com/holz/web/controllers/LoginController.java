@@ -5,10 +5,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.holz.web.models.User;
 
 @Controller
 public class LoginController {
@@ -43,4 +48,18 @@ public class LoginController {
 
 	}
 
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.GET)
+	public ModelAndView resetPassword() {
+		ModelAndView model = new ModelAndView("manager.resetPassword","command",new User());
+		return model;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+	public ModelAndView resetPassword(@ModelAttribute("user") User user, BindingResult result) {		
+		ModelAndView model = new ModelAndView("manager.resetPassword","command",new User());
+		//TODO Send email 
+		model.addObject("msg", "Reset instructions sent.");
+		return model;
+	}
 }
