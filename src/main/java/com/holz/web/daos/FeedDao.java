@@ -14,4 +14,6 @@ public interface FeedDao {
 	List<Leftovers> getLeftoverFeeds(int farmId);
 
 	List<Feed> getFeedsForFeeding(int feedingId);
+
+	void deleteFeeds(List<Feed> old);
 }

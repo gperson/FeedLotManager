@@ -14,4 +14,6 @@ public interface FeedingServices {
 
 	List<Feeding> getAllFeedings(int farmId);
 
+	void editedFeeding(Feeding feeding, int farmId);
+
 }

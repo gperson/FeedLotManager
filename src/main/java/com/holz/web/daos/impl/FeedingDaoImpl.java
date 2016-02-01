@@ -135,10 +135,10 @@ public class FeedingDaoImpl implements FeedingDao {
 		String sql ="SELECT feedingId,feedingTime,bunkScore,deliveredAmount,U.userId,hasLeftovers,F.groupedHerdsId,lastUpdated, "
 				+ "firstName, lastName "
 				+ "FROM FEEDING F "
-				+ "JOIN GROUPED_HERDS GH on GH.groupedHerdsId = F.groupedHerdsId " //Get local feed
+				+ "JOIN GROUPED_HERDS GH on GH.groupedHerdsId = F.groupedHerdsId "
 				+ "JOIN LOCALE L ON GH.localeId = L.localeId "
 				+ "JOIN USERS U ON F.userId = U.userId "
-				+ "WHERE F.farmId = ?";
+				+ "WHERE F.farmId = ? ORDER BY lastUpdated DESC";
 		return this.jdbcTemplate.query(sql, new Object[]{farmId}, new ResultSetExtractor<List<Feeding>>() {
 			@Override
 			public List<Feeding> extractData(ResultSet rs) throws SQLException, DataAccessException {

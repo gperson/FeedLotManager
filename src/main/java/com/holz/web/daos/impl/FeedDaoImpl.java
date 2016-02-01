@@ -26,7 +26,8 @@ public class FeedDaoImpl implements FeedDao {
 	public void saveFeedSelections(List<Feed> feeds,int feedingId) {
 		String sql = "INSERT INTO FEED VALUES (?,?,?,?,?)";
 		for(Feed f : feeds){
-			this.jdbcTemplate.update(sql,0,f.getAmount(),f.getFeedType().getId(),feedingId,f.getRatio());
+			if(f.getRatio() > 0)
+				this.jdbcTemplate.update(sql,0,f.getAmount(),f.getFeedType().getId(),feedingId,f.getRatio());
 		}
 	}
 
@@ -101,5 +102,12 @@ public class FeedDaoImpl implements FeedDao {
 				return feeds;
 			}
 		});
+	}
+
+	@Override
+	public void deleteFeeds(List<Feed> feeds) {
+		for(Feed f : feeds){
+			this.jdbcTemplate.execute("DELETE FROM FEED WHERE feedId = "+ f.getId());
+		}
 	}
 }

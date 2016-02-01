@@ -121,4 +121,17 @@ public class FeedingController {
 		model.addObject("feeds", this.feedTypeServices.getEnabledFeedTypes(farmId));
 		return model;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/editedFeeding", method = RequestMethod.POST)
+	public AjaxResponse editedFeeding(@RequestBody Feeding feeding,Principal principal) {
+		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();
+		if(this.feedingServices.userHasAccessToFeeding(farmId,feeding.getId())){
+			feeding.setUser(this.userServices.getUser(principal.getName()));
+			this.feedingServices.editedFeeding(feeding,farmId);
+			return new AjaxResponse(true);
+		} else{
+			return new AjaxResponse(false);
+		}
+	}
 }
