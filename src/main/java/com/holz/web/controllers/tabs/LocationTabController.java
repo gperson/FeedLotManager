@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.holz.web.models.GroupedHerdUpdate;
 import com.holz.web.models.Locale;
-import com.holz.web.models.enums.FarmLoadOption;
 import com.holz.web.models.responses.AjaxResponse;
 import com.holz.web.services.FarmServices;
 import com.holz.web.services.GroupedHerdServices;
@@ -38,7 +37,7 @@ public class LocationTabController {
 	@RequestMapping(value = { "/admin/locationsTab" }, method = RequestMethod.GET)
 	public ModelAndView LocationsTab(Principal principal) {
 		ModelAndView model = new ModelAndView("templates/manage/locations_tab");
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();
 		List<Locale> l = this.localeServices.getLocalesAndGroupedHerd(farmId);
 		model.addObject("locales", l);
 		model.addObject("orphans", this.herdServices.getOrphanHerds(farmId));
@@ -48,7 +47,7 @@ public class LocationTabController {
 	@ResponseBody
 	@RequestMapping(value = { "/admin/saveLocale" }, method = RequestMethod.POST)
 	public AjaxResponse SaveLocale(@RequestBody Locale locale, Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		this.localeServices.saveOrUpdateLocale(locale, farmId);
 		return new AjaxResponse(true);
 	}
@@ -56,7 +55,7 @@ public class LocationTabController {
 	@ResponseBody
 	@RequestMapping(value = { "/admin/saveGroupedHerd" }, method = RequestMethod.POST)
 	public AjaxResponse SaveGroupedHerd(@RequestBody GroupedHerdUpdate groupedHerdUpdate, Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();				
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();				
 		
 		Locale locale = new Locale();
 		locale.setId(groupedHerdUpdate.getLocaleId());

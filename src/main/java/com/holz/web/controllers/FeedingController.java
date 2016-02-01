@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.holz.web.models.Feeding;
-import com.holz.web.models.enums.FarmLoadOption;
 import com.holz.web.models.responses.AjaxResponse;
 import com.holz.web.services.FarmServices;
 import com.holz.web.services.FeedServices;
@@ -44,7 +43,7 @@ public class FeedingController {
 
 	@RequestMapping(value = { "/feedMix/{groupId}/{feedingId}" }, method = RequestMethod.GET)
 	public ModelAndView mixFeed(Principal principal,@PathVariable int groupId, @PathVariable int feedingId) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();
 		if(this.groupedHerdServices.userHasAccessToGroupedHerd(principal.getName(), groupId, farmId)){
 			ModelAndView model = new ModelAndView("manager.feedMix");
 			model.addObject("feeds", this.feedTypeServices.getEnabledFeedTypes(farmId));
@@ -58,7 +57,7 @@ public class FeedingController {
 	@ResponseBody
 	@RequestMapping(value = "/feedMixed", method = RequestMethod.POST)
 	public AjaxResponse feedMixed(@RequestBody Feeding feeding,Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();
 		if(this.feedingServices.userHasAccessToFeeding(farmId,feeding.getId())){			
 			//TODO Check to make sure some one didn't use left overs
 			this.feedingServices.saveFeedSelections(feeding,farmId);
@@ -70,7 +69,7 @@ public class FeedingController {
 
 	@RequestMapping(value = { "/deliver/{feedingId}" }, method = RequestMethod.GET)
 	public ModelAndView deliver(Principal principal, @PathVariable int feedingId) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();
 		if(this.feedingServices.userHasAccessToFeeding(farmId,feedingId)){
 			ModelAndView model = new ModelAndView("manager.deliver");
 			return model;
@@ -82,7 +81,7 @@ public class FeedingController {
 	@ResponseBody
 	@RequestMapping(value = "/delivered", method = RequestMethod.POST)
 	public AjaxResponse delivered(@RequestBody Feeding feeding,Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();
 		if(this.feedingServices.userHasAccessToFeeding(farmId,feeding.getId())){
 			feeding.setUser(this.userServices.getUser(principal.getName()));
 			this.feedingServices.saveOrUpdateFeeding(feeding, farmId);
@@ -95,7 +94,7 @@ public class FeedingController {
 	@RequestMapping(value = { "/pickLocation" }, method = RequestMethod.GET)
 	public ModelAndView pickLocation(Principal principal) {
 		ModelAndView model = new ModelAndView("manager.pickLocation");
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();	
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();	
 		model.addObject("groupedHerds",this.groupedHerdServices.getGroupedHerds(farmId));
 		return model;
 	}
@@ -103,7 +102,7 @@ public class FeedingController {
 	@ResponseBody
 	@RequestMapping(value = "/pickedLocation", method = RequestMethod.POST)
 	public AjaxResponse pickedLocaion(@RequestBody Feeding feeding,Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();
 		if(this.groupedHerdServices.userHasAccessToGroupedHerd(principal.getName(), feeding.getGroupedHerd().getId(), farmId)){
 			feeding.setUser(this.userServices.getUser(principal.getName()));
 			return new AjaxResponse(true,this.feedingServices.saveOrUpdateFeeding(feeding,farmId));
@@ -115,7 +114,7 @@ public class FeedingController {
 	@RequestMapping(value = { "/editFeeding" }, method = RequestMethod.GET)
 	public ModelAndView editFeeding(Principal principal) {
 		ModelAndView model = new ModelAndView("manager.editFeeding");
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();
 		model.addObject("feedings", this.feedingServices.getAllFeedings(farmId));
 		model.addObject("groupedHerds",this.groupedHerdServices.getGroupedHerds(farmId));
 		model.addObject("feeds", this.feedTypeServices.getEnabledFeedTypes(farmId));
@@ -125,7 +124,7 @@ public class FeedingController {
 	@ResponseBody
 	@RequestMapping(value = "/editedFeeding", method = RequestMethod.POST)
 	public AjaxResponse editedFeeding(@RequestBody Feeding feeding,Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();
 		if(this.feedingServices.userHasAccessToFeeding(farmId,feeding.getId())){
 			feeding.setUser(this.userServices.getUser(principal.getName()));
 			this.feedingServices.editedFeeding(feeding,farmId);

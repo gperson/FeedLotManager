@@ -7,4 +7,5 @@ TODOS
 # password reset 
 # 404 Page
 # HTTPS
-
+# Intercepter, so dont have to get farm id in every controller
+# Verifications

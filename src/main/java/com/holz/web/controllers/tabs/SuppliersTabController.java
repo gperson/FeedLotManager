@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.holz.web.models.Supplier;
-import com.holz.web.models.enums.FarmLoadOption;
 import com.holz.web.models.responses.AjaxResponse;
 import com.holz.web.services.FarmServices;
 import com.holz.web.services.SupplierServices;
@@ -28,7 +27,7 @@ public class SuppliersTabController {
 	@RequestMapping(value = { "/admin/suppliersTab" }, method = RequestMethod.GET)
 	public ModelAndView SuppliersTab(Principal principal) {
 		ModelAndView model = new ModelAndView("templates/manage/suppliers_tab");
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		model.addObject("suppliers", this.supplierServices.getSuppliers(farmId));
 		return model;
 	}
@@ -36,7 +35,7 @@ public class SuppliersTabController {
 	@ResponseBody
 	@RequestMapping(value = { "/admin/saveSupplier" }, method = RequestMethod.POST)
 	public AjaxResponse SaveSupplier(@RequestBody Supplier supplier, Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		this.supplierServices.saveOrUpdateSupplier(supplier, farmId);
 		return new AjaxResponse(true);
 	}

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.holz.web.models.Sale;
-import com.holz.web.models.enums.FarmLoadOption;
 import com.holz.web.models.responses.AjaxResponse;
 import com.holz.web.services.FarmServices;
 import com.holz.web.services.GroupedHerdServices;
@@ -36,7 +35,7 @@ public class SoldLivestockTabController {
 	@RequestMapping(value = { "/admin/soldLivestockTab" }, method = RequestMethod.GET)
 	public ModelAndView SoldLivestockTab(Principal principal) {
 		ModelAndView model = new ModelAndView("templates/manage/soldLivestock_tab");
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		model.addObject("sales", this.saleServices.getAllSales(farmId));
 		model.addObject("groupedHerds", this.groupedHerdServices.getGroupedHerds(farmId));
 		model.addObject("packers",this.packerServices.getPackers(farmId));
@@ -46,7 +45,7 @@ public class SoldLivestockTabController {
 	@ResponseBody
 	@RequestMapping(value = { "/admin/saveSoldLivestock" }, method = RequestMethod.POST)
 	public AjaxResponse SaveSupplier(@RequestBody Sale sale, Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		this.saleServices.saveOrUpdateSale(sale, farmId);
 		return new AjaxResponse(true);
 	}

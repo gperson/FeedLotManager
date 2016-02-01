@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.holz.web.models.Packer;
-import com.holz.web.models.enums.FarmLoadOption;
 import com.holz.web.models.responses.AjaxResponse;
 import com.holz.web.services.FarmServices;
 import com.holz.web.services.PackerServices;
@@ -28,7 +27,7 @@ public class PackersTabController {
 	@RequestMapping(value = { "/admin/packersTab" }, method = RequestMethod.GET)
 	public ModelAndView PackersTab(Principal principal) {
 		ModelAndView model = new ModelAndView("templates/manage/packers_tab");
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		model.addObject("packers", this.packerService.getPackers(farmId));
 		return model;
 	}
@@ -36,7 +35,7 @@ public class PackersTabController {
 	@ResponseBody
 	@RequestMapping(value = { "/admin/savePacker" }, method = RequestMethod.POST)
 	public AjaxResponse SavePacker(@RequestBody Packer packer, Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		this.packerService.saveOrUpdatePacker(packer, farmId);
 		return new AjaxResponse(true);
 	}

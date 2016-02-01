@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.holz.web.daos.FarmDao;
 import com.holz.web.models.Farm;
-import com.holz.web.models.enums.FarmLoadOption;
 
 @Repository
 public class FarmDaoImpl implements FarmDao {
@@ -20,7 +19,7 @@ public class FarmDaoImpl implements FarmDao {
 	JdbcTemplate jdbcTemplate; 
 
 	@Override
-	public Farm getFarmByUserName(String userName, FarmLoadOption loadOption) {
+	public Farm getFarmByUserName(String userName) {
 		String sql = "SELECT U.farmId FROM FARM F "
 				+ "JOIN USERS U ON U.farmId = F.farmId "
 				+ "WHERE U.userName = '"+userName +"'";

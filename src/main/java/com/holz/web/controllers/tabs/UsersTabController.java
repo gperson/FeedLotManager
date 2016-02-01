@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.holz.web.models.User;
-import com.holz.web.models.enums.FarmLoadOption;
 import com.holz.web.models.responses.AjaxResponse;
 import com.holz.web.services.FarmServices;
 import com.holz.web.services.UserServices;
@@ -28,7 +27,7 @@ public class UsersTabController {
 	@RequestMapping(value = { "/admin/usersTab" }, method = RequestMethod.GET)
 	public ModelAndView UsersTab(Principal principal) {
 		ModelAndView model = new ModelAndView("templates/manage/users_tab");
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		model.addObject("users", this.userServives.getUsersForFarm(farmId));
 		return model;
 	}
@@ -36,7 +35,7 @@ public class UsersTabController {
 	@ResponseBody
 	@RequestMapping(value = { "/admin/saveUser" }, method = RequestMethod.POST)
 	public AjaxResponse SaveUser(@RequestBody User user, Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		this.userServives.saveOrUpdateUser(user, farmId);
 		return new AjaxResponse(true);
 	}
@@ -51,7 +50,7 @@ public class UsersTabController {
 	@ResponseBody
 	@RequestMapping(value = { "/admin/enableDisableUser" }, method = RequestMethod.POST)
 	public AjaxResponse EnableDisableUser(@RequestBody User user, Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		this.userServives.enableDisableUser(user, farmId);
 		return new AjaxResponse(true);
 	}

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.holz.web.models.FeedType;
-import com.holz.web.models.enums.FarmLoadOption;
 import com.holz.web.models.responses.AjaxResponse;
 import com.holz.web.services.FarmServices;
 import com.holz.web.services.FeedTypeServices;
@@ -28,7 +27,7 @@ public class FeedTabController {
 	@RequestMapping(value = { "/admin/feedTab" }, method = RequestMethod.GET)
 	public ModelAndView FeedTab(Principal principal) {
 		ModelAndView model = new ModelAndView("templates/manage/feed_tab");
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();	
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();	
 		model.addObject("feeds", this.feedServices.getFeedTypes(farmId));
 		return model;
 	}
@@ -36,7 +35,7 @@ public class FeedTabController {
 	@ResponseBody
 	@RequestMapping(value = { "/admin/saveFeed" }, method = RequestMethod.POST)
 	public AjaxResponse SaveFeed(@RequestBody FeedType feed, Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		this.feedServices.saveOrUpdateFeedType(feed, farmId);
 		return new AjaxResponse(true);
 	}
@@ -44,7 +43,7 @@ public class FeedTabController {
 	@ResponseBody
 	@RequestMapping(value = { "/admin/enableDisableFeed" }, method = RequestMethod.POST)
 	public AjaxResponse EnableDisableFeedFeed(@RequestBody FeedType feed, Principal principal) {
-		int farmId = this.farmServices.getFarmByUserName(principal.getName(), FarmLoadOption.FARM_NAME_AND_ID).getId();		
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
 		this.feedServices.enableDisableFeedType(feed, farmId);
 		return new AjaxResponse(true);
 	}
