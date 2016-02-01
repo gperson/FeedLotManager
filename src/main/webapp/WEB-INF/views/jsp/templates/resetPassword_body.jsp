@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <div id="content">
+	<h4 class="center_row">Password Reset</h4>
 	<div id="change-password">
 		<c:if test="${not empty msg}">
 			<div class="alert alert-success" role="alert">${msg}</div>
