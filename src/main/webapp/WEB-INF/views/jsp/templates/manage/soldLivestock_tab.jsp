@@ -79,9 +79,12 @@
 		    </c:forEach>
 		  </select>
 		</div>
-		<div class="form-group">
-		  <label for="saDate">Sale Date:</label>
-		  <input type="text" class="form-control" id="saDate" placeholder="Sale Date">
+		<label for="saDate">Sale Date:</label>
+		<div class="form-group input-group date" data-provide="datepicker">
+		    <input type="text" class="form-control" id="saDate" placeholder="Sale Date">
+		    <div class="input-group-addon">
+		        <span class="glyphicon glyphicon-th"></span>
+		    </div>
 		</div>		
 		<div id="popup_btns">
 			<button id="save_sale" onclick="saveSale()" type="button" class="btn btn-primary">Save</button>

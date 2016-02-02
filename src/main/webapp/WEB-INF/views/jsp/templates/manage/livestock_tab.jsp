@@ -57,17 +57,26 @@
 		  <label for="tagNumber">Tag Number:</label>
 		  <input class="form-control" id="tagNumber" placeholder="Tag Number">
 		</div>
-		<div class="form-group">
-		  <label for="estimatedSaleDate">Estimated Sale Date:</label>
-		  <input type="text" class="form-control" id="estimatedSaleDate" placeholder="Estimated Sale Date">
+		<label for="estimatedSaleDate">Estimated Sale Date:</label>
+		<div class="form-group input-group date" data-provide="datepicker">
+		    <input type="text" class="form-control" id="estimatedSaleDate" placeholder="Estimated Sale Date">
+		    <div class="input-group-addon">
+		        <span class="glyphicon glyphicon-th"></span>
+		    </div>
 		</div>
-		<div class="form-group">
-		  <label for="implantDate">Implant Date:</label>
-		  <input type="text" class="form-control" id="implantDate" placeholder="Implant Date">
+		<label for="implantDate">Implant Date:</label>
+		<div class="form-group input-group date" data-provide="datepicker">
+		    <input type="text" class="form-control" id="implantDate" placeholder="Implant Date">
+		    <div class="input-group-addon">
+		        <span class="glyphicon glyphicon-th"></span>
+		    </div>
 		</div>
-		<div class="form-group">
-		  <label for="optiflexDate">Optiflex Date:</label>
-		  <input type="text" class="form-control" id="optiflexDate" placeholder="Optiflex Date">
+		<label for="optiflexDate">Optiflex Date:</label>
+		<div class="form-group input-group date" data-provide="datepicker">
+		    <input type="text" class="form-control" id="optiflexDate" placeholder="Optiflex Date">
+		    <div class="input-group-addon">
+		        <span class="glyphicon glyphicon-th"></span>
+		    </div>
 		</div>
 		<div class="form-group">
 		  <label for="supplier">Supplier:</label>
