@@ -23,12 +23,12 @@
 				</td>
 				<td class="lCount">${locale.groupedHerd.count}</td>
 				<td>
-					<button onclick="openLocationPopup(this,true);" type="button" class="btn btn-info btn-xs">Edit</button>
 					<c:if test="${!locale.enabled}">
-						<button onclick="enableDisableLocale(${locale.id},true);" type="button" class="btn btn-default btn-xs">Enable</button>
+						<button onclick="enableDisableLocale(${locale.id},true,this);" type="button" class="btn btn-default btn-xs">Enable</button>
 					</c:if>
 					<c:if test="${locale.enabled}">
-						<button onclick="enableDisableLocale(${locale.id},false);"type="button" class="btn btn-danger btn-xs">Disable</button>
+						<button onclick="openLocationPopup(this,true);" type="button" class="btn btn-info btn-xs">Edit</button>
+						<button onclick="enableDisableLocale(${locale.id},false,this);"type="button" class="btn btn-danger btn-xs">Disable</button>
 					</c:if>
 				</td>
 			</tr>

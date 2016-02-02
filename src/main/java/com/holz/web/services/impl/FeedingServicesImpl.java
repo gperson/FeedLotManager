@@ -152,8 +152,7 @@ public class FeedingServicesImpl implements FeedingServices {
 		List<Feeding> feedings = this.feedingDao.getAllActiveFeedings(farmId);
 		for(Feeding fdg : feedings){
 			fdg.setFeeds(this.feedDao.getFeedsForFeeding(fdg.getId()));
-			GroupedHerd groupedHerd = new GroupedHerd();
-			groupedHerd.setLocale(this.groupedHerdDao.getGroupedHerdForFeeding(fdg.getId(), farmId).getLocale());
+			GroupedHerd groupedHerd = this.groupedHerdDao.getGroupedHerdForFeeding(fdg.getId(), farmId);
 			fdg.setGroupedHerd(groupedHerd);
 		}
 		return feedings;

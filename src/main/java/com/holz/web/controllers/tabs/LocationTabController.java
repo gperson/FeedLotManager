@@ -53,6 +53,14 @@ public class LocationTabController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = { "/admin/enableDisableLocale" }, method = RequestMethod.POST)
+	public AjaxResponse enableDisableLocale(@RequestBody Locale locale, Principal principal) {
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
+		this.localeServices.enableDisableLocale(locale, farmId);
+		return new AjaxResponse(true);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = { "/admin/saveGroupedHerd" }, method = RequestMethod.POST)
 	public AjaxResponse SaveGroupedHerd(@RequestBody GroupedHerdUpdate groupedHerdUpdate, Principal principal) {
 		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();				

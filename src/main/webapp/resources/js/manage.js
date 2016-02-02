@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$("#fade").hide();
 	loadLocationsTab();
-	
+
 	$(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
 		var target = $(e.target).attr("href")
 		if(target === '#locations'){
@@ -19,7 +19,7 @@ $(document).ready(function() {
 		} else if(target === '#soldLivestock'){
 			loadSoldLivestockTab();
 		}
-		
+
 	});
 });
 
@@ -135,13 +135,13 @@ function saveLocation(){
 						} else {
 							alert("An error updating new herds occurred.");
 						}
-						
+
 					}
 				});
 			} else {
 				alert("An error saving location information occurred.");
 			}
-			
+
 		}
 	});
 	$("#fade").hide();
@@ -157,7 +157,7 @@ function openLocationPopup(e,edit){
 	var row = $(e).parent().parent();
 	var id = row.attr("id");
 	var groupId = row.attr('data-group');
-	
+
 	if(edit === true){
 		$("#save_location").attr("data-id",id);
 		$("#name").val(row.find(".lName").text());
@@ -176,6 +176,34 @@ function openLocationPopup(e,edit){
 	$("#location_popup").show();
 };
 
+function enableDisableLocale(id,enable,ele){
+	var text = $(ele).parent().parent().find('.lCount').text();
+	var count = parseInt(text);
+
+	if(count < 1 || text === ""){
+		$.ajax({
+			type : "POST",
+			headers: headers,
+			url : "/admin/enableDisableLocale",
+			data : JSON.stringify({ 
+				id : id,
+				enabled : enable, 			
+			}),
+			dataType : 'json',
+			contentType: 'application/json',
+			success : function(result){
+				if(result.success === true){
+					loadLocationsTab();
+				} else {
+					alert("An error occurred.");
+				}		
+			}
+		});
+	} else {
+		alert("Can't disable, there is currently livestock at this location.")
+	}
+}
+
 function loadFeedTab(){
 	$.ajax({
 		type : "GET",
@@ -191,7 +219,7 @@ function loadFeedTab(){
 function openFeedPopup(e,edit){
 	var row = $(e).parent().parent();
 	var id = row.attr("id");
-	
+
 	if(edit === true){
 		$("#save_feed").attr("data-id",id);
 		$("#feedType").val(row.find(".fFeedType").text());
@@ -225,7 +253,7 @@ function saveFeed(){
 			} else {
 				alert("An error occurred.");
 			}
-			
+
 		}
 	});
 	$("#fade").hide();
@@ -273,7 +301,7 @@ function loadLivestockTab(){
 function openBuyLivestockPopup(e,edit){
 	var row = $(e).parent().parent();
 	var id = row.find(".hId").text();
-	
+
 	if(edit === true){
 		$("#save_buyLivestock").attr("data-id",id);
 		$("#supplier").val(row.find(".hSupplier").attr("data-supplier"));
@@ -326,7 +354,7 @@ function saveBuyLivestock(){
 			} else {
 				alert("An error occurred.");
 			}
-			
+
 		}
 	});
 	$("#fade").hide();
@@ -352,7 +380,7 @@ function loadPackersTab(){
 
 function openPackerPopup(e,edit){
 	var id = $(e).attr("id"), row = $(e).parent().parent();
-	
+
 	if(edit === true){
 		$("#save_packer").attr("data-id",id);
 		$("#packerName").val(row.find(".pName").text());
@@ -385,7 +413,7 @@ function savePacker(){
 			} else {
 				alert("An error occurred.");
 			}
-			
+
 		}
 	});
 	$("#fade").hide();
@@ -412,7 +440,7 @@ function loadSoldLivestockTab(){
 function openSalePopup(e,edit){
 	var row = $(e).parent().parent();
 	var id = row.attr("id");
-	
+
 	if(edit === true){
 		$("#save_sale").attr("data-id",id);
 		$("#saPrice").val(row.find(".saPrice").text());
@@ -463,7 +491,7 @@ function saveSale(){
 			} else {
 				alert("An error occurred.");
 			}
-			
+
 		}
 	});
 	$("#fade").hide();
@@ -489,7 +517,7 @@ function loadSuppliersTab(){
 
 function openSupplierPopup(e,edit){
 	var id = $(e).attr("id"), row = $(e).parent().parent();
-	
+
 	if(edit === true){
 		$("#save_supplier").attr("data-id",id);
 		$("#supplierName").val(row.find(".sName").text());
@@ -522,7 +550,7 @@ function saveSupplier(){
 			} else {
 				alert("An error occurred.");
 			}
-			
+
 		}
 	});
 	$("#fade").hide();
@@ -549,7 +577,7 @@ function loadUsersTab(){
 function openUserPopup(e,edit){
 	var row = $(e).parent().parent();
 	var id = row.attr("id");
-	
+
 	if(edit === true){
 		$("#save_user").attr("data-id",id);
 		$("#username").val(row.find(".uUsername").text());
@@ -599,7 +627,7 @@ function saveUser(){
 			} else {
 				alert("An error occurred.");
 			}
-			
+
 		}
 	});
 	$("#fade").hide();

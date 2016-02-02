@@ -5,14 +5,14 @@
 	<div class="center_row col-md-12">
 		<c:forEach var="feeding" items="${feedings}">
 			<div class="edit_feeding edit_well_selector well well-sm">
-				<label><span class="edit_ico glyphicon glyphicon-triangle-right" aria-hidden="true"></span>${feeding.user.firstName} ${feeding.user.lastName}</label> <span>Date entered: <fmt:formatDate value="${feeding.lastUpdated}" pattern="MM/dd/yyyy hh:mm a" />,</span><span> Location: ${feeding.groupedHerd.locale.localeName},</span><span>Delivered: ${feeding.deliveredAmount},</span><span> Types: <c:forEach	var="feed" items="${feeding.feeds}" varStatus="status"><c:out value="${feed.feedType.feedType}" /><c:if test="${!status.last}">, </c:if></c:forEach></span>
+				<label><span class="edit_ico glyphicon glyphicon-triangle-right" aria-hidden="true"></span>${feeding.user.firstName} ${feeding.user.lastName}</label> <span>Date last edited: <fmt:formatDate value="${feeding.lastUpdated}" pattern="MM/dd/yyyy hh:mm a" />,</span><span> Location: ${feeding.groupedHerd.locale.localeName},</span><span>Delivered: ${feeding.deliveredAmount},</span><span> Types: <c:forEach	var="feed" items="${feeding.feeds}" varStatus="status"><c:out value="${feed.feedType.feedType}" /><c:if test="${!status.last}">, </c:if></c:forEach></span>
 				<div id="${feeding.id}" class="edit_feeding_inputs">
 					<form name="edit_feeding" role="form">
 						<div class="form-group">
 							<label for="sel1">Select Location:</label> 
 							<select class="form-control locale">
 								<c:forEach var="groupedHerd" items="${groupedHerds}">
-									<option value="${groupedHerd.id}"><c:out value="${groupedHerd.locale.localeName}" /></option>
+									<option value="${groupedHerd.id}" ${feeding.groupedHerd.id == groupedHerd.id ? 'selected' : ''}><c:out value="${groupedHerd.locale.localeName}" /></option>
 								</c:forEach>
 							</select>
 						</div>
@@ -41,7 +41,7 @@
 						</div>
 						<div class="form-group">
 							<label for="delivered">Amount Deliver:</label>
-							<input type="text" class="form-control delivered" value="${feeding.deliveredAmount}">
+							<input type="number" min="0" step="0.1" placeholder="Amount (lbs)" class="form-control delivered" value="${feeding.deliveredAmount}">
 						</div>
 						<div class="form-group">
 							<label for="bunkScore">Score:</label> 

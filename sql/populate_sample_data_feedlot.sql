@@ -28,6 +28,3 @@ INSERT INTO `LOCALE` VALUES
 INSERT INTO `PACKER` VALUES 
 	(1,'Tyson','Fort Dodge, IA',1),
     (2,'Scuba Steve Packers Inc.','Miami, FL',1);
-INSERT INTO `GROUPED_HERDS` VALUES 
-	(1,1,0),
-    (2,3,0);

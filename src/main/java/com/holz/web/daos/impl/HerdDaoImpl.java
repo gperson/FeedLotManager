@@ -44,7 +44,8 @@ public class HerdDaoImpl implements HerdDao {
 					+ "optiflexDate=?,supplierId=?, groupedHerdsId=? where herdId=? AND farmId =?";
 			this.jdbcTemplate.update(sql, new Object[]{herd.getQuantity(),herd.getWeight(),herd.getCost(),
 					herd.getTagNumber(),herd.getEstimatedSaleDate(),herd.getImplantDate(),herd.getOptiflexDate(),
-					herd.getSupplier().getId(),herd.getGroupedHerd().getId(),herd.getId(),farmId});
+					herd.getSupplier().getId(),(herd.getGroupedHerd() == null ? null : herd.getGroupedHerd().getId()),
+					herd.getId(),farmId});
 		} else {
 			this.jdbcTemplate.update(sql, 
 					new Object[]{0,farmId,herd.getQuantity(), herd.getWeight(), herd.getCost(),

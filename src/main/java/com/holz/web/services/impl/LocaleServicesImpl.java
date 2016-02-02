@@ -50,7 +50,7 @@ public class LocaleServicesImpl implements LocaleServices {
 	}
 
 	@Override
-	public void enableDisableUser(Locale locale, int farmId) {
+	public void enableDisableLocale(Locale locale, int farmId) {
 		this.localeDao.enableDisableLocale(locale, farmId);
 	}
 

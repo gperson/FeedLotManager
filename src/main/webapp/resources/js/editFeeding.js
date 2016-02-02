@@ -55,6 +55,7 @@ function saveEdit(element){
 		data : JSON.stringify(feeding),
 		dataType : 'json',
 		contentType: 'application/json',
+		cache: false,
 		success : function(result){
 			if(result.success === true){
 				location.reload();

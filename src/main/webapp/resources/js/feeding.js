@@ -7,6 +7,7 @@ $(document).ready(function(){
 			type : "POST",
 			headers: headers,
 			url : "/pickedLocation",
+			cache: false,
 			data : JSON.stringify({ 
 				id : 0,
 				groupedHerd : {
@@ -54,6 +55,7 @@ $(document).ready(function(){
 				feeds : feeds,
 				leftovers : leftovers
 			}),
+			cache: false,
 			dataType : 'json',
 			contentType: 'application/json',
 			success : function(result){
@@ -83,30 +85,42 @@ $(document).ready(function(){
 	 *  Click 'Finish'
 	 */
 	$("#finish").click(function(){
-		var feedingId = parseInt(window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1));
-		var d = new Date();
-		var time = ($("#time").val() === "AM" ? d.setHours(8) : d.setHours(16));		
-		$.ajax({
-			type : "POST",
-			headers: headers,
-			url : "/delivered",
-			data : JSON.stringify({ 
-				id : feedingId,
-				bunkScore : parseInt($("#bunk_score").val()),
-				deliveredAmount : parseFloat($("#amount").val()),
-				feedingTime : time,
-				hasLeftovers : (!$("#hasLeftovers").is(":checked"))
-			}),
-			dataType : 'json',
-			contentType: 'application/json',
-			success : function(result){
-				if(result.success === true){
-					window.location.href = window.location.protocol + "//"+ window.location.host + "/home";
-				} else {
-					alert("An error occurred.");
-				}
-
-			}
-		});
+		saveDeliver("home");
+	});
+	
+	/*
+	 *  Click 'Continue Feeding'
+	 */
+	$("#continueFeeding").click(function(){
+		saveDeliver("pickLocation");
 	});
 });
+
+function saveDeliver(to){
+	var feedingId = parseInt(window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1));
+	var d = new Date();
+	var time = ($("#time").val() === "AM" ? d.setHours(8) : d.setHours(16));		
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/delivered",
+		data : JSON.stringify({ 
+			id : feedingId,
+			bunkScore : parseInt($("#bunk_score").val()),
+			deliveredAmount : parseFloat($("#amount").val()),
+			feedingTime : time,
+			hasLeftovers : (!$("#hasLeftovers").is(":checked"))
+		}),
+		dataType : 'json',
+		cache: false,
+		contentType: 'application/json',
+		success : function(result){
+			if(result.success === true){
+				window.location.href = window.location.protocol + "//"+ window.location.host + "/" + to;
+			} else {
+				alert("An error occurred.");
+			}
+
+		}
+	});
+}

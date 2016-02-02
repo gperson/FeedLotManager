@@ -10,8 +10,8 @@ public interface LocaleServices {
 	
 	void saveOrUpdateLocale(Locale locale,int farmId);
 
-	void enableDisableUser(Locale locale, int farmId);
-
 	boolean hasAccessToLocale(int farmId, Locale locale);
+
+	void enableDisableLocale(Locale locale, int farmId);
 	
 }
