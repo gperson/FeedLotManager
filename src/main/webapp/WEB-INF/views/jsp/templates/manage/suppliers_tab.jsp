@@ -27,11 +27,11 @@
 	<form name="supplierForm" role="form">
 		<div class="form-group">
 		  <label for="supplierName">Name:</label>
-		  <input type="text" class="form-control" id="supplierName">
+		  <input type="text" placeholder="Location Name" class="form-control" id="supplierName">
 		</div>
 		<div class="form-group">
 		  <label for="supplierLocation">Location:</label>
-		  <input type="text" class="form-control" id="supplierLocation">
+		  <input type="text" class="form-control" placeholder="Location of Supplier" id="supplierLocation">
 		</div>		
 		<div id="popup_btns">
 			<button id="save_supplier" onclick="saveSupplier()" type="button" class="btn btn-primary">Save</button>

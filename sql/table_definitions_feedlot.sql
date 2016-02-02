@@ -55,7 +55,7 @@ CREATE TABLE PACKER (
 CREATE TABLE LOCALE (
 	`localeId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
     `farmId`						INT NOT NULL,
-    `localeName`					VARCHAR(50) NOT NULL,
+    `localeName`					VARCHAR(200) NOT NULL,
     `enabled`						BOOL NOT NULL,
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
     PRIMARY KEY ( localeId )
@@ -112,7 +112,7 @@ CREATE TABLE HERD (
 CREATE TABLE FEED_TYPES (
 	`feedTypeId`					INT UNIQUE NOT NULL AUTO_INCREMENT,
     `farmId`						INT NOT NULL,
-    `feedType` 						VARCHAR(100) NOT NULL,
+    `feedType` 						VARCHAR(200) NOT NULL,
     `driedMatterPercentage`			DOUBLE NOT NULL,
     `enabled`						BOOL,
     PRIMARY KEY ( feedTypeId ),

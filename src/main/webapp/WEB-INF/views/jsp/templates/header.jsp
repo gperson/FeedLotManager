@@ -1,5 +1,4 @@
-<%@taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
@@ -16,24 +15,20 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="hasRole('Default')">
-					<!-- For login user -->
 					<c:url value="/logout" var="logoutUrl" />
 					<form action="${logoutUrl}" method="post" id="logoutForm">
-						<input type="hidden" name="${_csrf.parameterName}"
-							value="${_csrf.token}" />
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					</form>
 					<script>
 						function formSubmit() {
 							document.getElementById("logoutForm").submit();
 						}
 					</script>
-
 					<c:if test="${pageContext.request.userPrincipal.name != null}">
 						<li><a href="javascript:formSubmit()"> Logout </a></li>
 					</c:if>
 				</sec:authorize>
 			</ul>
 		</div>
-		<!--/.nav-collapse -->
 	</div>
 </nav>

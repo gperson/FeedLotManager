@@ -21,7 +21,7 @@
 							<c:forEach var="feed" items="${feeding.feeds}">
 								<div class="form-group feedEdits">
 									<label>${feed.feedType.feedType}</label> 
-									<input data-feedId="${feed.feedType.id}" type="text" class="form-control ratios" value="${feed.ratio}">
+									<input data-feedId="${feed.feedType.id}" type="number" max="1" min="0" step="0.1" placeholder="Ratio (0 - 1)" class="form-control ratios" value="${feed.ratio}">
 								</div>
 							</c:forEach>
 							<c:forEach var="feedType" items="${feeds}">
@@ -34,7 +34,7 @@
 								 <c:if test="${!contains}">
 									<div class="form-group feedEdits">
 										<label>${feedType.feedType}</label> 
-										<input data-feedId="${feedType.id}" type="text" class="form-control ratios">
+										<input data-feedId="${feedType.id}" type="number" max="1" min="0" step="0.1" placeholder="Ratio (0 - 1)" class="form-control ratios">
 									</div>
 								</c:if>
 							</c:forEach>

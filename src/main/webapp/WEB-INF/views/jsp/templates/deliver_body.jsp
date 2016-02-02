@@ -29,7 +29,7 @@
 			<div class="deliver_row">
 				<div class="bold_label" style="padding-left: 70px;">Amount</div>
 				<div>
-					<input type="text" class="form-control" id="amount" placeholder="Lbs" style="width: 75px;">
+					<input type="number" step="0.1" min="0" class="form-control" id="amount" placeholder="Lbs" style="width: 75px;">
 				</div>
 			</div>
 			<div class="deliver_row">

@@ -1,5 +1,4 @@
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <div id="content">
 	<h2 class="center_row">${title}</h2>
 	<div class="center_row col-md-12">

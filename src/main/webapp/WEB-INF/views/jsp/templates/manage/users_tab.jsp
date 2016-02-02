@@ -43,19 +43,19 @@
 	<form name="userForm" role="form">
 		<div class="form-group">
 		  <label for="userFirstName">First Name:</label>
-		  <input type="text" class="form-control" id="userFirstName">
+		  <input type="text" class="form-control" placeholder="First Name" id="userFirstName">
 		</div>
 		<div class="form-group">
 		  <label for="userLastName">Last Name:</label>
-		  <input type="text" class="form-control" id="userLastName">
+		  <input type="text" class="form-control" placeholder="Last Name" id="userLastName">
 		</div>
 		<div class="form-group">
 		  <label for="username">Username:</label>
-		  <input type="text" class="form-control" id="username">
+		  <input type="text" class="form-control" placeholder="Username" id="username">
 		</div>
 		<div class="form-group">
 		  <label for="email">Email:</label>
-		  <input type="text" class="form-control" id="email">
+		  <input type="text" class="form-control" placeholder="Email" id="email">
 		</div>
 		<label class="checkbox-inline"><input id="adminRole" type="checkbox" value="">Admin</label>			
 		<div id="popup_btns">

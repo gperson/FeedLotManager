@@ -41,7 +41,7 @@
 	<form name="combo_box" class="swapper" role="form">
 		<div class="form-group">
 		  <label for="name">Location Name:</label>
-		  <input type="text" class="form-control" id="name">
+		  <input type="text" class="form-control" id="name" placeholder="Location Name">
 		</div>
 		<div id="herd_swapper">
 			<table>

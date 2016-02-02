@@ -43,31 +43,31 @@
 	<form name="buyLivestockForm" role="form">
 		<div class="form-group">
 		  <label for="quantity">Quantity:</label>
-		  <input type="text" class="form-control" id="quantity">
+		  <input class="form-control" id="quantity" type="number" min="0" step="1" placeholder="Count">
 		</div>
 		<div class="form-group">
 		  <label for="weight">Weight:</label>
-		  <input type="text" class="form-control" id="weight">
+		  <input class="form-control" id="weight" type="number" min="0" step="0.1" placeholder="Weight (lbs)">
 		</div>
 		<div class="form-group">
 		  <label for="cost">Cost:</label>
-		  <input type="text" class="form-control" id="cost">
+		  <input class="form-control" id="cost" type="number" min="0" step="0.1" placeholder="Amount ($)">
 		</div>
 		<div class="form-group">
 		  <label for="tagNumber">Tag Number:</label>
-		  <input type="text" class="form-control" id="tagNumber">
+		  <input class="form-control" id="tagNumber" placeholder="Tag Number">
 		</div>
 		<div class="form-group">
 		  <label for="estimatedSaleDate">Estimated Sale Date:</label>
-		  <input type="text" class="form-control" id="estimatedSaleDate">
+		  <input type="text" class="form-control" id="estimatedSaleDate" placeholder="Estimated Sale Date">
 		</div>
 		<div class="form-group">
 		  <label for="implantDate">Implant Date:</label>
-		  <input type="text" class="form-control" id="implantDate">
+		  <input type="text" class="form-control" id="implantDate" placeholder="Implant Date">
 		</div>
 		<div class="form-group">
 		  <label for="optiflexDate">Optiflex Date:</label>
-		  <input type="text" class="form-control" id="optiflexDate">
+		  <input type="text" class="form-control" id="optiflexDate" placeholder="Optiflex Date">
 		</div>
 		<div class="form-group">
 		  <label for="supplier">Supplier:</label>

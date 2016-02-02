@@ -27,11 +27,11 @@
 	<form name="packerForm" role="form">
 		<div class="form-group">
 		  <label for="packerName">Name:</label>
-		  <input type="text" class="form-control" id="packerName">
+		  <input type="text" class="form-control" id="packerName" placeholder="Packer Name">
 		</div>
 		<div class="form-group">
 		  <label for="packerLocation">Location:</label>
-		  <input type="text" class="form-control" id="packerLocation">
+		  <input type="text" class="form-control" id="packerLocation" placeholder="Packer Location">
 		</div>		
 		<div id="popup_btns">
 			<button id="save_location" onclick="savePacker()" type="button" class="btn btn-primary">Save</button>

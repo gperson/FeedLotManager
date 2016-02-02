@@ -52,23 +52,23 @@
 		</div>
 		<div class="form-group">
 		  <label for="saPrice">Sale Price:</label>
-		  <input type="text" class="form-control" id="saPrice">
+		  <input class="form-control" id="saPrice" type="number" step="0.1" placeholder="Amount ($)">
 		</div>
 		<div class="form-group">
 		  <label for="saWeight">Sale Weight:</label>
-		  <input type="text" class="form-control" id="saWeight">
+		  <input class="form-control" id="saWeight" type="number" step="0.1" placeholder="Weight (lbs)">
 		</div>
 		<div class="form-group">
 		  <label for="saQuantity">Quantity:</label>
-		  <input type="text" class="form-control" id="saQuantity">
+		  <input class="form-control" id="saQuantity" type="number" min="0" step="1" placeholder="Count">
 		</div>
 		<div class="form-group">
 		  <label for="saDressing">Dressing Percent:</label>
-		  <input type="text" class="form-control" id="saDressing">
+		  <input class="form-control" id="saDressing" type="number" max="100" min="0" step="0.1" placeholder="Dressing %">
 		</div>
 		<div class="form-group">
 		  <label for="saShrink">Shrink Percent:</label>
-		  <input type="text" class="form-control" id="saShrink">
+		  <input class="form-control" id="saShrink" type="number" max="100" min="0" step="0.1" placeholder="Shrink %">
 		</div>
 		<div class="form-group">
 		  <label for="saPacker">Packer:</label>
@@ -81,7 +81,7 @@
 		</div>
 		<div class="form-group">
 		  <label for="saDate">Sale Date:</label>
-		  <input type="text" class="form-control" id="saDate">
+		  <input type="text" class="form-control" id="saDate" placeholder="Sale Date">
 		</div>		
 		<div id="popup_btns">
 			<button id="save_sale" onclick="saveSale()" type="button" class="btn btn-primary">Save</button>

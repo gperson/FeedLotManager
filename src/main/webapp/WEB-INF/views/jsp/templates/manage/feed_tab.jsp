@@ -32,12 +32,12 @@
 <div id="feed_popup" class="popup"style="display:none;">
 	<form name="feedForm" role="form">
 		<div class="form-group">
-		  <label for="feedType">Feed Type:</label>
-		  <input type="text" class="form-control" id="feedType">
+		  <label for="feedType">Feed Description:</label>
+		  <input type="text" class="form-control" id="feedType" placeholder="Feed Description">
 		</div>
 		<div class="form-group">
 		  <label for="dmp">Dried Matter Percentage:</label>
-		  <input type="text" class="form-control" id="dmp">
+		  <input class="form-control" id="dmp" type="number" max="100" min="0" step="0.1" placeholder="Dried Matter %">
 		</div>		
 		<div id="popup_btns">
 			<button id="save_feed" onclick="saveFeed()" type="button" class="btn btn-primary">Save</button>
