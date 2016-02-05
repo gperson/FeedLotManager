@@ -15,4 +15,6 @@ public interface UserServices {
 	void enableDisableUser(User user, int farmId);
 
 	User getUser(String username);
+
+	boolean changePassword(String username, String password1, String password2);
 }

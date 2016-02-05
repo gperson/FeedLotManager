@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableWebMvc
 @Configuration
 @ComponentScan({ "com.holz.web.*" })
-@Import({ SecurityConfig.class, DataConfig.class, ViewResolverConfig.class })
+@Import({ SecurityConfig.class, DataConfig.class, ViewResolverConfig.class, EmailSenderConfig.class })
 @EnableTransactionManagement
 public class AppConfig extends WebMvcConfigurerAdapter {
 	

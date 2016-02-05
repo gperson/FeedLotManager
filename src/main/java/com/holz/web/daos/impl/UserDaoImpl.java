@@ -21,7 +21,7 @@ public class UserDaoImpl implements UserDao {
 	@Autowired 
 	JdbcTemplate jdbcTemplate; 
 
-	String SELECT_USER = "SELECT U.username, U.firstName, U.lastName, U.email, U.enabled, U.userId, "+
+	String SELECT_USER = "SELECT U.username, U.firstName, U.lastName, U.email, U.enabled, U.userId, U.forcePasswordReset, "+
 				"(SELECT GROUP_CONCAT(R.role) FROM ROLES R WHERE U.username = R.username) AS roles "+
 				"FROM USERS U ";
 	@Override
@@ -48,6 +48,7 @@ public class UserDaoImpl implements UserDao {
 		u.setLastName(rs.getString("lastName"));
 		u.setEnabled(rs.getBoolean("enabled"));
 		u.setUserId(rs.getInt("userId"));
+		u.setForcePasswordReset(rs.getBoolean("forcePasswordReset"));
 		String[] arr = rs.getString("roles").split(",");
 		List<RoleType> roles = new ArrayList<RoleType>();
 		for(int i = 0; i < arr.length; i++){
@@ -60,12 +61,12 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void saveOrUpdate(User user, int farmId) {
 		String sql = "INSERT INTO USERS "+
-				"VALUES (?,?,?,?,?,?,?,?)";
+				"VALUES (?,?,?,?,?,?,?,?,?)";
 		if(user.getId() != 0){
 			sql = "UPDATE USERS SET firstName=?,lastName=?, email=?,farmId=?,enabled=? where userId =?";
 			this.jdbcTemplate.update(sql, new Object[]{user.getFirstName(),user.getLastName(), user.getEmail(),farmId, user.isEnabled(),user.getId()});
 		} else {
-			this.jdbcTemplate.update(sql, new Object[]{user.getId(), user.getUsername(),user.getFirstName(),user.getLastName(), user.getEmail(),user.getPassword(),farmId, user.isEnabled()});
+			this.jdbcTemplate.update(sql, new Object[]{user.getId(), user.getUsername(),user.getFirstName(),user.getLastName(), user.getEmail(),user.getPassword(),farmId, user.isEnabled(),true});
 		}
 		
 		//Update roles (deletes old ones and adds new ones)
@@ -84,9 +85,9 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void updatePassword(String username, String password) {
-		String sql =  "UPDATE USERS SET password=? WHERE username=?";
-		this.jdbcTemplate.update(sql, new Object[]{password,username});
+	public void updatePassword(String username, String password, boolean isReset) {
+		String sql =  "UPDATE USERS SET password=?, forcePasswordReset=? WHERE username=?";
+		this.jdbcTemplate.update(sql, new Object[]{password,isReset,username});
 	}
 
 	@Override

@@ -19,7 +19,8 @@ CREATE TABLE USERS (
 	`email`							VARCHAR(50) NOT NULL,
 	`password`						VARCHAR(100) NOT NULL,
 	`farmId`						INT NOT NULL,
-	`enabled`						TINYINT NOT NULL DEFAULT 1, 
+	`enabled`						TINYINT NOT NULL DEFAULT 1,
+    `forcePasswordReset`			TINYINT NOT NULL DEFAULT 1, 
 	PRIMARY KEY ( userId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
 ) ENGINE = InnoDB;

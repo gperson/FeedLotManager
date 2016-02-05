@@ -2,8 +2,8 @@ USE feedlot;
 INSERT INTO `FARM` VALUES 
 	(1,'Holz Bros.');
 INSERT INTO `USERS` VALUES 
-	(1,'JHolz','James','Holz','jtholzbeef@gmail.com','$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.',1,1),
-	(2,'HHolz','Howard','Holz','howard@gmail.com','$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.',1,1);
+	(1,'JHolz','James','Holz','test@test.com','$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.',1,1,1),
+	(2,'HHolz','Howard','Holz','test2@test.com','$2a$10$EblZqNptyYvcLm/VwDCVAuBjzZOI7khzdyGPBr08PpIi0na624b8.',1,1,1);
 INSERT INTO `ROLES` VALUES 
 	('HHolz','Default'),
     ('JHolz','Admin'),

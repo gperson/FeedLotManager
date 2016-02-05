@@ -14,6 +14,7 @@ public class User {
 	private Farm farm;
 	private boolean enabled;
 	private List<RoleType> roles;
+	private boolean forcePasswordReset;
 	
 	public int getId() {
 		return id;
@@ -68,5 +69,11 @@ public class User {
 	}
 	public void setRoles(List<RoleType> roles) {
 		this.roles = roles;
+	}
+	public boolean isForcePasswordReset() {
+		return forcePasswordReset;
+	}
+	public void setForcePasswordReset(boolean forcePasswordReset) {
+		this.forcePasswordReset = forcePasswordReset;
 	}
 }

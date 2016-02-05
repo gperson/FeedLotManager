@@ -26,6 +26,13 @@
     <put-attribute name="specialCss" value="/resources/css/login.css"/>
   </definition>
   
+  <definition name="manager.changePassword" extends="manager.home">
+    <put-attribute name="title" value="Feed Lot Manager - Reset Password" />
+    <put-attribute name="header" type="template" value="/WEB-INF/views/jsp/templates/notLoggedIn_header.jsp" />
+    <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/changePassword_body.jsp" />
+    <put-attribute name="specialCss" value="/resources/css/login.css"/>
+  </definition>
+  
   <definition name="manager.noAccess" extends="manager.home">
     <put-attribute name="title" value="Feed Lot Manager - No Access" />
     <put-attribute name="body" type="template" value="/WEB-INF/views/jsp/templates/noAccess_body.jsp" />

@@ -3,9 +3,10 @@ TODOS
 # Sell all remaining,
 # sold flag
 # enable disable...think one isnt wired up
-# alerts/email when oflex
+# alerts/email when optiflex
 # password reset 
 # 404 Page
 # HTTPS
 # Intercepter, so dont have to get farm id in every controller
 # Verifications
+# Download scripts

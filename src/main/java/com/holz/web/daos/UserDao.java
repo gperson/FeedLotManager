@@ -10,10 +10,10 @@ public interface UserDao {
 	
 	void saveOrUpdate(User user, int farmId);
 	
-	void updatePassword(String username, String password);
-
 	void enableDisableUser(User user, int farmId);
 
 	User getUser(String username);
+
+	void updatePassword(String username, String password, boolean isReset);
 	
 }
