@@ -22,14 +22,13 @@ public class HomeController {
 
 	@RequestMapping(value = { "/", "/home**" }, method = RequestMethod.GET)
 	public ModelAndView Home(Principal principal) throws Exception {
-		throw new Exception();
-//		if(this.userServices.getUser(principal.getName()).isForcePasswordReset()){
-//			return new ModelAndView("manager.changePassword");
-//		} else {
-//			ModelAndView model = new ModelAndView("manager.home");	
-//			model.addObject("title", this.farmServices.getFarmByUserName(principal.getName()).getFarmName());
-//			return model;
-//		}
+		if(this.userServices.getUser(principal.getName()).isForcePasswordReset()){
+			return new ModelAndView("manager.changePassword");
+		} else {
+			ModelAndView model = new ModelAndView("manager.home");	
+			model.addObject("title", this.farmServices.getFarmByUserName(principal.getName()).getFarmName());
+			return model;
+		}
 	}
 
 }
