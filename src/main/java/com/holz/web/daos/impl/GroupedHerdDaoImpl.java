@@ -75,20 +75,22 @@ public class GroupedHerdDaoImpl implements GroupedHerdDao {
 			public List<GroupedHerd> extractData(ResultSet rs) throws SQLException, DataAccessException {
 				List<GroupedHerd> groups = new ArrayList<GroupedHerd>();
 				while(rs.next()){					
-					groups.add(buildGrouedHerd(rs));
+					groups.add(buildGroupedHerd(rs,false));
 				}
 				return groups;
 			}
 		});
 	}
 
-	private GroupedHerd buildGrouedHerd(ResultSet rs) throws SQLException{
+	private GroupedHerd buildGroupedHerd(ResultSet rs, boolean ignoreLocale) throws SQLException{
 		GroupedHerd gh = new GroupedHerd();
 		gh.setId(rs.getInt("groupedHerdsId"));
-		Locale l = new Locale();
-		l.setLocaleName(rs.getString("localeName"));
-		l.setId(rs.getInt("localeId"));
-		gh.setLocale(l);
+		if(!ignoreLocale){
+			Locale l = new Locale();
+			l.setLocaleName(rs.getString("localeName"));
+			l.setId(rs.getInt("localeId"));
+			gh.setLocale(l);
+		}
 		return gh;
 	}
 	
@@ -122,6 +124,14 @@ public class GroupedHerdDaoImpl implements GroupedHerdDao {
 	}
 	
 	@Override
+	public void updateGroupedHerdSoldStatus(GroupedHerd group) {
+		this.jdbcTemplate.update("UPDATE GROUPED_HERDS GH "
+			+ "SET isSold=? "
+			+ "WHERE GH.groupedHerdsId=?",
+			new Object[]{group.isSold(),group.getId()});
+	}
+	
+	@Override
 	public void deleteGroupedHerd(int groupHerdId){
 		this.jdbcTemplate.execute("delete from grouped_herds where groupedHerdsId = "+groupHerdId);
 	}
@@ -139,7 +149,41 @@ public class GroupedHerdDaoImpl implements GroupedHerdDao {
 			@Override
 			public GroupedHerd extractData(ResultSet rs) throws SQLException, DataAccessException {
 				if(rs.first()){					
-					return buildGrouedHerd(rs);
+					return buildGroupedHerd(rs,false);
+				}
+				return null;
+			}
+		});
+	}
+
+	@Override
+	public GroupedHerd getGroupedHerd(int groupId) {
+		String sql = "SELECT GH.groupedHerdsId, L.localeId, L.localeName " 
+				+ "FROM GROUPED_HERDS GH "
+				+ "JOIN LOCALE L ON L.localeId = GH.localeId "
+				+ "WHERE GH.groupedHerdsId = " + groupId;
+		return jdbcTemplate.query(sql, new ResultSetExtractor<GroupedHerd>() {
+			@Override
+			public GroupedHerd extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if(rs.first()){					
+					return buildGroupedHerd(rs,false);
+				}
+				return null;
+			}
+		});
+	}
+
+	@Override
+	public GroupedHerd getGroupedHerdForHerd(int herdId, int farmId) {
+		String sql = "SELECT GH.groupedHerdsId " 
+				+ "FROM GROUPED_HERDS GH "
+				+ "JOIN HERD H ON H.groupedHerdsId = GH.groupedHerdsId "
+				+ "WHERE H.herdId = " + herdId;
+		return jdbcTemplate.query(sql, new ResultSetExtractor<GroupedHerd>() {
+			@Override
+			public GroupedHerd extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if(rs.first()){					
+					return buildGroupedHerd(rs,true);
 				}
 				return null;
 			}

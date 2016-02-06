@@ -56,7 +56,7 @@ public class FeedingServicesImpl implements FeedingServices {
 
 			if(total <= 0.0000001){
 				//Set feeding to false have leftovers
-				this.feedingDao.updateFeedingNoLeftovers(feeding.getId());
+				feeding.setHasLeftovers(false);
 			} else {
 				feeding.setHasLeftovers(true);
 			}

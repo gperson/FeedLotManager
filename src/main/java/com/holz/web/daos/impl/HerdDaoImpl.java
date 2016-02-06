@@ -24,14 +24,16 @@ public class HerdDaoImpl implements HerdDao {
 	@Autowired 
 	JdbcTemplate jdbcTemplate; 
 
-	String SELECT_HERD_INFO = "SELECT H.herdId, quantity, weight, cost, tagNumber, estimatedSaleDate, implantDate, optiflexDate, dateEntered, S.supplierId, supplierName, supplierLocation, H.groupedHerdsId "
+	String SELECT_HERD_INFO = "SELECT H.herdId, quantity, weight, cost, tagNumber, estimatedSaleDate, implantDate, optiflexDate, dateEntered, S.supplierId, supplierName, supplierLocation, H.groupedHerdsId, GH.isSold "
 			+ "FROM HERD H "
-			+ "JOIN SUPPLIER S ON H.supplierId = S.supplierId ";
+			+ "JOIN SUPPLIER S ON H.supplierId = S.supplierId "
+			+ "LEFT JOIN GROUPED_HERDS GH ON GH.groupedHerdsId = h.groupedHerdsId ";
 
 	@Override
-	public List<Herd> getAllHerds(int farmId) {
+	public List<Herd> getAllActiveHerds(int farmId) {
 		String sql = SELECT_HERD_INFO 
-				+ "WHERE H.farmId=" + farmId + " ORDER BY H.herdId DESC";
+				+ "WHERE H.farmId=" + farmId + " "
+				+ "AND isSold IS NULL OR isSold <> true ORDER BY H.herdId DESC";
 		return getHerds(sql);
 	}
 
@@ -58,7 +60,6 @@ public class HerdDaoImpl implements HerdDao {
 	@Override
 	public List<Herd> getHerdsForGroupedHerd(int farmId, int groupedHerdId) {
 		String sql = SELECT_HERD_INFO 
-				+ "JOIN GROUPED_HERDS GH ON GH.groupedHerdsId = H.groupedHerdsId "
 				+ "WHERE H.farmId=" + farmId +" "
 				+ "AND GH.groupedHerdsId="+groupedHerdId + " ORDER BY H.herdId DESC";
 		return getHerds(sql);
@@ -67,9 +68,9 @@ public class HerdDaoImpl implements HerdDao {
 	@Override
 	public List<Herd> getOrphanHerds(int farmId){
 		String sql = SELECT_HERD_INFO 
-				+ "LEFT JOIN GROUPED_HERDS GH ON GH.groupedHerdsId = H.groupedHerdsId "
 				+ "WHERE H.farmId=" + farmId +" "
-				+ "AND H.groupedHerdsId IS NULL OR GH.localeId IS NULL ORDER BY H.herdId DESC";
+				+ "AND H.groupedHerdsId IS NULL OR GH.localeId IS NULL "
+				+ "AND isSold <> true ORDER BY H.herdId DESC";
 		return getHerds(sql);
 	}
 
@@ -80,6 +81,7 @@ public class HerdDaoImpl implements HerdDao {
 				List<Herd> herds = new ArrayList<Herd>();
 				while(rs.next()) {
 					Herd h = new Herd();
+					h.setSold(rs.getBoolean("isSold"));
 					h.setId(rs.getInt("herdId"));
 					h.setQuantity(rs.getInt("quantity"));
 					h.setWeight(rs.getDouble("weight"));

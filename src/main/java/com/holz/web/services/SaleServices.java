@@ -8,6 +8,6 @@ public interface SaleServices {
 
 	List<Sale> getAllSales(int farmId);
 
-	void saveOrUpdateSale(Sale sale, int farmId);
+	boolean saveOrUpdateSale(Sale sale, int farmId);
 
 }

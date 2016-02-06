@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.holz.web.daos.GroupedHerdDao;
 import com.holz.web.daos.HerdDao;
 import com.holz.web.daos.SaleDao;
+import com.holz.web.models.GroupedHerd;
 import com.holz.web.models.Sale;
 import com.holz.web.services.SaleServices;
 
@@ -20,6 +22,9 @@ public class SaleServicesImpl implements SaleServices {
 	
 	@Autowired
 	private HerdDao herdDao;
+	
+	@Autowired
+	private GroupedHerdDao groupedHerdDao;
 
 	@Override
 	public List<Sale> getAllSales(int farmId) {
@@ -32,8 +37,24 @@ public class SaleServicesImpl implements SaleServices {
 	}
 
 	@Override
-	public void saveOrUpdateSale(Sale sale,int farmId) {
-		this.saleDao.saveOrUpdate(sale, farmId);
+	public boolean saveOrUpdateSale(Sale sale,int farmId) {
+		GroupedHerd group = this.groupedHerdDao.getGroupedHerd(sale.getGroupedHerd().getId());
+		group.setHerds(this.herdDao.getHerdsForGroupedHerd(farmId, group.getId()));
+		group.setSales(this.saleDao.getSalesForGroupHerd(farmId, group.getId()));
+		
+		if(group.getCount() >= sale.getQuantity()){
+			this.saleDao.saveOrUpdate(sale, farmId);
+			
+			//If the last livestock is sold from the location remove herd from local, i.e set to null	
+			if((group.getCount() - sale.getQuantity()) == 0){
+				group.getLocale().setId(-1);
+				group.setSold(true);
+				this.groupedHerdDao.updateGroupedHerdLocationForHerd(group);
+				this.groupedHerdDao.updateGroupedHerdSoldStatus(group);
+			}
+			return true;
+		}
+		return false;
 	}
 	
 }

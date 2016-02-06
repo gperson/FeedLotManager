@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.holz.web.daos.GroupedHerdDao;
 import com.holz.web.daos.HerdDao;
 import com.holz.web.models.GroupedHerdUpdate;
 import com.holz.web.models.Herd;
@@ -21,14 +22,20 @@ public class HerdServicesImpl implements HerdServices {
 
 	@Autowired
 	private HerdDao herdDao;
+	
+	@Autowired
+	private GroupedHerdDao groupedHerdDao;
 
 	@Override
-	public List<Herd> getAllHerds(int farmId) {
-		return this.herdDao.getAllHerds(farmId);
+	public List<Herd> getAllActiveHerds(int farmId) {
+		return this.herdDao.getAllActiveHerds(farmId);
 	}
 
 	@Override
 	public void saveOrUpdateHerd(Herd herd,int farmId) {
+		if(herd.getId() != 0){
+			herd.setGroupedHerd(this.groupedHerdDao.getGroupedHerdForHerd(herd.getId(), farmId));
+		}
 		this.herdDao.saveOrUpdate(herd, farmId);
 	}
 

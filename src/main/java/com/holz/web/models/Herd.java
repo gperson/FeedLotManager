@@ -15,6 +15,8 @@ public class Herd {
 	private Date dateEntered;
 	private Supplier supplier;
 	private GroupedHerd groupedHerd;
+	private boolean isSold;
+	
 	public int getId() {
 		return id;
 	}
@@ -80,5 +82,11 @@ public class Herd {
 	}
 	public void setGroupedHerd(GroupedHerd groupedHerd) {
 		this.groupedHerd = groupedHerd;
+	}
+	public boolean isSold() {
+		return isSold;
+	}
+	public void setSold(boolean isSold) {
+		this.isSold = isSold;
 	}
 }

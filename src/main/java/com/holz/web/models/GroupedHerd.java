@@ -35,6 +35,7 @@ public class GroupedHerd {
 		this.id = id;
 	}
 	public int getCount() {
+		this.count = 0;
 		if(this.herds != null){
 			for(Herd h : this.herds){
 				this.count = this.count + h.getQuantity();

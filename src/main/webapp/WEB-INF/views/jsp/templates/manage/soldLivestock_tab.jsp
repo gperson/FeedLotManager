@@ -1,4 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="main_buttons">
 	<button type="button" onclick="openSalePopup(this,false);" class="btn btn-info">New Sold Livestock</button>
 </div>
@@ -26,7 +27,7 @@
 				</td>
 				<td class="saPrice">${sale.salePrice}</td>
 				<td class="saWeight">${sale.saleWeight}</td>
-				<td class="saDate">${sale.saleDate}</td>
+				<td class="saDate"><fmt:formatDate value="${sale.saleDate}" pattern="MM/dd/yyyy"/></td>
 				<td class="saDressing">${sale.dressingPercent}</td>
 				<td class="saShrink">${sale.shrinkPercent}</td>
 				<td class="saQuantity">${sale.quantity}</td>

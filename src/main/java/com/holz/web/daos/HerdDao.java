@@ -5,8 +5,6 @@ import java.util.List;
 import com.holz.web.models.Herd;
 
 public interface HerdDao {
-
-	List<Herd> getAllHerds(int farmId);
 	
 	void saveOrUpdate(Herd herd, int farmId);
 
@@ -17,5 +15,7 @@ public interface HerdDao {
 	List<Herd> getHerds(List<Integer> ids, int farmId);
 
 	List<Herd> getHerdsForGroupedHerd(int farmId, int groupedHerdId);
+
+	List<Herd> getAllActiveHerds(int farmId);
 	
 }

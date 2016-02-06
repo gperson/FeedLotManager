@@ -46,8 +46,11 @@ public class SoldLivestockTabController {
 	@RequestMapping(value = { "/admin/saveSoldLivestock" }, method = RequestMethod.POST)
 	public AjaxResponse SaveSupplier(@RequestBody Sale sale, Principal principal) {
 		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
-		this.saleServices.saveOrUpdateSale(sale, farmId);
-		return new AjaxResponse(true);
+		if(this.saleServices.saveOrUpdateSale(sale, farmId)){
+			return new AjaxResponse(true);
+		} else {
+			return new AjaxResponse(false);
+		}
 	}
 	
 }
