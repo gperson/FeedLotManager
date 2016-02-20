@@ -21,7 +21,7 @@
 							<c:forEach var="feed" items="${feeding.feeds}">
 								<div class="form-group feedEdits">
 									<label>${feed.feedType.feedType}</label> 
-									<input data-feedId="${feed.feedType.id}" type="number" max="1" min="0" step="0.1" placeholder="Ratio (0 - 1)" class="form-control ratios" value="${feed.ratio}">
+									<input data-feedId="${feed.feedType.id}" type="number" autocomplete="off" max="1" min="0" step="0.1" placeholder="Ratio (0 - 1)" class="form-control ratios" value="${feed.ratio}">
 								</div>
 							</c:forEach>
 							<c:forEach var="feedType" items="${feeds}">
@@ -34,14 +34,14 @@
 								 <c:if test="${!contains}">
 									<div class="form-group feedEdits">
 										<label>${feedType.feedType}</label> 
-										<input data-feedId="${feedType.id}" type="number" max="1" min="0" step="0.1" placeholder="Ratio (0 - 1)" class="form-control ratios">
+										<input data-feedId="${feedType.id}" autocomplete="off" type="number" max="1" min="0" step="0.1" placeholder="Ratio (0 - 1)" class="form-control ratios">
 									</div>
 								</c:if>
 							</c:forEach>
 						</div>
 						<div class="form-group">
 							<label for="delivered">Amount Deliver:</label>
-							<input type="number" min="0" step="0.1" placeholder="Amount (lbs)" class="form-control delivered" value="${feeding.deliveredAmount}">
+							<input type="number" min="0" step="0.1" autocomplete="off" placeholder="Amount (lbs)" class="form-control delivered" value="${feeding.deliveredAmount}">
 						</div>
 						<div class="form-group">
 							<label for="bunkScore">Score:</label> 

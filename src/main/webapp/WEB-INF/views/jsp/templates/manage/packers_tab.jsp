@@ -27,15 +27,15 @@
 	<form name="packerForm" role="form">
 		<div class="form-group">
 		  <label for="packerName">Name:</label>
-		  <input type="text" class="form-control" id="packerName" placeholder="Packer Name">
+		  <input type="text" class="form-control" id="packerName" autocomplete="off" placeholder="Packer Name">
 		</div>
 		<div class="form-group">
 		  <label for="packerLocation">Location:</label>
-		  <input type="text" class="form-control" id="packerLocation" placeholder="Packer Location">
+		  <input type="text" class="form-control" id="packerLocation" autocomplete="off" placeholder="Packer Location">
 		</div>		
 		<div id="popup_btns">
-			<button id="save_location" onclick="savePacker()" type="button" class="btn btn-primary">Save</button>
-			<button id="cancel_location" onclick="closePackerPopup()" type="button" class="btn btn-default">Cancel</button>
+			<button id="save_packer" onclick="savePacker()" type="button" class="btn btn-primary">Save</button>
+			<button id="cancel_packer" onclick="closePackerPopup()" type="button" class="btn btn-default">Cancel</button>
 		</div>
 	</form>
 </div>

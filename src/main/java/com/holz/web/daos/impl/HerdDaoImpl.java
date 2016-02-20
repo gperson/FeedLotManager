@@ -27,7 +27,7 @@ public class HerdDaoImpl implements HerdDao {
 	String SELECT_HERD_INFO = "SELECT H.herdId, quantity, weight, cost, tagNumber, estimatedSaleDate, implantDate, optiflexDate, dateEntered, S.supplierId, supplierName, supplierLocation, H.groupedHerdsId, GH.isSold "
 			+ "FROM HERD H "
 			+ "JOIN SUPPLIER S ON H.supplierId = S.supplierId "
-			+ "LEFT JOIN GROUPED_HERDS GH ON GH.groupedHerdsId = h.groupedHerdsId ";
+			+ "LEFT JOIN GROUPED_HERDS GH ON GH.groupedHerdsId = H.groupedHerdsId ";
 
 	@Override
 	public List<Herd> getAllActiveHerds(int farmId) {

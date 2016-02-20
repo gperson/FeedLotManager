@@ -34,10 +34,10 @@ public class SaleDaoImpl implements SaleDao {
 
 	@Override
 	public void saveOrUpdate(Sale sale, int farmId) {
-		String sql = "INSERT INTO Sale "+
+		String sql = "INSERT INTO SALE "+
 					 "VALUES (?,?,?,?,?,?,?,?,?,?)";
 		if(sale.getId() != 0){
-			sql = "UPDATE Sale SET salePrice=?, groupedHerdsId=? ,saleWeight=?, quantity=?, saleDate=?, dressingPercent=?, shrinkPercent=?, packerId=? where saleId=? AND farmId =?";
+			sql = "UPDATE SALE SET salePrice=?, groupedHerdsId=? ,saleWeight=?, quantity=?, saleDate=?, dressingPercent=?, shrinkPercent=?, packerId=? where saleId=? AND farmId =?";
 			this.jdbcTemplate.update(sql, new Object[]{sale.getSalePrice(),sale.getGroupedHerd().getId(),sale.getSaleWeight(),sale.getQuantity(),sale.getSaleDate(),sale.getDressingPercent(),sale.getShrinkPercent(),sale.getPacker().getId(),sale.getId(),farmId});
 		} else {
 			this.jdbcTemplate.update(sql, new Object[]{0,sale.getGroupedHerd().getId(),sale.getSalePrice(),sale.getSaleWeight(),sale.getQuantity(),sale.getSaleDate(),sale.getDressingPercent(),sale.getShrinkPercent(),sale.getPacker().getId(),farmId});
@@ -46,7 +46,7 @@ public class SaleDaoImpl implements SaleDao {
 	
 	private List<Sale> getSales(int farmId, int groupId) {
 		String sql = "SELECT S.saleId, S.salePrice, S.saleWeight, S.quantity, S.saleDate, S.dressingPercent, S.shrinkPercent, S.groupedHerdsId, P.packerName, P.packerLocation, P.packerId "+ 
-					 "FROM Sale S " +
+					 "FROM SALE S " +
 					 "JOIN PACKER P ON S.packerId = P.packerId "+
 					 "WHERE P.farmId=" + farmId + (groupId == 0 ? "" : " AND S.groupedHerdsId="+groupId);
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Sale>>() {

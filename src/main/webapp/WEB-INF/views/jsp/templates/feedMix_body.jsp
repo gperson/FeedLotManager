@@ -13,7 +13,7 @@
 	    <c:forEach var="feed" items="${feeds}">
 			<div class="input-group">
 		  		<span class="input-group-addon" id="sizing-addon2">${feed.feedType}</span>
-		  		<input id="${feed.id}" min="0" step="0.1" type="number" class="form-control feed_amount" placeholder="Amount (lbs)" aria-describedby="sizing-addon2">
+		  		<input id="${feed.id}" min="0" autocomplete="off" step="0.1" type="number" class="form-control feed_amount" placeholder="Amount (lbs)" aria-describedby="sizing-addon2">
 			</div>
 		</c:forEach>
 		<div class="center_row col-md-12">

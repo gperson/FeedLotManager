@@ -33,11 +33,11 @@
 	<form name="feedForm" role="form">
 		<div class="form-group">
 		  <label for="feedType">Feed Description:</label>
-		  <input type="text" class="form-control" id="feedType" placeholder="Feed Description">
+		  <input type="text" autocomplete="off" class="form-control" id="feedType" placeholder="Feed Description">
 		</div>
 		<div class="form-group">
 		  <label for="dmp">Dried Matter Percentage:</label>
-		  <input class="form-control" id="dmp" type="number" max="100" min="0" step="0.1" placeholder="Dried Matter %">
+		  <input class="form-control" id="dmp" autocomplete="off" type="number" max="100" min="0" step="0.1" placeholder="Dried Matter %">
 		</div>		
 		<div id="popup_btns">
 			<button id="save_feed" onclick="saveFeed()" type="button" class="btn btn-primary">Save</button>

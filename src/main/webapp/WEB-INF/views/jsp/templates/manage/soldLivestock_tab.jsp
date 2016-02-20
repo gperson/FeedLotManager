@@ -53,23 +53,23 @@
 		</div>
 		<div class="form-group">
 		  <label for="saPrice">Sale Price:</label>
-		  <input class="form-control" id="saPrice" type="number" step="0.1" placeholder="Amount ($)">
+		  <input class="form-control" id="saPrice" autocomplete="off" type="number" step="0.1" placeholder="Amount ($)">
 		</div>
 		<div class="form-group">
 		  <label for="saWeight">Sale Weight:</label>
-		  <input class="form-control" id="saWeight" type="number" step="0.1" placeholder="Weight (lbs)">
+		  <input class="form-control" id="saWeight" autocomplete="off" type="number" step="0.1" placeholder="Weight (lbs)">
 		</div>
 		<div class="form-group">
 		  <label for="saQuantity">Quantity:</label>
-		  <input class="form-control" id="saQuantity" type="number" min="0" step="1" placeholder="Count">
+		  <input class="form-control" id="saQuantity" autocomplete="off" type="number" min="0" step="1" placeholder="Count">
 		</div>
 		<div class="form-group">
 		  <label for="saDressing">Dressing Percent:</label>
-		  <input class="form-control" id="saDressing" type="number" max="100" min="0" step="0.1" placeholder="Dressing %">
+		  <input class="form-control" id="saDressing" autocomplete="off" type="number" max="100" min="0" step="0.1" placeholder="Dressing %">
 		</div>
 		<div class="form-group">
 		  <label for="saShrink">Shrink Percent:</label>
-		  <input class="form-control" id="saShrink" type="number" max="100" min="0" step="0.1" placeholder="Shrink %">
+		  <input class="form-control" id="saShrink" autocomplete="off" type="number" max="100" min="0" step="0.1" placeholder="Shrink %">
 		</div>
 		<div class="form-group">
 		  <label for="saPacker">Packer:</label>
@@ -82,7 +82,7 @@
 		</div>
 		<label for="saDate">Sale Date:</label>
 		<div class="form-group input-group date" data-provide="datepicker">
-		    <input type="text" class="form-control" id="saDate" placeholder="Sale Date">
+		    <input type="text" class="form-control" id="saDate" autocomplete="off" placeholder="Sale Date">
 		    <div class="input-group-addon">
 		        <span class="glyphicon glyphicon-th"></span>
 		    </div>

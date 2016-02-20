@@ -43,37 +43,37 @@
 	<form name="buyLivestockForm" role="form">
 		<div class="form-group">
 		  <label for="quantity">Quantity:</label>
-		  <input class="form-control" id="quantity" type="number" min="0" step="1" placeholder="Count">
+		  <input class="form-control" id="quantity" autocomplete="off" type="number" min="0" step="1" placeholder="Count">
 		</div>
 		<div class="form-group">
 		  <label for="weight">Weight:</label>
-		  <input class="form-control" id="weight" type="number" min="0" step="0.1" placeholder="Weight (lbs)">
+		  <input class="form-control" id="weight" autocomplete="off" type="number" min="0" step="0.1" placeholder="Weight (lbs)">
 		</div>
 		<div class="form-group">
 		  <label for="cost">Cost:</label>
-		  <input class="form-control" id="cost" type="number" min="0" step="0.1" placeholder="Amount ($)">
+		  <input class="form-control" id="cost" autocomplete="off" type="number" min="0" step="0.1" placeholder="Amount ($)">
 		</div>
 		<div class="form-group">
 		  <label for="tagNumber">Tag Number:</label>
-		  <input class="form-control" id="tagNumber" placeholder="Tag Number">
+		  <input class="form-control" id="tagNumber" autocomplete="off" placeholder="Tag Number">
 		</div>
 		<label for="estimatedSaleDate">Estimated Sale Date:</label>
 		<div class="form-group input-group date" data-provide="datepicker">
-		    <input type="text" class="form-control" id="estimatedSaleDate" placeholder="Estimated Sale Date">
+		    <input type="text" class="form-control" id="estimatedSaleDate" autocomplete="off" placeholder="Estimated Sale Date">
 		    <div class="input-group-addon">
 		        <span class="glyphicon glyphicon-th"></span>
 		    </div>
 		</div>
 		<label for="implantDate">Implant Date:</label>
 		<div class="form-group input-group date" data-provide="datepicker">
-		    <input type="text" class="form-control" id="implantDate" placeholder="Implant Date">
+		    <input type="text" class="form-control" id="implantDate" autocomplete="off" placeholder="Implant Date">
 		    <div class="input-group-addon">
 		        <span class="glyphicon glyphicon-th"></span>
 		    </div>
 		</div>
 		<label for="optiflexDate">Optiflex Date:</label>
 		<div class="form-group input-group date" data-provide="datepicker">
-		    <input type="text" class="form-control" id="optiflexDate" placeholder="Optiflex Date">
+		    <input type="text" class="form-control" id="optiflexDate" autocomplete="off" placeholder="Optiflex Date">
 		    <div class="input-group-addon">
 		        <span class="glyphicon glyphicon-th"></span>
 		    </div>

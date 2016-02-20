@@ -23,7 +23,7 @@ public class PackerDaoImpl implements PackerDao {
 	@Override
 	public List<Packer> getPackers(int farmId) {
 		String sql = "SELECT S.packerId, S.packerName, S.packerLocation "+ 
-					 "FROM Packer S WHERE S.farmId=" + farmId;
+					 "FROM PACKER S WHERE S.farmId=" + farmId;
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<Packer>>() {
 			@Override
 			public List<Packer> extractData(ResultSet rs) throws SQLException, DataAccessException {

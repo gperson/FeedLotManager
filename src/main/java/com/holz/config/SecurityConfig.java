@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -25,9 +26,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.jdbcAuthentication().dataSource(dataSource)
 		.passwordEncoder(passwordEncoder())
 		.usersByUsernameQuery(
-				"select username,password, enabled, farmId from users where username=?")
+				"select username,password, enabled, farmId from USERS where username=?")
 				.authoritiesByUsernameQuery(
-						"select username, role from roles where username=?");
+						"select username, role from ROLES where username=?");
 	}	
 
 	@Override
@@ -38,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/admin/**").access("hasRole('Admin')")
 		.antMatchers("/**").access("hasRole('Default')")
 		.and()
-		.formLogin().loginPage("/login").failureUrl("/login?error")
+		.formLogin().loginPage("/login").failureUrl("/login?error").failureHandler(authenticationFailureHandler())
 		.usernameParameter("username").passwordParameter("password")
 		.and()
 		.logout().logoutSuccessUrl("/login?logout")
@@ -46,11 +47,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.exceptionHandling().accessDeniedPage("/403")
 		.and()
 		.csrf();
+		//.and().requiresChannel().anyRequest().requiresSecure();
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder;
+	}
+	
+	@Bean
+	public AuthenticationFailureHandler authenticationFailureHandler(){
+		return new LoginFailureHandler();		
 	}
 }

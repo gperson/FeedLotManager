@@ -9,7 +9,7 @@ CREATE TABLE FARM (
 	`farmId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
     `farmName`						VARCHAR(50),
     PRIMARY KEY ( farmId )
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE USERS (
 	`userId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
@@ -23,14 +23,14 @@ CREATE TABLE USERS (
     `forcePasswordReset`			TINYINT NOT NULL DEFAULT 1, 
 	PRIMARY KEY ( userId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE ROLES (
     `username`						VARCHAR(50) NOT NULL,
     `role`							VARCHAR(50) NOT NULL,
 	PRIMARY KEY (role,username),
     FOREIGN KEY ( username ) REFERENCES USERS( username )
-) ENGINE = InnoDB;
+);
 
 #######################################################################
 ############			TABLES HERD						###############
@@ -42,7 +42,7 @@ CREATE TABLE SUPPLIER (
     `farmId`						INT NOT NULL,
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
     PRIMARY KEY ( supplierId )
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE PACKER (
 	`packerId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
@@ -51,7 +51,7 @@ CREATE TABLE PACKER (
     `farmId`						INT NOT NULL,
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
     PRIMARY KEY ( packerId )
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE LOCALE (
 	`localeId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
@@ -60,7 +60,7 @@ CREATE TABLE LOCALE (
     `enabled`						BOOL NOT NULL,
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
     PRIMARY KEY ( localeId )
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE GROUPED_HERDS (
 	`groupedHerdsId`				INT UNIQUE NOT NULL AUTO_INCREMENT,
@@ -68,7 +68,7 @@ CREATE TABLE GROUPED_HERDS (
     `isSold`						BOOLEAN,
 	PRIMARY KEY ( groupedHerdsId ),
     FOREIGN KEY ( localeId ) REFERENCES LOCALE( localeId )
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE SALE (
 	`saleId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
@@ -85,7 +85,7 @@ CREATE TABLE SALE (
 	FOREIGN KEY ( groupedHerdsId ) REFERENCES GROUPED_HERDS( groupedHerdsId ),
     FOREIGN KEY ( packerId ) REFERENCES PACKER( packerId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE HERD (
 	`herdId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
@@ -104,7 +104,7 @@ CREATE TABLE HERD (
     FOREIGN KEY ( supplierId ) REFERENCES SUPPLIER( supplierId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
     FOREIGN KEY ( groupedHerdsId ) REFERENCES GROUPED_HERDS( groupedHerdsId )
-) ENGINE = InnoDB;
+);
 
 
 #######################################################################
@@ -118,7 +118,7 @@ CREATE TABLE FEED_TYPES (
     `enabled`						BOOL,
     PRIMARY KEY ( feedTypeId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE FEEDING (
 	`feedingId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
@@ -134,7 +134,7 @@ CREATE TABLE FEEDING (
     FOREIGN KEY ( userId ) REFERENCES USERS( userId ),
     FOREIGN KEY ( groupedHerdsId ) REFERENCES GROUPED_HERDS( groupedHerdsId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId )
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE FEED (
 	`feedId`						INT UNIQUE NOT NULL AUTO_INCREMENT,
@@ -145,4 +145,4 @@ CREATE TABLE FEED (
     PRIMARY KEY ( feedId ),
     FOREIGN KEY ( feedTypeId ) REFERENCES FEED_TYPES( feedTypeId ),
     FOREIGN KEY ( feedingId ) REFERENCES FEEDING( feedingId )
-) ENGINE = InnoDB;
+);

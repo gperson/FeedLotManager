@@ -380,7 +380,6 @@ function loadPackersTab(){
 
 function openPackerPopup(e,edit){
 	var id = $(e).attr("id"), row = $(e).parent().parent();
-
 	if(edit === true){
 		$("#save_packer").attr("data-id",id);
 		$("#packerName").val(row.find(".pName").text());
