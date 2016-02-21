@@ -12,8 +12,8 @@ public interface UserDao {
 	
 	void enableDisableUser(User user, int farmId);
 
-	User getUser(String username);
-
 	void updatePassword(String username, String password, boolean isReset);
+
+	User getUser(String usernameOrEmail, boolean useEmail);
 	
 }

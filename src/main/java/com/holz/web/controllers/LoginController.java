@@ -63,7 +63,7 @@ public class LoginController {
 	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
 	public ModelAndView resetPassword(@ModelAttribute("user") User user, BindingResult result) {		
 		ModelAndView model = new ModelAndView("manager.resetPassword","command",new User());
-		//TODO Send email 
+		this.userServices.resetPassword(user.getEmail(),true); 
 		model.addObject("msg", "Reset instructions sent.");
 		return model;
 	}

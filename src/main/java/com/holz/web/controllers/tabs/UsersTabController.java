@@ -43,7 +43,7 @@ public class UsersTabController {
 	@ResponseBody
 	@RequestMapping(value = { "/admin/resetPassword" }, method = RequestMethod.POST)
 	public AjaxResponse UpdatePassword(@RequestBody User user, Principal principal) {
-		this.userServives.resetPassword(user.getUsername());
+		this.userServives.resetPassword(user.getUsername(),false);
 		return new AjaxResponse(true);
 	}
 	

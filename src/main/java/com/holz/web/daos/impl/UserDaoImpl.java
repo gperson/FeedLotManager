@@ -97,9 +97,9 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User getUser(String username) {
-		String sql = SELECT_USER + "WHERE U.username=?";
-		return jdbcTemplate.query(sql,new Object[]{username}, new ResultSetExtractor<User>() {
+	public User getUser(String usernameOrEmail, boolean useEmail) {
+		String sql = SELECT_USER + "WHERE " + (useEmail ? "U.email=?" : "U.username=?");
+		return jdbcTemplate.query(sql,new Object[]{usernameOrEmail}, new ResultSetExtractor<User>() {
 			@Override
 			public User extractData(ResultSet rs) throws SQLException, DataAccessException {
 				if(rs.first()) {

@@ -38,17 +38,22 @@ public class UserServicesImpl implements UserServices {
 	}
 
 	@Override
-	public void resetPassword(String username) {
+	public void resetPassword(String usernameOrEmail, boolean useEmail) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();		
 		SimpleMailMessage message = new SimpleMailMessage();
 		User user = new User();
-		user.setUsername(username);
+		if(useEmail){
+			user.setEmail(usernameOrEmail);
+		} else {
+			user.setUsername(usernameOrEmail);
+		}
 		String password = changePassword(user);
-		message.setTo(this.userDao.getUser(username).getEmail());
+		user = this.userDao.getUser(usernameOrEmail,useEmail);
+		message.setTo(user.getEmail());
 		message.setSubject("Password for Feed Lot Manager");
-		message.setText("Login information for user:\nUsername: "+username+"\nPassword: "+password);
+		message.setText("Login information for user:\nUsername: "+user.getUsername()+"\nPassword: "+password);
 		this.mailSender.send(message);
-		this.userDao.updatePassword(username, passwordEncoder.encode(password),true);
+		this.userDao.updatePassword(user.getUsername(), passwordEncoder.encode(password),true);
 	}
 	
 	@Override
@@ -71,7 +76,7 @@ public class UserServicesImpl implements UserServices {
 
 	@Override
 	public User getUser(String username) {
-		return this.userDao.getUser(username);
+		return this.userDao.getUser(username,false);
 	}
 
 	private String changePassword(User user){

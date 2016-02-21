@@ -9,12 +9,12 @@ public interface UserServices {
 	List<User> getUsersForFarm(int farmId);
 	
 	void saveOrUpdateUser(User user,int farmId);
-	
-	void resetPassword(String username);
 
 	void enableDisableUser(User user, int farmId);
 
 	User getUser(String username);
 
 	boolean changePassword(String username, String password1, String password2);
+
+	void resetPassword(String usernameOrEmail, boolean useEmail);
 }
