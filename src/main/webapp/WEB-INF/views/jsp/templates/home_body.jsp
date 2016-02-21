@@ -2,17 +2,17 @@
 <div id="content">
 	<h2 class="center_row">${title}</h2>
 	<div class="center_row col-md-12">
-		<a href="/pickLocation" class="btn btn-primary" role="button">Start</a>
+		<a href="/pickLocation" class="btn btn-primary btn-lg" role="button">Start</a>
 	</div>
 	<div class="center_row col-md-12">
-		<a href="/editFeeding" class="btn btn-default" role="button">Edit Existing</a>
+		<a href="/editFeeding" class="btn btn-default btn-lg" role="button">Edit Existing</a>
 	</div>
 	<sec:authorize access="hasRole('Admin')">
 		<div class="center_row col-md-12">
-			<a href="/admin/manage" class="btn btn-default" role="button">Manage</a>
+			<a href="/admin/manage" class="btn btn-default btn-lg" role="button">Manage</a>
 		</div>
 		<div class="center_row col-md-12">
-			<a href="/reports" class="btn btn-default" role="button">Reports</a>
+			<a href="/reports" class="btn btn-default btn-lg" role="button">Reports</a>
 		</div>
 	</sec:authorize>
 </div>

@@ -2,6 +2,8 @@ package com.holz.web.models;
 
 import java.util.Date;
 
+import com.holz.web.models.enums.Sex;
+
 public class Herd {
 	
 	private int id;
@@ -16,6 +18,8 @@ public class Herd {
 	private Supplier supplier;
 	private GroupedHerd groupedHerd;
 	private boolean isSold;
+	private Sex sex;
+	private String herdLabel;
 	
 	public int getId() {
 		return id;
@@ -88,5 +92,17 @@ public class Herd {
 	}
 	public void setSold(boolean isSold) {
 		this.isSold = isSold;
+	}
+	public Sex getSex() {
+		return sex;
+	}
+	public void setSex(Sex sex) {
+		this.sex = sex;
+	}
+	public String getHerdLabel() {
+		return herdLabel;
+	}
+	public void setHerdLabel(String herdLabel) {
+		this.herdLabel = herdLabel;
 	}
 }

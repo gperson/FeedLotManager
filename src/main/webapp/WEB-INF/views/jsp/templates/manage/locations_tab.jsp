@@ -17,9 +17,8 @@
     		<tr class="" id="${locale.id}">
 				<td class="lName">${locale.localeName}</td>
 				<td class="lHerds">
-					<c:forEach var="herd" items="${locale.groupedHerd.herds}" varStatus="status">
-				    		<c:out value="${herd.id}"/><c:if test="${!status.last}">,</c:if>	         					    		 
-					</c:forEach>
+					<span class="herdIds" style="display: none !important;"><c:forEach var="herd" items="${locale.groupedHerd.herds}" varStatus="status"><c:out value="${herd.id}"/><c:if test="${!status.last}">,</c:if></c:forEach></span>
+					<span class="herdLabels"><c:forEach var="herd" items="${locale.groupedHerd.herds}" varStatus="status"><c:out value="${herd.herdLabel}"/><c:if test="${!status.last}">,</c:if></c:forEach></span>
 				</td>
 				<td class="lCount">${locale.groupedHerd.count}</td>
 				<td>
@@ -58,8 +57,8 @@
 					</td>
 					<td>
 						<select id="orphan_group_herds" multiple size="5" name="ToLB">
-							<c:forEach var="herd" items="${orphans.orphans}" varStatus="status">
-								<option value="${herd}">${herd}</option>
+							<c:forEach var="herd" items="${orphans.orphanLabels}" varStatus="i">
+								<option value="${orphans.orphanIds[i.index]}">${herd}</option>
 							</c:forEach>
 						</select>
 					</td>

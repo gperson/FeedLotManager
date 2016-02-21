@@ -7,7 +7,7 @@
 				<label><c:out value="${groupedHerd.locale.localeName}"/></label>
 				<span>
 					<c:forEach var="herd" items="${groupedHerd.herds}" varStatus="status">
-			    		<c:out value="${herd.id}"/><c:if test="${!status.last}">,</c:if>	         					    		 
+			    		<c:out value="${herd.herdLabel}"/><c:if test="${!status.last}">,</c:if>	         					    		 
 					</c:forEach>
 				</span>
 			</div> 

@@ -48,28 +48,40 @@ public class HerdServicesImpl implements HerdServices {
 	public GroupedHerdUpdate getOrphanHerds(int farmId) {
 		GroupedHerdUpdate groups = new GroupedHerdUpdate();
 		Map<Integer, String> map = new HashMap<Integer, String>();
+		Map<Integer, String> mapIds = new HashMap<Integer, String>();
 		List<String> orphans = new ArrayList<String>();
+		List<String> orphanIds = new ArrayList<String>();
 		for(Herd h : this.herdDao.getOrphanHerds(farmId)){
 			int groupId = h.getGroupedHerd().getId();
 			if(groupId != 0){
 				if(map.containsKey(groupId)){
 					String current = map.get(groupId);
 					map.remove(groupId);
-					map.put(groupId,current + ", "+h.getId());
+					map.put(groupId,current + ", "+h.getHerdLabel());
+					current = mapIds.get(groupId);
+					mapIds.remove(groupId);
+					mapIds.put(groupId,current + ", "+h.getId());
 				} else {
-					map.put(groupId,h.getId()+"");
+					map.put(groupId,h.getHerdLabel()+"");
+					mapIds.put(groupId,h.getId()+"");
 				}
 			}
 			else {
-				orphans.add(h.getId()+"");
+				orphans.add(h.getHerdLabel());
+				orphanIds.add(h.getId()+"");
 			}
 		}
 		for (Entry<Integer, String> entry : map.entrySet())
 		{
 			orphans.add(entry.getValue());
 		}
+		for (Entry<Integer, String> entry : mapIds.entrySet())
+		{
+			orphanIds.add(entry.getValue());
+		}
 		
-		groups.setOrphans(orphans);
+		groups.setOrphanLabels(orphans);
+		groups.setOrphanIds(orphanIds);
 		return groups;
 	}
 

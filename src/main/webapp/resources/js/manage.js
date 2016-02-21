@@ -125,7 +125,7 @@ function saveLocation(){
 					data : JSON.stringify({
 						localeId : locationId,
 						current : newHerds,
-						orphans : orphanHerds
+						orphanIds : orphanHerds
 					}),
 					dataType : 'json',
 					contentType: 'application/json',
@@ -161,10 +161,11 @@ function openLocationPopup(e,edit){
 	if(edit === true){
 		$("#save_location").attr("data-id",id);
 		$("#name").val(row.find(".lName").text());
-		var current = row.find('.lHerds').text().trim();
+		var ids = row.find('.herdIds').text().trim();
+		var labels = row.find('.herdLabels').text().trim();
 		$("#new_group_herds option").remove();
-		if(!(current === "")){
-			$("#new_group_herds").append($('<option id="current_group" value="'+current+'">'+current+'</option>'));
+		if(!(ids === "")){
+			$("#new_group_herds").append($('<option id="current_group" value="'+ids+'">'+labels+'</option>'));
 		}
 	} else {
 		$("#save_location").attr("data-id",0);
@@ -300,7 +301,7 @@ function loadLivestockTab(){
 
 function openBuyLivestockPopup(e,edit){
 	var row = $(e).parent().parent();
-	var id = row.find(".hId").text();
+	var id = row.find(".hId").attr('data-id');
 
 	if(edit === true){
 		$("#save_buyLivestock").attr("data-id",id);
@@ -312,6 +313,8 @@ function openBuyLivestockPopup(e,edit){
 		$("#estimatedSaleDate").val(row.find(".hSale").text());
 		$("#implantDate").val(row.find(".hImplant").text());
 		$("#optiflexDate").val(row.find(".hOptiflex").text());
+		$("#herdLabel").val(row.find(".hId").text());
+		$("#sex").val(row.find(".hSex").text());
 	} else {
 		$("#save_buyLivestock").attr("data-id",0);
 		$("#quantity").val("");
@@ -322,6 +325,8 @@ function openBuyLivestockPopup(e,edit){
 		$("#implantDate").val("");
 		$("#optiflexDate").val("");
 		$("#supplier").val(0);
+		$("#herdLabel").val("");
+		$("#sex").val("Mix");
 	}
 
 	$("#fade").show();
@@ -344,7 +349,9 @@ function saveBuyLivestock(){
 			optiflexDate : Date.parse($("#optiflexDate").val()),
 			supplier : {
 				id : parseInt($("#supplier").val())
-			}
+			},
+			sex : $("#sex").val(),
+			herdLabel : $("#herdLabel").val() 
 		}),
 		dataType : 'json',
 		contentType: 'application/json',

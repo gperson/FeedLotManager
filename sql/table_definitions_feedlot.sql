@@ -100,6 +100,8 @@ CREATE TABLE HERD (
     `dateEntered`					DATETIME NOT NULL,
     `supplierId`					INT NOT NULL,
     `groupedHerdsId`				INT,
+    `sex`							VARCHAR(20),
+	`herdLabel`						VARCHAR(100),
     PRIMARY KEY ( herdId ),
     FOREIGN KEY ( supplierId ) REFERENCES SUPPLIER( supplierId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),

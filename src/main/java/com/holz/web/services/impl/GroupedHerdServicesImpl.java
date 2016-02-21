@@ -88,7 +88,7 @@ public class GroupedHerdServicesImpl implements GroupedHerdServices {
 
 		//Update orphans grouped herds to null location
 		ids = new ArrayList<Integer>();
-		for(String o : groupUpdate.getOrphans()) {
+		for(String o : groupUpdate.getOrphanIds()) {
 			for(String herdId : o.split(",")){
 				ids.add(Integer.parseInt(herdId.replace("\n", "").replace("\r", "").replace("\t", "").replace(" ", "")));
 			}
