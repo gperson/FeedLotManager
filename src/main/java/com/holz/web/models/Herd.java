@@ -20,6 +20,7 @@ public class Herd {
 	private boolean isSold;
 	private Sex sex;
 	private String herdLabel;
+	private int farmId;
 	
 	public int getId() {
 		return id;
@@ -104,5 +105,11 @@ public class Herd {
 	}
 	public void setHerdLabel(String herdLabel) {
 		this.herdLabel = herdLabel;
+	}
+	public int getFarmId() {
+		return farmId;
+	}
+	public void setFarmId(int farmId) {
+		this.farmId = farmId;
 	}
 }

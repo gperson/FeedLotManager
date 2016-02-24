@@ -15,5 +15,7 @@ public interface UserDao {
 	void updatePassword(String username, String password, boolean isReset);
 
 	User getUser(String usernameOrEmail, boolean useEmail);
+
+	List<String> getAdminUserEmailsForFarm(int farmId);
 	
 }

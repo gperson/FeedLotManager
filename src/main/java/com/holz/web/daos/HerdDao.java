@@ -17,5 +17,7 @@ public interface HerdDao {
 	List<Herd> getHerdsForGroupedHerd(int farmId, int groupedHerdId);
 
 	List<Herd> getAllActiveHerds(int farmId);
+
+	List<Herd> getHerdsInNeedOfOptiflex();
 	
 }

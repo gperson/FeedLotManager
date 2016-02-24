@@ -27,7 +27,7 @@ public class HerdDaoImpl implements HerdDao {
 
 	String SELECT_HERD_INFO = "SELECT H.herdId, quantity, weight, cost, tagNumber, estimatedSaleDate, implantDate, "
 			+ "optiflexDate, dateEntered, S.supplierId, supplierName, supplierLocation, H.groupedHerdsId, GH.isSold, "
-			+ "sex, herdLabel "
+			+ "sex, herdLabel, H.farmId "
 			+ "FROM HERD H "
 			+ "JOIN SUPPLIER S ON H.supplierId = S.supplierId "
 			+ "LEFT JOIN GROUPED_HERDS GH ON GH.groupedHerdsId = H.groupedHerdsId ";
@@ -36,7 +36,7 @@ public class HerdDaoImpl implements HerdDao {
 	public List<Herd> getAllActiveHerds(int farmId) {
 		String sql = SELECT_HERD_INFO 
 				+ "WHERE H.farmId=" + farmId + " "
-				+ "AND isSold IS NULL OR isSold <> true ORDER BY H.herdId DESC";
+				+ "AND (isSold IS NULL OR isSold <> true) ORDER BY H.herdId DESC";
 		return getHerds(sql);
 	}
 
@@ -90,6 +90,7 @@ public class HerdDaoImpl implements HerdDao {
 					h.setWeight(rs.getDouble("weight"));
 					h.setCost(rs.getDouble("cost"));
 					h.setTagNumber(rs.getString("tagNumber"));
+					h.setFarmId(rs.getInt("farmId"));
 					h.setEstimatedSaleDate(getDateTime(rs.getTimestamp("estimatedSaleDate")));
 					h.setImplantDate(getDateTime(rs.getTimestamp("implantDate")));
 					h.setOptiflexDate(getDateTime(rs.getTimestamp("optiflexDate")));
@@ -134,6 +135,13 @@ public class HerdDaoImpl implements HerdDao {
 		return new ArrayList<Herd>();
 	}
 
+	@Override
+	public List<Herd> getHerdsInNeedOfOptiflex() {
+		String sql = SELECT_HERD_INFO 
+				+ "WHERE DATE(H.optiflexDate) = DATE(NOW()) ORDER BY H.farmId";
+		return getHerds(sql);
+	}
+	
 	private Date getDateTime(Timestamp ts){
 		if (ts != null)
 			return new java.util.Date(ts.getTime());

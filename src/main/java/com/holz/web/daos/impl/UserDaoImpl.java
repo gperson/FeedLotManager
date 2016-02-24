@@ -21,7 +21,7 @@ public class UserDaoImpl implements UserDao {
 	@Autowired 
 	JdbcTemplate jdbcTemplate; 
 
-	String SELECT_USER = "SELECT U.username, U.firstName, U.lastName, U.email, U.enabled, U.userId, U.forcePasswordReset, "+
+	String SELECT_USER = "SELECT U.username, U.firstName, U.lastName, U.email, U.enabled, U.userId, U.forcePasswordReset, U.farmId, "+
 				"(SELECT GROUP_CONCAT(R.role) FROM ROLES R WHERE U.username = R.username) AS roles "+
 				"FROM USERS U ";
 	@Override
@@ -106,6 +106,21 @@ public class UserDaoImpl implements UserDao {
 					return buildUser(rs);
 				}
 				return null;
+			}
+		});
+	}
+	
+	@Override
+	public List<String> getAdminUserEmailsForFarm(int farmId) {
+		String sql = "SELECT U.email FROM USERS U JOIN ROLES R ON R.username = U.username WHERE R.role = 'Admin' AND U.farmId = "+farmId;
+		return jdbcTemplate.query(sql,new Object[]{}, new ResultSetExtractor<List<String>>() {
+			@Override
+			public List<String> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<String> emails = new ArrayList<String>();
+				while(rs.next()) {					
+					emails.add(rs.getString("email"));
+				}
+				return emails;
 			}
 		});
 	}
