@@ -21,6 +21,7 @@ public class Herd {
 	private Sex sex;
 	private String herdLabel;
 	private int farmId;
+	private int deadQuantity;
 	
 	public int getId() {
 		return id;
@@ -111,5 +112,11 @@ public class Herd {
 	}
 	public void setFarmId(int farmId) {
 		this.farmId = farmId;
+	}
+	public int getDeadQuantity() {
+		return deadQuantity;
+	}
+	public void setDeadQuantity(int deadQuantity) {
+		this.deadQuantity = deadQuantity;
 	}
 }

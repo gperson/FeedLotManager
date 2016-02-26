@@ -58,7 +58,7 @@
 		  <input type="text" class="form-control" autocomplete="off" placeholder="Email" id="email">
 		</div>
 		<label class="checkbox-inline"><input id="adminRole" type="checkbox" value="">Admin</label>			
-		<div id="popup_btns">
+		<div class="popup_btns">
 			<button id="save_user" onclick="saveUser()" type="button" class="btn btn-primary">Save</button>
 			<button id="cancel_user" onclick="closeUserPopup()" type="button" class="btn btn-default">Cancel</button>
 		</div>

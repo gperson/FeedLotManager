@@ -33,7 +33,7 @@
 		  <label for="supplierLocation">Location:</label>
 		  <input type="text" class="form-control" autocomplete="off" placeholder="Location of Supplier" id="supplierLocation">
 		</div>		
-		<div id="popup_btns">
+		<div class="popup_btns">
 			<button id="save_supplier" onclick="saveSupplier()" type="button" class="btn btn-primary">Save</button>
 			<button id="cancel_supplier" onclick="closeSupplierPopup()" type="button" class="btn btn-default">Cancel</button>
 		</div>

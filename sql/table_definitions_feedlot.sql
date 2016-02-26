@@ -102,6 +102,7 @@ CREATE TABLE HERD (
     `groupedHerdsId`				INT,
     `sex`							VARCHAR(20),
 	`herdLabel`						VARCHAR(100),
+    `deadQuantity`					INT,
     PRIMARY KEY ( herdId ),
     FOREIGN KEY ( supplierId ) REFERENCES SUPPLIER( supplierId ),
     FOREIGN KEY ( farmId ) REFERENCES FARM( farmId ),
@@ -148,3 +149,52 @@ CREATE TABLE FEED (
     FOREIGN KEY ( feedTypeId ) REFERENCES FEED_TYPES( feedTypeId ),
     FOREIGN KEY ( feedingId ) REFERENCES FEEDING( feedingId )
 );
+
+DELIMITER //
+USE feedlot //
+DROP PROCEDURE IF EXISTS `PoundGainedPerDriedMaterPound` //
+CREATE PROCEDURE PoundGainedPerDriedMaterPound(IN farmId int)
+BEGIN
+	DECLARE bDone INT;
+    DECLARE `startWeight` DOUBLE;
+	DECLARE `endWeight` DOUBLE;
+	DECLARE `groupId` INT;
+    DECLARE `driedWeight` DOUBLE; 
+    DECLARE `herdsLabels` VARCHAR(500);
+    DECLARE curs CURSOR FOR (SELECT GH.groupedHerdsId ,SUM(H.weight) AS startWeight, SUM(S.saleWeight) AS endWeight,
+							(SELECT GROUP_CONCAT(HD.herdLabel) FROM HERD HD WHERE HD.herdId = H.herdId) AS labels
+							FROM GROUPED_HERDS  GH
+							JOIN HERD H ON GH.groupedHerdsId = H.groupedHerdsId
+							JOIN SALE S ON GH.groupedHerdsId = S.groupedHerdsId
+							WHERE GH.isSold = 1 AND H.farmId = farmId
+							GROUP BY GH.groupedHerdsId);
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET bDone = 1;
+	
+    DROP TEMPORARY TABLE IF EXISTS TEMP_POUNDS_GAINED_PER_DRIED;
+    CREATE TEMPORARY TABLE IF NOT EXISTS TEMP_POUNDS_GAINED_PER_DRIED (
+        `id` INT,
+        `poundGainedPerPoundOfDriedFood` DOUBLE,
+        `herdsLabels` VARCHAR(500)
+    );
+
+	OPEN curs;
+	SET bDone = 0;
+	groups: LOOP
+		FETCH curs INTO groupId, startWeight, endWeight, herdsLabels;
+        IF bDone = 1 THEN LEAVE groups; END IF;
+        
+        SELECT SUM(deliveredAmount * ratio * driedMatterPercentage) as driedFeedWeight INTO driedWeight
+		FROM GROUPED_HERDS  GH
+		JOIN FEEDING FG ON GH.groupedHerdsId = FG.groupedHerdsId
+		JOIN FEED F ON F.feedingId = FG.feedingId
+		JOIN FEED_TYPES FT ON F.feedTypeId = FT.feedTypeId
+		WHERE GH.isSold = 1 AND GH.groupedHerdsId = groupId
+		GROUP BY GH.groupedHerdsId;
+        
+		INSERT INTO TEMP_POUNDS_GAINED_PER_DRIED VALUES(groupId, (endWeight - startWeight)/driedWeight, herdsLabels);
+    END LOOP groups;
+    
+	CLOSE curs;
+	SELECT * FROM TEMP_POUNDS_GAINED_PER_DRIED;
+END //
+DELIMITER ;

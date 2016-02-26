@@ -66,8 +66,8 @@
 			</table>
 		</div>
 		<div id="location_popup_btns">
-		<button id="save_location" onclick="saveLocation()" type="button" class="btn btn-primary">Save</button>
-		<button id="cancel_location" onclick="closeLocationPopup()" type="button" class="btn btn-default">Cancel</button>
+			<button id="save_location" onclick="saveLocation()" type="button" class="btn btn-primary">Save</button>
+			<button id="cancel_location" onclick="closeLocationPopup()" type="button" class="btn btn-default">Cancel</button>
 		</div>
 	</form>
 </div>

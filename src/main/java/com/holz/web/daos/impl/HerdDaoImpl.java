@@ -27,7 +27,7 @@ public class HerdDaoImpl implements HerdDao {
 
 	String SELECT_HERD_INFO = "SELECT H.herdId, quantity, weight, cost, tagNumber, estimatedSaleDate, implantDate, "
 			+ "optiflexDate, dateEntered, S.supplierId, supplierName, supplierLocation, H.groupedHerdsId, GH.isSold, "
-			+ "sex, herdLabel, H.farmId "
+			+ "sex, herdLabel, H.farmId, deadQuantity "
 			+ "FROM HERD H "
 			+ "JOIN SUPPLIER S ON H.supplierId = S.supplierId "
 			+ "LEFT JOIN GROUPED_HERDS GH ON GH.groupedHerdsId = H.groupedHerdsId ";
@@ -43,20 +43,20 @@ public class HerdDaoImpl implements HerdDao {
 	@Override
 	public void saveOrUpdate(Herd herd, int farmId) {
 		String sql = "INSERT INTO HERD "+
-				"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		if(herd.getId() != 0){
 			sql = "UPDATE HERD SET quantity=?,weight=?,cost=?,tagNumber=?,estimatedSaleDate=?,implantDate=?,"
-					+ "optiflexDate=?,supplierId=?, groupedHerdsId=?,sex=?,herdLabel=? where herdId=? AND farmId =?";
+					+ "optiflexDate=?,supplierId=?, groupedHerdsId=?,sex=?,herdLabel=?, deadQuantity=? where herdId=? AND farmId =?";
 			this.jdbcTemplate.update(sql, new Object[]{herd.getQuantity(),herd.getWeight(),herd.getCost(),
 					herd.getTagNumber(),herd.getEstimatedSaleDate(),herd.getImplantDate(),herd.getOptiflexDate(),
 					herd.getSupplier().getId(),(herd.getGroupedHerd() == null ? null : herd.getGroupedHerd().getId()),
-					herd.getSex().toString(),herd.getHerdLabel(),herd.getId(),farmId});
+					herd.getSex().toString(),herd.getHerdLabel(),herd.getDeadQuantity(), herd.getId(),farmId});
 		} else {
 			this.jdbcTemplate.update(sql, 
 					new Object[]{0,farmId,herd.getQuantity(), herd.getWeight(), herd.getCost(),
 					herd.getTagNumber(), herd.getEstimatedSaleDate(),herd.getImplantDate(),
 					herd.getOptiflexDate(),new Date() ,herd.getSupplier().getId(),
-					null,herd.getSex().toString(),herd.getHerdLabel() });
+					null,herd.getSex().toString(),herd.getHerdLabel(), herd.getDeadQuantity() });
 		}
 	}
 
@@ -97,6 +97,7 @@ public class HerdDaoImpl implements HerdDao {
 					h.setDateEntered(getDateTime(rs.getTimestamp("dateEntered")));
 					h.setSex(Sex.valueOf(rs.getString("sex")));
 					h.setHerdLabel(rs.getString("herdLabel"));
+					h.setDeadQuantity(rs.getInt("deadQuantity"));
 					h.setGroupedHerd(new GroupedHerd());
 					h.getGroupedHerd().setId(rs.getInt("groupedHerdsId"));
 					Supplier s = new Supplier();

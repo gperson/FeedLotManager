@@ -21,9 +21,7 @@
 		<c:forEach var="sale" items="${sales}">
     		<tr id="${sale.id}">
 				<td id="${sale.groupedHerd.id}" class="saHerds">
-					<c:forEach var="herd" items="${sale.groupedHerd.herds}" varStatus="status">
-				    		<c:out value="${herd.id}"/><c:if test="${!status.last}">,</c:if>	         					    		 
-					</c:forEach>
+					<c:forEach var="herd" items="${sale.groupedHerd.herds}" varStatus="status"><c:out value="${herd.herdLabel}"/><c:if test="${!status.last}">,</c:if></c:forEach>
 				</td>
 				<td class="saPrice">${sale.salePrice}</td>
 				<td class="saWeight">${sale.saleWeight}</td>
@@ -40,55 +38,69 @@
 	</tbody>
 </table>
 
-<div id="sale_popup" class="popup"style="display:none;">
-	<form name="saleForm" role="form">
-		<div class="form-group">
-		  <label for="saLocale">Location Sold From:</label>
-		  <select class="form-control" id="saLocale">
-		  	<option value="0">Select Location</option>
-		  	<c:forEach var="group" items="${groupedHerds}">
-			    <option value="${group.id}">${group.locale.localeName}</option>
-		    </c:forEach>
-		  </select>
+<div id="validateSale_popup" class="popup" style="display:none; width: 450px !important;">
+	<div id="validateMessage" class="alert" role="alert">
+	
+	</div>
+	<div class="popup_btns">
+		<button id="continue_sale_alert" onclick="saveSale()" type="button" class="btn btn-primary">Continue</button>
+		<button id="discard_sale_alert" onclick="discardSaleAlert()" type="button" class="btn btn-default">Cancel</button>
+	</div>
+</div>
+
+<div id="sale_popup" class="popup" style="display:none; width: 450px !important;">
+	<form name="saleForm" role="form" class="row">
+		<div class="col-sm-6">
+			<div class="form-group">
+			  <label for="saLocale">Location Sold From:</label>
+			  <select class="form-control" id="saLocale">
+			  	<option value="0">Select Location</option>
+			  	<c:forEach var="group" items="${groupedHerds}">
+				    <option value="${group.id}">${group.locale.localeName}</option>
+			    </c:forEach>
+			  </select>
+			</div>
+			<div class="form-group">
+			  <label for="saPrice">Sale Price:</label>
+			  <input class="form-control" id="saPrice" autocomplete="off" type="number" step="0.1" placeholder="Amount ($)">
+			</div>
+			<div class="form-group">
+			  <label for="saWeight">Sale Weight:</label>
+			  <input class="form-control" id="saWeight" autocomplete="off" type="number" step="0.1" placeholder="Weight (lbs)">
+			</div>
+			<div class="form-group">
+			  <label for="saQuantity">Quantity:</label>
+			  <input class="form-control" id="saQuantity" autocomplete="off" type="number" min="0" step="1" placeholder="Count">
+			</div>
 		</div>
-		<div class="form-group">
-		  <label for="saPrice">Sale Price:</label>
-		  <input class="form-control" id="saPrice" autocomplete="off" type="number" step="0.1" placeholder="Amount ($)">
-		</div>
-		<div class="form-group">
-		  <label for="saWeight">Sale Weight:</label>
-		  <input class="form-control" id="saWeight" autocomplete="off" type="number" step="0.1" placeholder="Weight (lbs)">
-		</div>
-		<div class="form-group">
-		  <label for="saQuantity">Quantity:</label>
-		  <input class="form-control" id="saQuantity" autocomplete="off" type="number" min="0" step="1" placeholder="Count">
-		</div>
-		<div class="form-group">
-		  <label for="saDressing">Dressing Percent:</label>
-		  <input class="form-control" id="saDressing" autocomplete="off" type="number" max="100" min="0" step="0.1" placeholder="Dressing %">
-		</div>
-		<div class="form-group">
-		  <label for="saShrink">Shrink Percent:</label>
-		  <input class="form-control" id="saShrink" autocomplete="off" type="number" max="100" min="0" step="0.1" placeholder="Shrink %">
-		</div>
-		<div class="form-group">
-		  <label for="saPacker">Packer:</label>
-		  <select class="form-control" id="saPacker">
-		  	<option value="0">Select Packer</option>
-		  	<c:forEach var="packer" items="${packers}">
-			    <option value="${packer.id}">${packer.name}</option>
-		    </c:forEach>
-		  </select>
-		</div>
-		<label for="saDate">Sale Date:</label>
-		<div class="form-group input-group date" data-provide="datepicker">
-		    <input type="text" class="form-control" id="saDate" autocomplete="off" placeholder="Sale Date">
-		    <div class="input-group-addon">
-		        <span class="glyphicon glyphicon-th"></span>
-		    </div>
+		<div class="col-sm-6">
+			<div class="form-group">
+			  <label for="saDressing">Dressing Percent:</label>
+			  <input class="form-control" id="saDressing" autocomplete="off" type="number" max="100" min="0" step="0.1" placeholder="Dressing %">
+			</div>
+			<div class="form-group">
+			  <label for="saShrink">Shrink Percent:</label>
+			  <input class="form-control" id="saShrink" autocomplete="off" type="number" max="100" min="0" step="0.1" placeholder="Shrink %">
+			</div>
+			<div class="form-group">
+			  <label for="saPacker">Packer:</label>
+			  <select class="form-control" id="saPacker">
+			  	<option value="0">Select Packer</option>
+			  	<c:forEach var="packer" items="${packers}">
+				    <option value="${packer.id}">${packer.name}</option>
+			    </c:forEach>
+			  </select>
+			</div>
+			<label for="saDate">Sale Date:</label>
+			<div class="form-group input-group date" data-provide="datepicker">
+			    <input type="text" class="form-control" id="saDate" autocomplete="off" placeholder="Sale Date">
+			    <div class="input-group-addon">
+			        <span class="glyphicon glyphicon-th"></span>
+			    </div>
+			</div>
 		</div>		
-		<div id="popup_btns">
-			<button id="save_sale" onclick="saveSale()" type="button" class="btn btn-primary">Save</button>
+		<div class="popup_btns" style="padding-left: 15px;">
+			<button id="save_sale" onclick="validateSale()" type="button" class="btn btn-primary">Save</button>
 			<button id="cancel_sale" onclick="closeSalePopup()" type="button" class="btn btn-default">Cancel</button>
 		</div>
 	</form>

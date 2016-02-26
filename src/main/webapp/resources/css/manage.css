@@ -23,20 +23,15 @@
 .popup {
 	width: 377px;
 	position: absolute;
-	top: 25%;
+	top: 15%;
 	left: 37%;
-	min-height: 200px;
 	padding: 15px;
 	background-color: white;
 	z-index:2000;
 	overflow: auto;
 }
 
-#sale_popup{
-	top: 5% !important;
-}
-
-#popup_btns {
+.popup_btns {
 	margin-top: 15px;
 }
 

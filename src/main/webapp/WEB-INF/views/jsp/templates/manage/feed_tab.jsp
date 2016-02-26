@@ -39,7 +39,7 @@
 		  <label for="dmp">Dried Matter Percentage:</label>
 		  <input class="form-control" id="dmp" autocomplete="off" type="number" max="100" min="0" step="0.1" placeholder="Dried Matter %">
 		</div>		
-		<div id="popup_btns">
+		<div class="popup_btns">
 			<button id="save_feed" onclick="saveFeed()" type="button" class="btn btn-primary">Save</button>
 			<button id="cancel_feed" onclick="closeFeedPopup()" type="button" class="btn btn-default">Cancel</button>
 		</div>

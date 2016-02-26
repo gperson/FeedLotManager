@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.holz.web.models.GroupedHerd;
 import com.holz.web.models.Sale;
 import com.holz.web.models.responses.AjaxResponse;
 import com.holz.web.services.FarmServices;
@@ -53,4 +54,33 @@ public class SoldLivestockTabController {
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = { "/admin/isValidSale" }, method = RequestMethod.POST)
+	public AjaxResponse IsValidSale(@RequestBody Sale sale, Principal principal) {
+		int farmId = this.farmServices.getFarmByUserName(principal.getName()).getId();		
+		GroupedHerd gh = this.groupedHerdServices.getGroupedHerd(farmId,sale.getGroupedHerd().getId());
+		
+		//Incase we are updating the quantity we need set the new quantity before 'getCount'
+		int oldSaleCount = 0;
+		if(sale.getId() != 0){
+			for(Sale s : gh.getSales()){
+				if(s.getId() == sale.getId()){
+					oldSaleCount = s.getQuantity();
+					break;
+				}
+			}
+		}
+		
+		if((gh.getCount()+oldSaleCount) == sale.getQuantity()){
+			return new AjaxResponse(true, "<p>Warning, this will result in all livestock being sold. This action cannot be undone. "
+					+ "After it is marked as sold the following take place:</p><ul>"
+					+ "<li>You will not be able to edit feedings that were giving to these livestock</li>"
+					+ "<li>Location is now marked as empty</li>"
+					+ "<li>Some fields will become uneditable</li><ul>");
+		} else if((gh.getCount()+oldSaleCount) < sale.getQuantity()){
+			return new AjaxResponse(false,"<p>You cannot sell "+sale.getQuantity()+" livestock you only have "+gh.getCount()+".</p>");
+		} else {
+			return new AjaxResponse(true);
+		}
+	}
 }

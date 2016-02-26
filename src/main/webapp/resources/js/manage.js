@@ -315,6 +315,7 @@ function openBuyLivestockPopup(e,edit){
 		$("#optiflexDate").val(row.find(".hOptiflex").text());
 		$("#herdLabel").val(row.find(".hId").text());
 		$("#sex").val(row.find(".hSex").text());
+		$("#dead").val(row.find(".hDead").text());
 	} else {
 		$("#save_buyLivestock").attr("data-id",0);
 		$("#quantity").val("");
@@ -327,6 +328,7 @@ function openBuyLivestockPopup(e,edit){
 		$("#supplier").val(0);
 		$("#herdLabel").val("");
 		$("#sex").val("Mix");
+		$("#dead").val(0);
 	}
 
 	$("#fade").show();
@@ -340,9 +342,9 @@ function saveBuyLivestock(){
 		url : "/admin/saveBuyLivestock",
 		data : JSON.stringify({ 
 			id : parseInt($("#save_buyLivestock").attr("data-id")), 
-			quantity : $("#quantity").val(),
-			weight : $("#weight").val(),
-			cost : $("#cost").val(),
+			quantity : parseInt($("#quantity").val()),
+			weight : parseFloat($("#weight").val()),
+			cost : parseFloat($("#cost").val()),
 			tagNumber : $("#tagNumber").val(),
 			estimatedSaleDate : Date.parse($("#estimatedSaleDate").val()),
 			implantDate : Date.parse($("#implantDate").val()),
@@ -351,7 +353,8 @@ function saveBuyLivestock(){
 				id : parseInt($("#supplier").val())
 			},
 			sex : $("#sex").val(),
-			herdLabel : $("#herdLabel").val() 
+			herdLabel : $("#herdLabel").val(),
+			deadQuantity : parseInt($("#dead").val())
 		}),
 		dataType : 'json',
 		contentType: 'application/json',
@@ -456,7 +459,7 @@ function openSalePopup(e,edit){
 		$("#saShrink").val(row.find(".saShrink").text());
 		$("#saQuantity").val(row.find(".saQuantity").text());
 		$("#saPacker").val(row.find(".saPacker").attr("data-packer"));
-		$("#saLocale").val(row.find(".saHerds").attr("id"));
+		$("#saLocale").val(row.find(".saHerds").attr("id"));		
 	} else {
 		$("#save_sale").attr("data-id",0);
 		$("#saPrice").val("");
@@ -473,7 +476,48 @@ function openSalePopup(e,edit){
 	$("#sale_popup").show();
 };
 
+function validateSale(){
+	$("#sale_popup").hide();
+	$("#continue_sale_alert").show();
+	$("#validateMessage").removeClass("alert-warning");
+	$("#validateMessage").removeClass("alert-danger");
+	$.ajax({
+		type : "POST",
+		headers: headers,
+		url : "/admin/isValidSale",
+		data : JSON.stringify({ 
+			id : parseInt($("#save_sale").attr("data-id")),
+			quantity : parseInt($("#saQuantity").val()),
+			groupedHerd : { id : parseInt($("#saLocale").val()) }
+		}),
+		success : function(e){
+			if(e.success === true && e.message === null){
+				$("#validateSale_popup").hide();
+				saveSale();				
+			} else if(e.success === true && !(e.message === null)){
+				$("#validateMessage").html(e.message);
+				$("#validateMessage").addClass("alert-warning");
+			} else if(e.success === false && !(e.message === null)){
+				$("#validateMessage").html(e.message);
+				$("#validateMessage").addClass("alert-danger");
+				$("#continue_sale_alert").hide();
+			}
+			$("#validateSale_popup").show();
+		},
+		error : function(){
+			alert("An error occured");
+		}
+			
+	})
+}
+
+function discardSaleAlert(){
+	$("#validateSale_popup").hide();
+	$("#sale_popup").show();
+}
+
 function saveSale(){
+	$("#validateSale_popup").hide();
 	$.ajax({
 		type : "POST",
 		headers: headers,

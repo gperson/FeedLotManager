@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.holz.web.daos.GroupedHerdDao;
 import com.holz.web.daos.HerdDao;
 import com.holz.web.daos.LocaleDao;
+import com.holz.web.daos.SaleDao;
 import com.holz.web.models.GroupedHerd;
 import com.holz.web.models.GroupedHerdUpdate;
 import com.holz.web.models.Herd;
@@ -30,6 +31,9 @@ public class GroupedHerdServicesImpl implements GroupedHerdServices {
 	
 	@Autowired
 	private LocaleDao localeDao;
+	
+	@Autowired
+	private SaleDao saleDao;
 
 	@Override
 	public void saveOrUpdateGroupedHerd(GroupedHerdUpdate groupUpdate, int farmId) {
@@ -122,6 +126,7 @@ public class GroupedHerdServicesImpl implements GroupedHerdServices {
 		List<GroupedHerd> groupedHerds = this.groupedHerdDao.getGroupedHerds(farmId);
 		for(GroupedHerd g : groupedHerds){
 			g.setHerds(this.herdDao.getHerdsForGroupedHerd(farmId, g.getId()));
+			g.setSales(this.saleDao.getSalesForGroupHerd(farmId, g.getId()));
 		}
 		return groupedHerds;
 	}
@@ -129,5 +134,13 @@ public class GroupedHerdServicesImpl implements GroupedHerdServices {
 	@Override
 	public boolean userHasAccessToGroupedHerd(String username, int groupedHerdId, int farmId){
 		return this.groupedHerdDao.userHasAccessToGroupedHerd(username, groupedHerdId, farmId);
+	}
+
+	@Override
+	public GroupedHerd getGroupedHerd(int farmId,int groupedHerdId) {
+		GroupedHerd group = this.groupedHerdDao.getGroupedHerd(groupedHerdId);
+		group.setHerds(this.herdDao.getHerdsForGroupedHerd(farmId, group.getId()));
+		group.setSales(this.saleDao.getSalesForGroupHerd(farmId, group.getId()));
+		return group;
 	}
 }

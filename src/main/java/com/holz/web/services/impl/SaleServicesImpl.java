@@ -42,11 +42,22 @@ public class SaleServicesImpl implements SaleServices {
 		group.setHerds(this.herdDao.getHerdsForGroupedHerd(farmId, group.getId()));
 		group.setSales(this.saleDao.getSalesForGroupHerd(farmId, group.getId()));
 		
-		if(group.getCount() >= sale.getQuantity()){
+		//Incase we are updating the quantity we need set the new quantity before 'getCount'
+		int oldSaleCount = 0;
+		if(sale.getId() != 0){
+			for(Sale s : group.getSales()){
+				if(s.getId() == sale.getId()){
+					oldSaleCount = s.getQuantity();
+					break;
+				}
+			}
+		}
+		
+		if((group.getCount()+oldSaleCount) >= sale.getQuantity()){
 			this.saleDao.saveOrUpdate(sale, farmId);
 			
 			//If the last livestock is sold from the location remove herd from local, i.e set to null	
-			if((group.getCount() - sale.getQuantity()) == 0){
+			if(((group.getCount()+oldSaleCount) - sale.getQuantity()) == 0){
 				group.getLocale().setId(-1);
 				group.setSold(true);
 				this.groupedHerdDao.updateGroupedHerdLocationForHerd(group);

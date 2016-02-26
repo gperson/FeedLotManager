@@ -39,6 +39,7 @@ public class GroupedHerd {
 		if(this.herds != null){
 			for(Herd h : this.herds){
 				this.count = this.count + h.getQuantity();
+				this.count = this.count - h.getDeadQuantity();
 			}
 		}
 		if(this.sales != null){

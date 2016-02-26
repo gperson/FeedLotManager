@@ -33,7 +33,7 @@
 		  <label for="packerLocation">Location:</label>
 		  <input type="text" class="form-control" id="packerLocation" autocomplete="off" placeholder="Packer Location">
 		</div>		
-		<div id="popup_btns">
+		<div class="popup_btns">
 			<button id="save_packer" onclick="savePacker()" type="button" class="btn btn-primary">Save</button>
 			<button id="cancel_packer" onclick="closePackerPopup()" type="button" class="btn btn-default">Cancel</button>
 		</div>
