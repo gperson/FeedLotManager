@@ -159,7 +159,8 @@ BEGIN
     DECLARE `startWeight` DOUBLE;
 	DECLARE `endWeight` DOUBLE;
 	DECLARE `groupId` INT;
-    DECLARE `driedWeight` DOUBLE; 
+    DECLARE `driedWeight` DOUBLE;
+    DECLARE `totalFoodWeight` DOUBLE; 
     DECLARE `herdsLabels` VARCHAR(500);
     DECLARE curs CURSOR FOR (SELECT GH.groupedHerdsId ,SUM(H.weight),
 							(SELECT GROUP_CONCAT(HD.herdLabel) FROM HERD HD WHERE HD.groupedHerdsId = GH.groupedHerdsId) AS labels
@@ -176,7 +177,8 @@ BEGIN
         `herdsLabels` VARCHAR(500),
         `driedWeight` DOUBLE,
         `startWeight` DOUBLE,
-        `endWeight` DOUBLE
+        `endWeight` DOUBLE,
+        `totalFoodWeight` DOUBLE
     );
 
 	OPEN curs;
@@ -190,7 +192,7 @@ BEGIN
 		JOIN SALE S ON GH.groupedHerdsId = S.groupedHerdsId
 		WHERE GH.isSold = 1 AND S.farmId = farmId AND GH.groupedHerdsId = groupId INTO endWeight;
 
-        SELECT SUM(deliveredAmount * ratio * (driedMatterPercentage/100.0)) as driedFeedWeight INTO driedWeight
+        SELECT SUM(deliveredAmount * ratio * (driedMatterPercentage/100.0)) as driedFeedWeight, SUM(deliveredAmount) INTO driedWeight,totalFoodWeight
 		FROM GROUPED_HERDS  GH
 		JOIN FEEDING FG ON GH.groupedHerdsId = FG.groupedHerdsId
 		JOIN FEED F ON F.feedingId = FG.feedingId
@@ -198,7 +200,7 @@ BEGIN
 		WHERE GH.isSold = 1 AND GH.groupedHerdsId = groupId
 		GROUP BY GH.groupedHerdsId;
         
-		INSERT INTO TEMP_POUNDS_GAINED_PER_DRIED VALUES(groupId, (endWeight - startWeight)/driedWeight, herdsLabels,driedWeight,startWeight,endWeight);
+		INSERT INTO TEMP_POUNDS_GAINED_PER_DRIED VALUES(groupId, (endWeight - startWeight)/driedWeight,herdsLabels,driedWeight,startWeight,endWeight,totalFoodWeight);
     END LOOP groups;
     
 	CLOSE curs;
