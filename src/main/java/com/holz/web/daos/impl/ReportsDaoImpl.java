@@ -31,6 +31,8 @@ public class ReportsDaoImpl implements ReportsDao {
 				while(rs.next()) {
 					PoundsGainedPerPoundDriedFood report = new PoundsGainedPerPoundDriedFood();
 					report.setpGpD(rs.getDouble("poundGainedPerPoundOfDriedFood"));
+					report.setDriedFoodTotal(rs.getDouble("driedWeight"));
+					report.setFoodTotal(rs.getDouble("totalFoodWeight"));
 					report.setHerdsLabels(rs.getString("herdsLabels"));
 					report.setGroupedHerdId(rs.getInt("id"));
 					reports.add(report);

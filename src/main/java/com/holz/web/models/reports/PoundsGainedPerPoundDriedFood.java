@@ -4,6 +4,8 @@ public class PoundsGainedPerPoundDriedFood {
 	private String herdsLabels;
 	private double pGpD;
 	private int groupedHerdId;
+	private double driedFoodTotal;
+	private double foodTotal;
 	public String getHerdsLabels() {
 		return herdsLabels;
 	}
@@ -21,5 +23,17 @@ public class PoundsGainedPerPoundDriedFood {
 	}
 	public void setGroupedHerdId(int groupedHerdId) {
 		this.groupedHerdId = groupedHerdId;
+	}
+	public double getDriedFoodTotal() {
+		return driedFoodTotal;
+	}
+	public void setDriedFoodTotal(double driedFoodTotal) {
+		this.driedFoodTotal = driedFoodTotal;
+	}
+	public double getFoodTotal() {
+		return foodTotal;
+	}
+	public void setFoodTotal(double foodTotal) {
+		this.foodTotal = foodTotal;
 	}
 }

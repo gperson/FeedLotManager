@@ -7,7 +7,7 @@ import com.holz.web.models.Herd;
 
 public interface HerdServices {
 
-	List<Herd> getAllActiveHerds(int farmId);
+	List<Herd> getAllHerds(int farmId);
 	
 	List<Herd> getHerdsForGroupedLocal(int farmId, int groupedLocale);
 

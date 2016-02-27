@@ -449,6 +449,7 @@ function loadSoldLivestockTab(){
 function openSalePopup(e,edit){
 	var row = $(e).parent().parent();
 	var id = row.attr("id");
+	$("#saLocale").prop('disabled',false);
 
 	if(edit === true){
 		$("#save_sale").attr("data-id",id);
@@ -459,7 +460,14 @@ function openSalePopup(e,edit){
 		$("#saShrink").val(row.find(".saShrink").text());
 		$("#saQuantity").val(row.find(".saQuantity").text());
 		$("#saPacker").val(row.find(".saPacker").attr("data-packer"));
-		$("#saLocale").val(row.find(".saHerds").attr("id"));		
+		$("#saLocale").val(row.find(".saHerds").attr("id"));
+		
+		if($("#saLocale option[value='"+row.find(".saHerds").attr("id")+"']").length > 0){
+			$("#saLocale").val(row.find(".saHerds").attr("id"));
+		} else {
+			$("#saLocale").val(0);
+			$("#saLocale").prop('disabled',true);
+		}
 	} else {
 		$("#save_sale").attr("data-id",0);
 		$("#saPrice").val("");

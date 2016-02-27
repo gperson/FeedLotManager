@@ -76,7 +76,8 @@ public class SoldLivestockTabController {
 					+ "After it is marked as sold the following take place:</p><ul>"
 					+ "<li>You will not be able to edit feedings that were giving to these livestock</li>"
 					+ "<li>Location is now marked as empty</li>"
-					+ "<li>Some fields will become uneditable</li><ul>");
+					+ "<li>Some fields will become uneditable</li>"
+					+ "<li>Will display as yellow in livestock table</li><ul>");
 		} else if((gh.getCount()+oldSaleCount) < sale.getQuantity()){
 			return new AjaxResponse(false,"<p>You cannot sell "+sale.getQuantity()+" livestock you only have "+gh.getCount()+".</p>");
 		} else {

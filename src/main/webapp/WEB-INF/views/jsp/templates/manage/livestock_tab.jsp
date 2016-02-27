@@ -23,7 +23,7 @@
 	</thead>
 	<tbody>
 		<c:forEach var="herd" items="${herds}">
-    		<tr>
+    		<tr class="<c:if test="${herd.sold}">warning</c:if>">
 				<td data-id="${herd.id}" class="hId">${herd.herdLabel}</td>
 				<td class="hQuantity">${herd.quantity}</td>
 				<td class="hDead">${herd.deadQuantity}</td>

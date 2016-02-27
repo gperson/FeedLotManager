@@ -27,8 +27,8 @@ public class HerdServicesImpl implements HerdServices {
 	private GroupedHerdDao groupedHerdDao;
 
 	@Override
-	public List<Herd> getAllActiveHerds(int farmId) {
-		return this.herdDao.getAllActiveHerds(farmId);
+	public List<Herd> getAllHerds(int farmId) {
+		return this.herdDao.getAllHerds(farmId);
 	}
 
 	@Override

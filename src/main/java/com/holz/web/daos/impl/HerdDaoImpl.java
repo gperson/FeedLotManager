@@ -33,10 +33,10 @@ public class HerdDaoImpl implements HerdDao {
 			+ "LEFT JOIN GROUPED_HERDS GH ON GH.groupedHerdsId = H.groupedHerdsId ";
 
 	@Override
-	public List<Herd> getAllActiveHerds(int farmId) {
+	public List<Herd> getAllHerds(int farmId) {
 		String sql = SELECT_HERD_INFO 
 				+ "WHERE H.farmId=" + farmId + " "
-				+ "AND (isSold IS NULL OR isSold <> true) ORDER BY H.herdId DESC";
+				+ "ORDER BY H.herdId DESC";
 		return getHerds(sql);
 	}
 
