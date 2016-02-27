@@ -3,7 +3,7 @@
 	<button id="addLocation" type="button" class="btn btn-info" onclick="openLocationPopup(this,false);">Add
 		Location</button>
 </div>
-<table class="table table-hover table-striped">
+<table class="table table-bordered table-condensed table-striped">
 	<thead>
 		<tr>
 			<th class="col-md-3">Location</th>

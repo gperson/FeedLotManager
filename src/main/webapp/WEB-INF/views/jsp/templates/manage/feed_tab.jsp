@@ -2,7 +2,7 @@
 <div class="main_buttons">
 	<button onclick="openFeedPopup(this,false);" type="button" class="btn btn-info">Add Type</button>
 </div>
-<table class="table table-hover table-striped">
+<table class="table table-bordered table-condensed table-striped">
 	<thead>
 		<tr>
 			<th>Feed Type</th>

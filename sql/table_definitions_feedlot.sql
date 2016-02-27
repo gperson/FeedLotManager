@@ -161,11 +161,10 @@ BEGIN
 	DECLARE `groupId` INT;
     DECLARE `driedWeight` DOUBLE; 
     DECLARE `herdsLabels` VARCHAR(500);
-    DECLARE curs CURSOR FOR (SELECT GH.groupedHerdsId ,SUM(H.weight) AS startWeight, SUM(S.saleWeight) AS endWeight,
-							(SELECT GROUP_CONCAT(HD.herdLabel) FROM HERD HD WHERE HD.herdId = H.herdId) AS labels
+    DECLARE curs CURSOR FOR (SELECT GH.groupedHerdsId ,SUM(H.weight),
+							(SELECT GROUP_CONCAT(HD.herdLabel) FROM HERD HD WHERE HD.groupedHerdsId = GH.groupedHerdsId) AS labels
 							FROM GROUPED_HERDS  GH
 							JOIN HERD H ON GH.groupedHerdsId = H.groupedHerdsId
-							JOIN SALE S ON GH.groupedHerdsId = S.groupedHerdsId
 							WHERE GH.isSold = 1 AND H.farmId = farmId
 							GROUP BY GH.groupedHerdsId);
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET bDone = 1;
@@ -174,16 +173,24 @@ BEGIN
     CREATE TEMPORARY TABLE IF NOT EXISTS TEMP_POUNDS_GAINED_PER_DRIED (
         `id` INT,
         `poundGainedPerPoundOfDriedFood` DOUBLE,
-        `herdsLabels` VARCHAR(500)
+        `herdsLabels` VARCHAR(500),
+        `driedWeight` DOUBLE,
+        `startWeight` DOUBLE,
+        `endWeight` DOUBLE
     );
 
 	OPEN curs;
 	SET bDone = 0;
 	groups: LOOP
-		FETCH curs INTO groupId, startWeight, endWeight, herdsLabels;
+		FETCH curs INTO groupId, startWeight, herdsLabels;
         IF bDone = 1 THEN LEAVE groups; END IF;
         
-        SELECT SUM(deliveredAmount * ratio * driedMatterPercentage) as driedFeedWeight INTO driedWeight
+        SELECT SUM(S.saleWeight) AS endWeight
+		FROM GROUPED_HERDS  GH
+		JOIN SALE S ON GH.groupedHerdsId = S.groupedHerdsId
+		WHERE GH.isSold = 1 AND S.farmId = farmId AND GH.groupedHerdsId = groupId INTO endWeight;
+
+        SELECT SUM(deliveredAmount * ratio * (driedMatterPercentage/100.0)) as driedFeedWeight INTO driedWeight
 		FROM GROUPED_HERDS  GH
 		JOIN FEEDING FG ON GH.groupedHerdsId = FG.groupedHerdsId
 		JOIN FEED F ON F.feedingId = FG.feedingId
@@ -191,10 +198,62 @@ BEGIN
 		WHERE GH.isSold = 1 AND GH.groupedHerdsId = groupId
 		GROUP BY GH.groupedHerdsId;
         
-		INSERT INTO TEMP_POUNDS_GAINED_PER_DRIED VALUES(groupId, (endWeight - startWeight)/driedWeight, herdsLabels);
+		INSERT INTO TEMP_POUNDS_GAINED_PER_DRIED VALUES(groupId, (endWeight - startWeight)/driedWeight, herdsLabels,driedWeight,startWeight,endWeight);
     END LOOP groups;
     
 	CLOSE curs;
 	SELECT * FROM TEMP_POUNDS_GAINED_PER_DRIED;
+END //
+DELIMITER ;
+
+DELIMITER //
+USE feedlot //
+DROP PROCEDURE IF EXISTS `OverviewOfSalesData` //
+CREATE PROCEDURE OverviewOfSalesData(IN farmId int)
+BEGIN
+	DECLARE bDone INT;
+    DECLARE `groupId` INT;
+    DECLARE `startCount` DOUBLE;
+	DECLARE `endCount` DOUBLE;
+    DECLARE `startWeight` DOUBLE;
+	DECLARE `endWeight` DOUBLE;
+	DECLARE `purchasePrice` DOUBLE;
+	DECLARE `salesAmount` DOUBLE;
+    DECLARE `herdsLabels` VARCHAR(500);
+    DECLARE curs CURSOR FOR (SELECT GH.groupedHerdsId, SUM(H.weight) AS startWeight, SUM(H.cost) AS purchasePrices, SUM(H.quantity) AS startAmount,
+							(SELECT GROUP_CONCAT(HD.herdLabel) FROM HERD HD WHERE HD.groupedHerdsId = GH.groupedHerdsId) AS labels
+							FROM GROUPED_HERDS  GH
+							JOIN HERD H ON GH.groupedHerdsId = H.groupedHerdsId
+							WHERE GH.isSold = 1 AND H.farmId = 1
+							GROUP BY GH.groupedHerdsId);
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET bDone = 1;
+	
+    DROP TEMPORARY TABLE IF EXISTS TEMP_SALES_OVERVIEW;
+    CREATE TEMPORARY TABLE IF NOT EXISTS TEMP_SALES_OVERVIEW (
+        `startCount` DOUBLE,
+        `endCount` DOUBLE,
+        `startWeight` DOUBLE,
+        `endWeight` DOUBLE,
+        `purchasePrice` DOUBLE,
+        `salesAmount` DOUBLE,
+        `herdsLabels` VARCHAR(500)
+    );
+
+	OPEN curs;
+	SET bDone = 0;
+	groups: LOOP
+		FETCH curs INTO groupId, startWeight, purchasePrice, startCount, herdsLabels;
+        IF bDone = 1 THEN LEAVE groups; END IF;
+        
+        SELECT SUM(S.saleWeight) AS endWeight, SUM(S.salePrice) AS salesAmount, SUM(S.quantity) AS endAmount
+		FROM GROUPED_HERDS  GH
+		JOIN SALE S ON GH.groupedHerdsId = S.groupedHerdsId
+		WHERE GH.isSold = 1 AND S.farmId = 1 AND GH.groupedHerdsId = groupId INTO endWeight,salesAmount,endCount;
+        
+		INSERT INTO TEMP_SALES_OVERVIEW VALUES(startCount,endCount,startWeight,endWeight,purchasePrice,salesAmount,herdsLabels);
+    END LOOP groups;
+    
+	CLOSE curs;
+	SELECT * FROM TEMP_SALES_OVERVIEW;
 END //
 DELIMITER ;

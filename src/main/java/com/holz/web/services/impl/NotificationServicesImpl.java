@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.holz.web.daos.HerdDao;
 import com.holz.web.daos.UserDao;
 import com.holz.web.models.Herd;
-import com.holz.web.models.User;
 import com.holz.web.services.NotificationServices;
 
 @Transactional

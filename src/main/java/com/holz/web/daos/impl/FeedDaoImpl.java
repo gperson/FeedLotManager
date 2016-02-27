@@ -80,7 +80,7 @@ public class FeedDaoImpl implements FeedDao {
 
 	@Override
 	public List<Feed> getFeedsForFeeding(int feedingId) {
-		String sql = "SELECT F.feedId, F.feedAmount, F.ratio, FT.feedTypeId, FT.feedType "+
+		String sql = "SELECT F.feedId, F.feedAmount, F.ratio, FT.feedTypeId, FT.feedType, FT.driedMatterPercentage "+
 				"FROM FEED F "+
 				"JOIN FEED_TYPES FT ON F.feedTypeId = FT.feedTypeId "+
 				"WHERE F.feedingId="+ feedingId;
@@ -95,6 +95,7 @@ public class FeedDaoImpl implements FeedDao {
 					FeedType feedType = new FeedType();
 					feedType.setId(rs.getInt("feedTypeId"));
 					feedType.setFeedType(rs.getString("feedType"));
+					feedType.setDriedMatterPercentage(rs.getDouble("driedMatterPercentage"));
 					f.setFeedType(feedType);
 					f.setId(rs.getInt("feedId"));
 					feeds.add(f);

@@ -2,7 +2,7 @@
 <div class="main_buttons">
 	<button onclick="openSupplierPopup(this,false);" type="button" class="btn btn-info">New Supplier</button>
 </div>
-<table class="table table-hover table-striped">
+<table class="table table-bordered table-condensed table-striped">
 	<thead>
 		<tr>
 			<th>Name</th>

@@ -100,23 +100,25 @@ public class FeedingDaoImpl implements FeedingDao {
 			@Override
 			public Feeding extractData(ResultSet rs) throws SQLException, DataAccessException {
 				if(rs.first()){
-					return buildFeeding(rs);
+					return buildFeeding(rs,false);
 				}
 				return null;
 			}
 		});
 	}
 
-	private Feeding buildFeeding(ResultSet rs) throws SQLException{
+	private Feeding buildFeeding(ResultSet rs, boolean ignoreUser) throws SQLException{
 		Feeding f = new Feeding();
 		f.setId(rs.getInt("feedingId"));
 		f.setFeedingTime(rs.getTimestamp("feedingTime"));
 		f.setBunkScore(rs.getInt("bunkScore"));
 		f.setDeliveredAmount(rs.getDouble("deliveredAmount"));
 		f.setLastUpdated(rs.getTimestamp("lastUpdated"));
-		User user = new User();
-		user.setUserId(rs.getInt("userId"));
-		f.setUser(user);
+		if(!ignoreUser){
+			User user = new User();
+			user.setUserId(rs.getInt("userId"));
+			f.setUser(user);
+		}
 		f.setHasLeftovers(rs.getBoolean("hasLeftovers"));
 		GroupedHerd groupedHerd = new GroupedHerd();
 		groupedHerd.setId(rs.getInt("groupedHerdsId"));
@@ -144,9 +146,28 @@ public class FeedingDaoImpl implements FeedingDao {
 			public List<Feeding> extractData(ResultSet rs) throws SQLException, DataAccessException {
 				List<Feeding> fdgs = new ArrayList<Feeding>();
 				while(rs.next()){
-					Feeding f = buildFeeding(rs);
+					Feeding f = buildFeeding(rs,false);
 					f.getUser().setFirstName(rs.getString("firstName"));
 					f.getUser().setLastName(rs.getString("lastName"));
+					fdgs.add(f);
+				}
+				return fdgs;
+			}
+		});
+	}
+	
+	@Override
+	public List<Feeding> getAllFeedingsForHerd(int farmId, int groupId) {
+		String sql ="SELECT feedingId,feedingTime,bunkScore,deliveredAmount,hasLeftovers,F.groupedHerdsId,lastUpdated "
+				+ "FROM FEEDING F "
+				+ "JOIN GROUPED_HERDS GH on GH.groupedHerdsId = F.groupedHerdsId "
+				+ "WHERE F.farmId = ? AND GH.groupedHerdsId = ? ORDER BY feedingTime ASC";
+		return this.jdbcTemplate.query(sql, new Object[]{farmId,groupId}, new ResultSetExtractor<List<Feeding>>() {
+			@Override
+			public List<Feeding> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<Feeding> fdgs = new ArrayList<Feeding>();
+				while(rs.next()){
+					Feeding f = buildFeeding(rs,true);
 					fdgs.add(f);
 				}
 				return fdgs;

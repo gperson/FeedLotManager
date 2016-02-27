@@ -2,7 +2,7 @@
 <div class="main_buttons">
 	<button onclick="openPackerPopup(this,false);" type="button" class="btn btn-info">New Packer</button>
 </div>
-<table class="table table-hover table-striped">
+<table class="table table-bordered table-condensed table-striped">
 	<thead>
 		<tr>
 			<th>Name</th>

@@ -2,7 +2,7 @@
 <div class="main_buttons">
 	<button type="button" onclick="openUserPopup(this,false);" class="btn btn-info">New User</button>
 </div>
-<table class="table table-hover table-striped">
+<table class="table table-bordered table-condensed table-striped">
 	<thead>
 		<tr>
 			<th class="col-md-2">Name</th>

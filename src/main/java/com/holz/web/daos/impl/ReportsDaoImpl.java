@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.holz.web.daos.ReportsDao;
 import com.holz.web.models.reports.PoundsGainedPerPoundDriedFood;
+import com.holz.web.models.reports.SalesOverview;
 
 @Repository
 public class ReportsDaoImpl implements ReportsDao {
@@ -30,7 +31,31 @@ public class ReportsDaoImpl implements ReportsDao {
 				while(rs.next()) {
 					PoundsGainedPerPoundDriedFood report = new PoundsGainedPerPoundDriedFood();
 					report.setpGpD(rs.getDouble("poundGainedPerPoundOfDriedFood"));
-					report.setHerdsLabels("herdsLabels");
+					report.setHerdsLabels(rs.getString("herdsLabels"));
+					report.setGroupedHerdId(rs.getInt("id"));
+					reports.add(report);
+				}
+				return reports;
+			}
+		});	
+	}
+	
+	@Override
+	public List<SalesOverview> getSalesOverview(int farmId) {
+		String sql = "CALL feedlot.OverviewOfSalesData("+farmId+");";
+		return jdbcTemplate.query(sql, new ResultSetExtractor<List<SalesOverview>>() {
+			@Override
+			public List<SalesOverview> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<SalesOverview> reports = new ArrayList<SalesOverview>();
+				while(rs.next()) {
+					SalesOverview report = new SalesOverview();
+					report.setHerdsLabels(rs.getString("herdsLabels"));
+					report.setEndCount(rs.getInt("endCount"));
+					report.setStartCount(rs.getInt("startCount"));
+					report.setEndWeight(rs.getDouble("endWeight"));
+					report.setStartWeight(rs.getDouble("startWeight"));
+					report.setPurchasePrice(rs.getDouble("purchasePrice"));
+					report.setSalesAmount(rs.getDouble("salesAmount"));
 					reports.add(report);
 				}
 				return reports;

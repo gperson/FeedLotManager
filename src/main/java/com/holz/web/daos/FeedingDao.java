@@ -16,4 +16,6 @@ public interface FeedingDao {
 
 	List<Feeding> getAllActiveFeedings(int farmId);
 
+	List<Feeding> getAllFeedingsForHerd(int farmId, int groupId);
+
 }

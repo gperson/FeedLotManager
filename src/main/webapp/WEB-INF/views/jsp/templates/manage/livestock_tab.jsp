@@ -3,7 +3,7 @@
 <div class="main_buttons">
 	<button onclick="openBuyLivestockPopup(this,false);" type="button" class="btn btn-info">New Herd</button>
 </div>
-<table class="table table-hover table-striped">
+<table class="table table-bordered table-condensed table-striped">
 	<thead>
 		<tr>
 			<th>Identifier</th>
@@ -18,7 +18,7 @@
 			<th>Optiflex</th>
 			<th>Supplier</th>
 			<th>Entered</th>
-			<th>Actions</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>

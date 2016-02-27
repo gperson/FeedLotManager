@@ -3,7 +3,7 @@
 
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
-			<li class="active"><a id="poundsGainedTab" href="#poundsGained" role="tab" data-toggle="tab">Weight</a></li>
+			<li class="active"><a id="poundsGainedTab" href="#poundsGained" role="tab" data-toggle="tab">General</a></li>
 			<!--  <li><a id="usersTab" href="#users" role="tab" data-toggle="tab"> Users </a></li>-->
 		</ul>
 

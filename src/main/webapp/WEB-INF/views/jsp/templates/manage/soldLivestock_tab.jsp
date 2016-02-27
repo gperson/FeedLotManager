@@ -3,7 +3,7 @@
 <div class="main_buttons">
 	<button type="button" onclick="openSalePopup(this,false);" class="btn btn-info">New Sold Livestock</button>
 </div>
-<table class="table table-hover table-striped">
+<table class="table table-bordered table-condensed table-striped">
 	<thead>
 		<tr>
 			<th>Herds</th>
@@ -14,7 +14,7 @@
 			<th>Shrink %</th>
 			<th>Quantity</th>
 			<th>Packer</th>
-			<th>Options</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>

@@ -1,0 +1,16 @@
+#graph{
+	margin-top: -20px;
+	z-index: -1;
+}
+#gainedTable{
+	margin-top: 20px;
+}
+
+h3 {
+	border-bottom: solid 2px black;
+}
+
+.tab-content {
+	padding-left: 15px;
+    padding-right: 15px;
+}
